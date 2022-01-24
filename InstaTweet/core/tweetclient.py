@@ -48,6 +48,7 @@ class TweetClient(object):
 
     def send(self):
         if self.post.is_video:
+            print(f'Cropping video {self.post.id}')
             self.crop_video()
 
         self._media_upload_init()

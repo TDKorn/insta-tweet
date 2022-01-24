@@ -1,8 +1,9 @@
 import os
 import json
 import copy
+import time
+from tqdm import tqdm
 from collections.abc import Iterable
-
 from InstaTweet.utils import UserAgent, get_root
 from . import InstaClient, TweetClient
 
@@ -52,6 +53,19 @@ class InstaTweet:
         print(f'All users have been insta-tweeted')
         if self.profile_exists():
             self.save_profile()
+
+    def loop(self, delay):
+        try:
+            while True:
+                self.start()
+                with tqdm(total=delay) as pbar:
+                    pbar.set_description(f'Waiting {delay} seconds before rechecking')
+                    for i in range(delay):
+                        time.sleep(1)
+                        pbar.update(1)
+
+        except KeyboardInterrupt:
+            print('Quitting InstaTweet...')
 
     def add_users(self, users, scrape_only=True):
         """

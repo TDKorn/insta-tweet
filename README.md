@@ -18,3 +18,7 @@ InstaTweet has multiple use cases.
    * For example, the owner of a fan acount could configure InstaTweet to scrape multiple Instagram users. They can then be one of the first to tweet when there's new content in their fandom.    
 
 Personally, I have 1.4 million followers on Instagram but only 1 follower on Twitter (it's my brother). I made InstaTweet as a project to see if I can build a following on Twitter by simply reposting from my Instagram account.
+
+## Demo
+![Sample Usage](https://i.imgur.com/XDYhcmB.gif)
+

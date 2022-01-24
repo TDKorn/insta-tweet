@@ -44,5 +44,6 @@ class InstaClient(object):
             with open(filepath, 'wb') as f:
                 f.write(response.content)
             post.file_path = filepath
+            print(f'Downloaded post {post.id} by {post.owner["username"]} from {post.permalink}')
         else:
             raise RuntimeError(f'Failed to download post {post.permalink} by {post.owner["username"]}')
