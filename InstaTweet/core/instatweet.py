@@ -3,11 +3,10 @@ import json
 import copy
 from collections.abc import Iterable
 
-from InstaTweet.utils import UserAgent
+from InstaTweet.utils import UserAgent, get_root
 from . import InstaClient, TweetClient
 
 DEFAULT_USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}
-PACKAGE_DIR = os.path.dirname(__file__)
 
 
 class InstaTweet:
@@ -51,7 +50,7 @@ class InstaTweet:
             print(f'Finished insta-tweeting for @' + user + '\n')
 
         print(f'All users have been insta-tweeted')
-        if not self.is_default:
+        if self.profile_exists():
             self.save_profile()
 
     def add_users(self, users, scrape_only=True):
@@ -65,7 +64,7 @@ class InstaTweet:
         if isinstance(users, str):
             user_map.setdefault(users, copy.deepcopy(DEFAULT_USER_MAPPING))
             if not scrape_only:
-            # Adding a fake post will cause tweets to be sent on the first scraoe
+                # Adding a fake post will cause tweets to be sent on the first scraoe
                 user_map[users]['scraped'].append('-1')
 
         elif isinstance(users, Iterable):
@@ -81,13 +80,15 @@ class InstaTweet:
         else:
             raise ValueError('Invalid type provided for parameter "users"')
 
-        if not self.is_default:
+        if self.profile_exists():
             self.save_profile()
 
     def add_hashtags(self, user, hashtags):
         for hashtag in hashtags:
             if hashtag not in self.user_map[user]['hashtags']:
                 self.user_map[user]['hashtags'].append(hashtag)
+        if self.profile_exists():
+            self.save_profile()
 
     def validate(self):
         if not self.session_id:
@@ -99,7 +100,7 @@ class InstaTweet:
             Missing Keys: {missing_keys}''')
 
         if not all(self.twitter_keys.values()):
-            twitter_file = self.get_filepath('Twitter API Keys')
+            twitter_file = self.get_filepath('Twitter API Template')
             if not os.path.exists(twitter_file):
                 raise ValueError(f'''
                 Values missing for Twitter API Keys.
@@ -129,7 +130,7 @@ class InstaTweet:
         self._session_id = session_id
 
         if session_id:
-            if os.path.exists(self.get_filepath('profiles/' + self.profile_name)):
+            if self.profile_exists():
                 self.save_profile()
 
     @property
@@ -146,6 +147,8 @@ class InstaTweet:
                 raise KeyError('No value provided for the following Twitter API Keys:' +
                                f'{[key for key in default if not default[key]]}')
             self._twitter_keys = keys
+            if self.profile_exists():
+                self.save_profile()
 
         elif keys is None:
             # Default init value
@@ -154,18 +157,16 @@ class InstaTweet:
         else:
             raise TypeError(f'\n\n'
                             f'Twitter API Keys should be passed as a dictionary.\n'
-                            f'See {self.get_filepath("Twitter API Keys")} for expected format\n'
+                            f'See {self.get_filepath("Twitter API Template")} for expected format\n'
                             f'Expected:\n'
                             f'{json.dumps(TweetClient.default_keys(), indent=4)}')
 
     def load_profile(self, profile_name: str):
-        filepath = self.get_filepath('profiles/' + profile_name)
-
-        if os.path.exists(filepath):
-            profile = self.load_data(filepath)
+        if profile_path := self.profile_exists(profile_name):
+            profile = self.load_data(profile_path)
             self._session_id = profile['session_id']
             self.user_agent = profile['user_agent']
-            self.twitter_keys = profile['twitter_keys']
+            self._twitter_keys = profile['twitter_keys']
             self.user_map = profile['user_map']
             print(f'Loaded profile "{profile_name}"')
 
@@ -189,8 +190,20 @@ class InstaTweet:
         else:
             raise AttributeError('No profile currently loaded. Must provide a profile name')
 
+    def profile_exists(self, profile_name=None):
+        """
+        Checks if the settings file for a profile exists and returns the path if True.
+        Called by any method that changes the state of a profile to ensure these methods only update settings files and never create them.
+        """
+        if profile_name is None:
+            profile_name = self.profile_name
+        profile_path = self.get_filepath(os.path.join('profiles', profile_name))
+
+        return profile_path if os.path.exists(profile_path) else False
+
     @property
     def is_default(self):
+        """Check if default profile is being used. Used in initial save/load of profile"""
         return self.profile_name == 'default'
 
     @property
@@ -204,7 +217,7 @@ class InstaTweet:
 
     @staticmethod
     def get_filepath(filename):
-        return os.path.join(PACKAGE_DIR, f'{filename}.txt')
+        return os.path.join(get_root(), f'{filename}.txt')
 
     @staticmethod
     def load_data(filepath):

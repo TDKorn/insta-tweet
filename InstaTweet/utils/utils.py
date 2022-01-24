@@ -1,6 +1,7 @@
 import json
 import pkgutil
 import random
+from pathlib import Path
 
 
 class UserAgent(object):
@@ -26,3 +27,8 @@ class UserAgent(object):
             return agent['useragent']
         # Continue error check if needed
         return agent
+
+
+def get_root():
+    return Path(__file__).parent.parent
+

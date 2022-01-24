@@ -3,7 +3,7 @@ from . import InstaPost, InstaUser
 
 
 class InstaClient(object):
-    """Instagram client to scrape_only and download posts"""
+    """Instagram client to scrape and download posts"""
 
     def __init__(self, profile: dict):
         self.profile = profile
