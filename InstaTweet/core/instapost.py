@@ -12,7 +12,6 @@ class InstaPost(object):
         self.timestamp = datetime.utcfromtimestamp(self.json.get('taken_at_timestamp', ''))
         self.is_video = self.json.get('is_video', False)
         self.is_carousel = bool(self.json.get('edge_sidecar_to_children', False))
-        self.caption = post_data.get('edge_media_to_caption', {}).get('edges', [{}])[0].get('node', {}).get('text', '')
         self.video_url = post_data.get('video_url', '')
         self.photo_url = post_data.get('display_url',
                                        post_data.get('thumbnail_src',
@@ -30,3 +29,8 @@ class InstaPost(object):
     def media_url(self):
         return self.video_url if self.is_video else self.photo_url
 
+    @property
+    def caption(self):
+        if caption_node := self.json.get('edge_media_to_caption', {}).get('edges', [{}]):
+            return caption_node[0].get('node', {}).get('text', '')
+        return ''

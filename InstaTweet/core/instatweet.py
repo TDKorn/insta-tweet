@@ -78,7 +78,7 @@ class InstaTweet:
         if isinstance(users, str):
             user_map.setdefault(users, copy.deepcopy(DEFAULT_USER_MAPPING))
             if not scrape_only:
-                # Adding a fake post will cause tweets to be sent on the first scraoe
+                # Tweets are sent only when the user's scraped list is not empty
                 user_map[users]['scraped'].append('-1')
 
         elif isinstance(users, Iterable):
@@ -95,14 +95,18 @@ class InstaTweet:
             raise ValueError('Invalid type provided for parameter "users"')
 
         if self.profile_exists():
-            self.save_profile()
+            self.save_profile(alert=False)
 
     def add_hashtags(self, user, hashtags):
-        for hashtag in hashtags:
-            if hashtag not in self.user_map[user]['hashtags']:
-                self.user_map[user]['hashtags'].append(hashtag)
+        if isinstance(hashtags, str):
+            self.user_map[user]['hashtags'].append(hashtags)
+        else:
+            for hashtag in hashtags:
+                if hashtag not in self.user_map[user]['hashtags']:
+                    self.user_map[user]['hashtags'].append(hashtag)
+
         if self.profile_exists():
-            self.save_profile()
+            self.save_profile(alert=False)
 
     def validate(self):
         if not self.session_id:
@@ -145,7 +149,7 @@ class InstaTweet:
 
         if session_id:
             if self.profile_exists():
-                self.save_profile()
+                self.save_profile(alert=False)
 
     @property
     def twitter_keys(self):
@@ -162,7 +166,7 @@ class InstaTweet:
                                f'{[key for key in default if not default[key]]}')
             self._twitter_keys = keys
             if self.profile_exists():
-                self.save_profile()
+                self.save_profile(alert=False)
 
         elif keys is None:
             # Default init value
@@ -192,14 +196,15 @@ class InstaTweet:
             else:
                 raise FileNotFoundError('No profile loaded')
 
-    def save_profile(self, profile_name: str = None):
+    def save_profile(self, profile_name: str = None, alert: bool = True):
         """Update currently loaded profile, or save a new one. Name only required for new profiles."""
         if profile_name:
             self.profile_name = profile_name
         # Allows a loaded profile to be saved without specifying profile name
         if not self.is_default:
             self._save_data(self.config, 'profiles/' + self.profile_name)
-            print(f'Saved profile "{self.profile_name}"')
+            if alert:
+                print(f'Saved profile "{self.profile_name}"')
         # If currently using default profile, must supply a profile name
         else:
             raise AttributeError('No profile currently loaded. Must provide a profile name')
