@@ -55,6 +55,7 @@ class TweetClient(object):
         self._media_upload_append()
         self._media_upload_finalize()
         self.post.tweet = self._post_tweet()
+        print(f'Tweet sent for post {self.post.id}')
         os.remove(self.video_path)
 
     def crop_video(self):
@@ -64,7 +65,7 @@ class TweetClient(object):
         if bbox:
             new_path = self.video_path.replace('.mp4', '_cropped.mp4')
             cropped_clip = crop(clip, x1=bbox[0], y1=bbox[1], x2=bbox[2], y2=bbox[3])
-            cropped_clip.write_videofile(new_path, audio_codec='aac')
+            cropped_clip.write_videofile(new_path, audio_codec='aac', logger=None)
             cropped_clip.close()
             os.remove(self.video_path)  # Delete uncropped video
             self.video_path = new_path
@@ -142,6 +143,7 @@ class TweetClient(object):
         if state == u'succeeded':
             return
         if state == u'failed':
+            print(self.processing_info)
             sys.exit(0)
 
         wait = self.processing_info['check_after_secs']
@@ -170,9 +172,17 @@ class TweetClient(object):
     def _build_tweet(self):
         link = self.post.permalink
         caption = self.post.caption.strip().replace('@', '@/')  # Avoid tagging randos on Twitter
+        characters = 300
 
         if self.hashtags:
             random_hashtags = random.sample(self.hashtags, random.choice(min([4, 5], [len(self.hashtags)] * 2)))
             hashtags = ' '.join(f'#{hashtag}' for hashtag in random_hashtags)
-            return '\n'.join((caption, hashtags, '', link))
-        return '\n'.join((caption, '', link))
+            characters -= (len(hashtags + link) + 3)    # For 3 newlines    ->  caption \n hashtags \n\n link
+            tweet = '\n'.join((caption[:characters], hashtags, '', link))
+
+        else:
+            characters -= (len(link) + 2)       # For 2 newlines    ->  caption \n\n link
+            tweet = '\n'.join((caption[:characters], '', link))
+
+        return tweet
+    

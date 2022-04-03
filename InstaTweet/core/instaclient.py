@@ -24,11 +24,13 @@ class InstaClient(object):
         scraped_posts = self.user_map[username]['scraped']
 
         if scraped_posts:
-            return [post for post in user.posts if post.id not in scraped_posts][:amount]
+            # Returns a list of InstaPost objects from oldest to newest
+            return [post for post in user.posts if post.id not in scraped_posts][:amount][::-1]
         else:
             # By default, this would be a newly added user
             scraped_posts.extend([post.id for post in user.posts])
             print(f'Initialized User: @{username}')
+            return None
 
     def get_user(self, username):
         response = self.request(f'https://www.instagram.com/{username}/?__a=1')

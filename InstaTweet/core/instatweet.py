@@ -47,6 +47,8 @@ class InstaTweet:
 
                 mapping['scraped'] += [post.id]
                 mapping['tweets'] += [post.tweet]
+                if self.profile_exists():
+                    self.save_profile(alert=False)
 
             print(f'Finished insta-tweeting for @' + user + '\n')
 
@@ -55,8 +57,8 @@ class InstaTweet:
             self.save_profile()
 
     def loop(self, delay):
-        try:
-            while True:
+        while True:
+            try:
                 self.start()
                 with tqdm(total=delay) as pbar:
                     pbar.set_description(f'Waiting {delay} seconds before rechecking')
@@ -64,8 +66,9 @@ class InstaTweet:
                         time.sleep(1)
                         pbar.update(1)
 
-        except KeyboardInterrupt:
-            print('Quitting InstaTweet...')
+            except KeyboardInterrupt:
+                print('Quitting InstaTweet...')
+                break
 
     def add_users(self, users, scrape_only=True):
         """
@@ -87,8 +90,13 @@ class InstaTweet:
 
         elif isinstance(users, dict):
             for user in users:
-                if users[user].get('hashtags') is None or users[user].get('scraped') is None:
-                    raise AttributeError('Invalid user map structure')
+                u = users[user]
+                if u.keys() != DEFAULT_USER_MAPPING.keys():
+                    raise KeyError('Invalid user map keys for user ' + user)
+                if not all(isinstance(val, list) for val in u.values()):
+                    raise TypeError('Invalid user map value types for user ' + user +
+                                    '\nProvided values: ' + u.values() +
+                                    '\n All values should be of type list')
             user_map.update(users)
 
         else:
@@ -142,7 +150,7 @@ class InstaTweet:
 
     @session_id.setter
     def session_id(self, session_id: str):
-        """If an existing profile is currently loaded, it will be updated when setting a new session_id"""
+        """If an existing profile is currently active, it will be updated when setting a new session_id"""
         if not isinstance(session_id, str):
             raise ValueError('Session ID cookie must be of type str')
         self._session_id = session_id

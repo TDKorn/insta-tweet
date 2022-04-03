@@ -1,11 +1,9 @@
 # InstaTweet
- A customizabe tool to automate reposting from Instagram to Twitter.
+A customizable tool to repost content from Instagram to Twitter.
 
 ## What's InstaTweet?
 
-InstaTweet is a tool that automates the process of reposting content from Instagram to Twitter. After adding a list of Instagram usernames, InstaTweet will periodically scrape their profiles and check for new posts. If any new content is found, it will be automatically downloaded, cropped, and tweeted. Save InstaTweet profiles to quickly switch between Twitter accounts, Instagram sessions, user lists and hashtag lists. 
-
-<br>
+InstaTweet is a tool that automates the process of reposting content from Instagram to Twitter. After adding a list of Instagram usernames, InstaTweet will periodically scrape their profiles and check for new posts. If any new content is found, it will be automatically downloaded, cropped, and tweeted. Save InstaTweet profiles to quickly switch between Twitter accounts, Instagram sessions, user lists and hashtag lists.
 
 Once you've configured a profile, using InstaTweet is as simple as:
 
@@ -29,18 +27,18 @@ for profile in profiles:
     it = InstaTweet.load(profile)
     it.start()
 ```
-<br>
 
 ## Why?
 InstaTweet has two main use cases:
-
-1. To automatically share your own Instagram posts to Twitter. 
-   * Instagram doesn't let me share to Twitter when I post reels. I only post reels.
-   
-
+1. To automatically share your own Instagram posts to Twitter 
 2. To automatically tweet new content from other Instagram users
-   * I will not elaborate further
-   
+
+<br>Regardless of your intention, InstaTweet will detect new posts from the specified users and repost it to Twitter. 
+Why not just share from the Instagram app? Because it tweets a link. Literally nobody will click it.
+
+
+InstaTweet shares the actual media. Not just a link.
+
 <br>
 
 ## Installation
@@ -158,7 +156,7 @@ it.save_profile('Rihanna')
 Output:
 ```bash
 Loaded profile "My Template"
-User Map: 
+User Map:
   {
     "badgalriri": {
         "hashtags": [
