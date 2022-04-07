@@ -50,7 +50,7 @@ class InstaTweet:
                 if self.profile_exists():
                     self.save_profile(alert=False)
 
-            print(f'Finished insta-tweeting for @' + user + '\n')
+            print(f'Finished insta-tweeting for @{user}', sep='\n')
 
         print(f'All users have been insta-tweeted')
         if self.profile_exists():
