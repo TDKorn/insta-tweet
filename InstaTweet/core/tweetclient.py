@@ -64,9 +64,9 @@ class TweetClient(object):
 
         if bbox:
             new_path = self.video_path.replace('.mp4', '_cropped.mp4')
-            cropped_clip = crop(clip, x1=bbox[0], y1=bbox[1], x2=bbox[2], y2=bbox[3])
-            cropped_clip.write_videofile(new_path, audio_codec='aac', logger=None)
-            cropped_clip.close()
+            with crop(clip, x1=bbox[0], y1=bbox[1], x2=bbox[2], y2=bbox[3]) as cropped_clip:
+                cropped_clip.write_videofile(new_path, audio_codec='aac', logger=None)
+
             os.remove(self.video_path)  # Delete uncropped video
             self.video_path = new_path
 
@@ -185,4 +185,3 @@ class TweetClient(object):
             tweet = '\n'.join((caption[:characters], '', link))
 
         return tweet
-    
