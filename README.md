@@ -1,5 +1,5 @@
 # InstaTweet
-A customizable tool to repost content from Instagram to Twitter.
+A customizable tool to automatically repost content from Instagram to Twitter. The actual content.
 
 ## What's InstaTweet?
 
@@ -33,23 +33,23 @@ InstaTweet has two main use cases:
 1. To automatically share your own Instagram posts to Twitter 
 2. To automatically tweet new content from other Instagram users 
 
-Regardless of your intention, InstaTweet will detect new posts from the users you specify and repost them to Twitter.
+Regardless of your intention, InstaTweet will detect new posts from the users you specify and repost them to Twitter.  <br><br>
 
-### Automatically repost content from Instagram to Twitter. The actual content.
-At this point you might be wondering: what's the point? Why not just share from the Instagram app like a normal person?<br>
-<br><b>Because all that does is tweet a link. It's humiliating. Literally nobody will click it.</b>
+You might be wondering: what's the point? Why not just share from the Instagram app like a normal person?  <br>
+
+<b><ins>Because all that does is tweet a link. It's humiliating. Literally nobody will click it.</b>
 <br>
 
-![](https://i.imgur.com/4y2gKm2.png) <br><br>
+![](https://i.imgur.com/4y2gKm2.png)  <br>
 
-<b>InstaTweet shares the actual media. Not just a link.</b> 
-<br>
+### <b><ins>InstaTweet shares the actual media. Not just a link.</b> 
 
-![](https://i.imgur.com/C7jc1XS.png) <br><br>
-
+![](https://i.imgur.com/C7jc1XS.png)  <br>
+    
 With InstaTweet, you can rest easy knowing that, although nobody will click the link, they'll at least see what you posted. Sweet dreams!
-<br>
 
+<br>
+    
 ## Installation
 To clone and install this repository with pip:
 ```bash
