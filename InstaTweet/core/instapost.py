@@ -15,7 +15,8 @@ class InstaPost(object):
         self.video_url = post_data.get('video_url', '')
         self.photo_url = post_data.get('display_url',
                                        post_data.get('thumbnail_src',
-                                                     post_data.get('thumbnail_resources', [{}])[-1].get('src', '')))
+                                                     post_data.get('thumbnail_resources',
+                                                                   [{}])[-1].get('src', '')))
         self.owner = {'username': None, 'id': None}
         self.dimensions = {'height': None, 'width': None}
 
