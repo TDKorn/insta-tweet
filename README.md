@@ -76,7 +76,7 @@ The User Map is a mapping of Instagram usernames to their associated:
 
 <br>
 
-Profiles can be saved and reused as templates - simply load a profile, make modifications, and save it under a new name.
+Profiles can be saved and reused as templates - simply load a profile, save it under a new name, and make any modifications you'd like.
 
 More information can be found in the examples folder, which also contains profile creation helper functions.
 
@@ -129,13 +129,28 @@ Profile Settings:
 ## Using a Template Profile
 Now that we've got our template profile saved, we need to add some users to scrape. For this example, I've created a Twitter fan account for Rihanna with the username `@RihannasWetSock`, which will help demonstrate the setup process.
 
+<br>
 
-### Adding Users
-Let's load our template profile and add Rihanna's Instagram account and her brand accounts to it.
+First, let's load our template profile and resave it under a new name, so that we don't overwrite the template with our changes.
+    
 ```python
 from InstaTweet import InstaTweet
 
 it = InstaTweet.load('My Template')
+it.save_profile('Rihanna')
+```
+
+Output:
+```bash
+Loaded profile "Example Template"
+Saved profile "Rihanna"
+```
+<br>
+    
+### Adding Instagram Users to Monitor
+Now that we've got Rihanna's profile loaded, let's add her Instagram accounts to it.
+    
+```python
 users = ['badgalriri', 'fentybeauty', 'savagexfenty']
 it.add_users(users)
 ```
@@ -145,9 +160,10 @@ If you'd prefer to have tweets sent on the first scrape, add your users like so:
 ```python
 it.add_users(users, scrape_only=False)
 ```
+<br>
 
 ### Adding Tweet Hashtags
-Each user can also have it's own list of hashtags, which will randomly be chosen from each time a tweet is created. Let's add some general hashtags to all 3 accounts, as well as some more specific ones for her brands. I'll then save the profile so that I only have to do this once.
+Each user can also have it's own list of hashtags, which will randomly be chosen from each time a tweet is created. Let's add some general hashtags to all 3 accounts, as well as some more specific ones for her brands. I'll then save the profile. Note that this isn't necessary, as profiles are automatically saved after any change is mnade.
 
 ```python
 hashtags = ['Rihanna', 'RihannaPleaseStepOnMe', 'Fenty']
@@ -164,7 +180,7 @@ it.save_profile('Rihanna')
 
 Output:
 ```bash
-Loaded profile "My Template"
+Loaded profile "Rihanna"
 User Map:
   {
     "badgalriri": {
@@ -202,7 +218,7 @@ Saved profile "Rihanna"
 ```
 <br>
 
-## Running InstaTweet
+## Running InstaTweet Locally
 Once you're satisfied with your profile, all that's left to do is run InstaTweet! You can either run it once:
 ```python
 from InstaTweet import InstaTweet
@@ -214,3 +230,6 @@ Or as a loop that checks for new posts every `delay` seconds:
 ```python
 it.loop(delay=120)
 ```
+
+## Running InstaTweet on a Server
+Coming soon! I've written a version that's server compatible and saves data in a PostgreSQL database, but it needs to be tested more.
