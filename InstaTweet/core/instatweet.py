@@ -206,11 +206,14 @@ class InstaTweet:
 
     def save_profile(self, profile_name: str = None, alert: bool = True):
         """Update currently loaded profile, or save a new one. Name only required for new profiles."""
+        profiles_dir = os.path.join(get_root(), 'profiles')
+        if not os.path.exists(profiles_dir):
+            os.mkdir(profiles_dir)
         if profile_name:
             self.profile_name = profile_name
         # Allows a loaded profile to be saved without specifying profile name
         if not self.is_default:
-            self._save_data(self.config, 'profiles/' + self.profile_name)
+            self._save_data(self.config, os.path.join('profiles', self.profile_name))
             if alert:
                 print(f'Saved profile "{self.profile_name}"')
         # If currently using default profile, must supply a profile name

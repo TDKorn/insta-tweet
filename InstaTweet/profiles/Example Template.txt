@@ -1,0 +1,11 @@
+{
+    "session_id": "string",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
+    "twitter_keys": {
+        "Consumer Key": "string",
+        "Consumer Secret": "string",
+        "Access Token": "string",
+        "Token Secret": "string"
+    },
+    "user_map": {}
+}
