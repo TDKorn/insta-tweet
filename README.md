@@ -1,5 +1,5 @@
 # InstaTweet
-## Automatically Repost Content From Instagram to Twitter. (The Actual Content)
+## Automatically Repost Content From Instagram to Twitter
 Ever tried sharing an Instagram post to Twitter, only to find out that all you tweeted was a link, and not the actual photo/video?<br>
 
 <img src="https://i.imgur.com/4y2gKm2.png" width="75%" height="75%"></img><br>
@@ -11,7 +11,7 @@ Humiliating. That could be literally anything. Nobody will click it.<br><br>
 
 <img src="https://i.imgur.com/C7jc1XS.png" height="50%" width="50%"></img><br>
 
-You can rest easy knowing that, although nobody will click the link, they'll at least see what you posted. Sweet dreams!
+You can rest easy knowing that, although nobody will click the link, they'll at least see what you posted.
 <br>
 ## What's InstaTweet?
 InstaTweet is a tool that automates the process of reposting content from Instagram to Twitter. After adding a list of Instagram usernames, InstaTweet will periodically scrape their profiles and check for new posts. If any new content is found, it will be automatically downloaded, cropped, and tweeted. Save InstaTweet profiles to quickly switch between Twitter accounts, Instagram sessions, user lists and hashtag lists.
