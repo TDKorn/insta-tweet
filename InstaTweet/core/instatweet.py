@@ -120,7 +120,7 @@ class InstaTweet:
         if not self.session_id:
             raise AttributeError('Instagram sessionid cookie is required to scrape_only.')
 
-        if missing_keys := [key for key in TweetClient.default_keys() if key not in self.twitter_keys]:
+        if missing_keys := [key for key in TweetClient.DEFAULT_KEYS if key not in self.twitter_keys]:
             raise KeyError(f'''
             Invalid Twitter API Keys Provided  
             Missing Keys: {missing_keys}''')
@@ -165,7 +165,7 @@ class InstaTweet:
 
     @twitter_keys.setter
     def twitter_keys(self, keys: dict):
-        default = TweetClient.default_keys()
+        default = TweetClient.DEFAULT_KEYS
 
         if isinstance(keys, dict):
             default.update(keys)
@@ -185,7 +185,7 @@ class InstaTweet:
                             f'Twitter API Keys should be passed as a dictionary.\n'
                             f'See {self.get_filepath("Twitter API Template")} for expected format\n'
                             f'Expected:\n'
-                            f'{json.dumps(TweetClient.default_keys(), indent=4)}')
+                            f'{json.dumps(TweetClient.DEFAULT_KEYS, indent=4)}')
 
     def load_profile(self, profile_name: str):
         if profile_path := self.profile_exists(profile_name):
@@ -258,3 +258,7 @@ class InstaTweet:
         filepath = self.get_filepath(filename)
         with open(filepath, 'w') as data_out:
             json.dump(data, data_out, indent=4)
+
+    def _config(self):
+        for k, v in self.config.items():
+            print(f'{k} : {v}')

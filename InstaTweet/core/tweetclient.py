@@ -15,14 +15,12 @@ POST_TWEET_URL = 'https://api.twitter.com/1.1/statuses/update.json'
 
 class TweetClient(object):
 
-    @staticmethod
-    def default_keys():
-        return {
-            'Consumer Key': None,
-            'Consumer Secret': None,
-            'Access Token': None,
-            'Token Secret': None
-        }
+    DEFAULT_KEYS = {
+        'Consumer Key': None,
+        'Consumer Secret': None,
+        'Access Token': None,
+        'Token Secret': None
+    }
 
     @staticmethod
     def oauth(keys):

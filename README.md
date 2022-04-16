@@ -1,10 +1,21 @@
 # InstaTweet
-A customizable tool to automatically repost content from Instagram to Twitter. The actual content.
+## Automatically Repost Content From Instagram to Twitter. (The Actual Content)
+Ever tried sharing an Instagram post to Twitter, only to find out that all you tweeted was a link, and not the actual photo/video?<br>
 
+<img src="https://i.imgur.com/4y2gKm2.png" width="75%" height="75%"></img><br>
+
+Humiliating. That could be literally anything. Nobody will click it.<br><br>
+
+
+**InstaTweet shares the *actual* content of the post. Not just a link to it.**<br>
+
+<img src="https://i.imgur.com/C7jc1XS.png" height="50%" width="50%"></img><br>
+
+You can rest easy knowing that, although nobody will click the link, they'll at least see what you posted. Sweet dreams!
+<br>
 ## What's InstaTweet?
-
 InstaTweet is a tool that automates the process of reposting content from Instagram to Twitter. After adding a list of Instagram usernames, InstaTweet will periodically scrape their profiles and check for new posts. If any new content is found, it will be automatically downloaded, cropped, and tweeted. Save InstaTweet profiles to quickly switch between Twitter accounts, Instagram sessions, user lists and hashtag lists.
-
+<br>
 Once you've configured a profile, using InstaTweet is as simple as:
 
 ```python
@@ -30,132 +41,104 @@ for profile in profiles:
 
 ## Why?
 InstaTweet has two main use cases:
-1. To automatically share your own Instagram posts to Twitter 
-2. To automatically tweet new content from other Instagram users 
+1. To automatically share your own Instagram posts to Twitter
+2. To automatically tweet new content from other Instagram users
 
-Regardless of your intention, InstaTweet will detect new posts from the users you specify and repost them to Twitter.  <br><br>
+Regardless of your intention, InstaTweet will detect new posts from the users you specify, download them, and repost them to Twitter.<br>
 
-You might be wondering: what's the point? Why not just share from the Instagram app like a normal person?  <br>
-
-<b><ins>Because all that does is tweet a link. It's humiliating. Literally nobody will click it.</b>
-<br>
-
-![](https://i.imgur.com/4y2gKm2.png)  <br>
-
-### <b><ins>InstaTweet shares the actual media. Not just a link.</b> 
-
-![](https://i.imgur.com/C7jc1XS.png)  <br>
-    
-With InstaTweet, you can rest easy knowing that, although nobody will click the link, they'll at least see what you posted. Sweet dreams!
-
-<br>
-    
 ## Installation
 To clone and install this repository with pip:
 ```bash
 python -m pip install git+https://github.com/TDKorn/insta-tweet
 ```
-<br>
 
 # Getting Started
 InstaTweet uses profiles to help manage Twitter accounts, Instagram sessions, and userlists.
 
-Each profile has its own:
-* Instagram sessionid cookie 
-* Twitter API keys
-* User Agent 
-* User Map
-* Name
- 
-<br>
+To configure a profile, you'll need to have the following:
+* `session_id`  –  Instagram sessionid cookie. You can get one by logging into Instagram on a desktop browser
+* `twitter_keys`  –  Twitter API keys with v1.1 access
+* `profile_name`  –  Self explanatory
+* `user_agent`  –  Optional
 
-The User Map is a mapping of Instagram usernames to their associated:
+As tweets are sent, each profile will update its `user_map` – a mapping of Instagram usernames to their associated:
 * Hashtag lists (for use when composing tweets)
 * Scraped post history
 * Sent tweets history
-
 <br>
 
-Profiles can be saved and reused as templates - simply load a profile, save it under a new name, and make any modifications you'd like.
-
-More information can be found in the examples folder, which also contains profile creation helper functions.
-
-<br>
+Profiles can be saved and reused as templates. Simply load a profile, save it under a new name, and make any changes you'd like. See the [Examples](https://github.com/TDKorn/insta-tweet/blob/master/InstaTweet/examples) folder for more information.
+More information can be found in the Examples folder, which also contains profile creation helper functions.<br>
 
 ## Creating a Template Profile
-To get started, you'll need 
-* An Instagram sessionid cookie, which can be obtained by logging into Instagram on a desktop browser
-* The Twitter API keys from a developer account that has access to Standard v1.1 endpoints
-
-<br>
-
-Let's create a template profile containing only these attributes, as they rarely need to be updated:
+Let's create a template profile containing only the `session_id` and `twitter_keys`, as they rarely need to be updated:
 
 ```python
 from InstaTweet import InstaTweet
 import json
 
-session_id = 'string'
+session_id = 'sessionid'
 twitter_keys = {
-    'Consumer Key': 'string',
-    'Consumer Secret': 'string',
-    'Access Token': 'string',
-    'Token Secret': 'string'
+    'Consumer Key': 'key',
+    'Consumer Secret': 'secret',
+    'Access Token': 'token',
+    'Token Secret': 'secret'
 }
 
 it = InstaTweet(session_id=session_id, twitter_keys=twitter_keys)
 it.save_profile('My Template')
 
-print('Profile Settings:', json.dumps(it.config, indent=4), sep='\n')
+print('Profile Settings:\n', json.dumps(it.config, indent=4))
 ```
 Output:
 ```bash
+Using default profile.
 Saved profile "My Template"
 Profile Settings:
 {
-    "session_id": "string",
+    "session_id": "sessionid",
     "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
     "twitter_keys": {
-        "Consumer Key": "string",
-        "Consumer Secret": "string",
-        "Access Token": "string",
-        "Token Secret": "string"
+        "Consumer Key": "key",
+        "Consumer Secret": "secret",
+        "Access Token": "token",
+        "Token Secret": "secret"
     },
     "user_map": {}
 }
 ```
-<br>
 
 ## Using a Template Profile
-Now that we've got our template profile saved, we need to add some users to scrape. For this example, I've created a Twitter fan account for Rihanna with the username `@RihannasWetSock`, which will help demonstrate the setup process.
+Now that we've got our template profile saved, we need to add some users to scrape.
+For this example, I've created a Twitter account with the username @td_korn, and it'll be a fan account for both TD Bank and the band Korn.
+<img src="https://i.imgur.com/Ez4DF0F.png" width="50%" height="25%"></>
 
 <br>
+Let's load our template profile and save it under a new name, so that we don't overwrite the template with our changes.
 
-First, let's load our template profile and resave it under a new name, so that we don't overwrite the template with our changes.
-    
 ```python
 from InstaTweet import InstaTweet
 
 it = InstaTweet.load('My Template')
-it.save_profile('Rihanna')
+it.save_profile('tdkorn')
 ```
 
 Output:
 ```bash
-Loaded profile "Example Template"
-Saved profile "Rihanna"
+Loaded profile "My Template"
+Saved profile "tdkorn"
 ```
 <br>
-    
+
 ### Adding Instagram Users to Monitor
-Now that we've got Rihanna's profile loaded, let's add her Instagram accounts to it.
-    
+Now that we've got the profile loaded, let's add TD Bank and Korn's Instagram accounts to my user_map
+
 ```python
-users = ['badgalriri', 'fentybeauty', 'savagexfenty']
+users = ['td_canada', 'korn_official']
 it.add_users(users)
 ```
 
-By default, newly added users will only have their posts scraped the first time InstaTweet runs. Tweets will be sent for any Instagram post uploaded from this point forward.
+By default, newly added Instagram users will only have their posts scraped (and not tweeted) the first time InstaTweet runs. Tweets will be sent for any Instagram post uploaded from this point forward.
 If you'd prefer to have tweets sent on the first scrape, add your users like so:
 ```python
 it.add_users(users, scrape_only=False)
@@ -163,58 +146,65 @@ it.add_users(users, scrape_only=False)
 <br>
 
 ### Adding Tweet Hashtags
-Each user can also have it's own list of hashtags, which will randomly be chosen from each time a tweet is created. Let's add some general hashtags to all 3 accounts, as well as some more specific ones for her brands. I'll then save the profile. Note that this isn't necessary, as profiles are automatically saved after any change is mnade.
+At this point, our user map looks like this:
+```bash
+{
+    "td_canada": {
+        "hashtags": [],
+        "scraped": [],
+        "tweets": []
+    },
+    "korn_official": {
+        "hashtags": [],
+        "scraped": [],
+        "tweets": []
+    }
+}
+```
+<br>
 
+We only need to worry about the `"hashtags"` list. Here, you can specify hashtags to include in tweets when reposting from this user.<br>
+
+Let's add some general hashtags that'll can be included in any tweet, regardless of the account, as well as some account specific ones.
 ```python
-hashtags = ['Rihanna', 'RihannaPleaseStepOnMe', 'Fenty']
+hashtags = ['TDKorn', 'TD', 'Korn']
 for user in it.user_map:
         it.add_hashtags(user, hashtags)
 
-# Add more specific hashtags for Tweets reposted from her brands
-it.add_hashtags('fentybeauty', ['makeup', 'FentyBeauty'])
-it.add_hashtags('savagexfenty', 'SavageXFenty')
+it.add_hashtags('td_canada', ['finance', 'banking', 'corporate'])
+it.add_hashtags('korn_official', ['KornBand', 'metal'])
 
-print('User Map: \n', json.dumps(it.user_map, indent=4))
-it.save_profile('Rihanna')
+print('User Map:', json.dumps(it.user_map, indent=4), sep='\n')
 ```
 
 Output:
 ```bash
-Loaded profile "Rihanna"
 User Map:
-  {
-    "badgalriri": {
+{
+    "td_canada": {
         "hashtags": [
-            "Rihanna",
-            "RihannaPleaseStepOnMe",
-            "Fenty"
+            "TDKorn",
+            "TD",
+            "Korn",
+            "finance",
+            "banking",
+            "corporate"
         ],
         "scraped": [],
         "tweets": []
     },
-    "fentybeauty": {
+    "korn_official": {
         "hashtags": [
-            "Rihanna",
-            "RihannaPleaseStepOnMe",
-            "Fenty",
-            "makeup",
-            "FentyBeauty"
-        ],
-        "scraped": [],
-        "tweets": []
-    },
-    "savagexfenty": {
-        "hashtags": [
-            "Rihanna",
-            "RihannaPleaseStepOnMe",
-            "Fenty",
-            "SavageXFenty"
+            "TDKorn",
+            "TD",
+            "Korn",
+            "KornBand",
+            "metal"
         ],
         "scraped": [],
         "tweets": []
     }
 }
-Saved profile "Rihanna"
 ```
 <br>
 
@@ -223,7 +213,7 @@ Once you're satisfied with your profile, all that's left to do is run InstaTweet
 ```python
 from InstaTweet import InstaTweet
 
-it = InstaTweet.load('Rihanna')
+it = InstaTweet.load('tdkorn')
 it.start()
 ```
 Or as a loop that checks for new posts every `delay` seconds:
@@ -232,4 +222,4 @@ it.loop(delay=120)
 ```
 
 ## Running InstaTweet on a Server
-Coming soon! I've written a version that's server compatible and saves data in a PostgreSQL database, but it needs to be tested more.
+Coming soon!
