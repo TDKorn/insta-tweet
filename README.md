@@ -67,8 +67,7 @@ As tweets are sent, each profile will update its `user_map` – a mapping of Ins
 * Sent tweets history
 <br>
 
-Profiles can be saved and reused as templates. Simply load a profile, save it under a new name, and make any changes you'd like. See the [Examples](https://github.com/TDKorn/insta-tweet/blob/master/InstaTweet/examples) folder for more information.
-More information can be found in the Examples folder, which also contains profile creation helper functions.<br>
+Profiles can be saved and reused as templates. Simply load a profile, save it under a new name, and make any changes you'd like. See the [Examples](https://github.com/TDKorn/insta-tweet/blob/master/InstaTweet/examples) folder for more information.<br>
 
 ## Creating a Template Profile
 Let's create a template profile containing only the `session_id` and `twitter_keys`, as they rarely need to be updated:
@@ -111,10 +110,9 @@ Profile Settings:
 ## Using a Template Profile
 Now that we've got our template profile saved, we need to add some users to scrape.
 For this example, I've created a Twitter account with the username @td_korn, and it'll be a fan account for both TD Bank and the band Korn.
-<img src="https://i.imgur.com/Ez4DF0F.png" width="50%" height="25%"></>
+<img src="https://i.imgur.com/Ez4DF0F.png" width="50%" height="25%"></img><br>
 
-<br>
-Let's load our template profile and save it under a new name, so that we don't overwrite the template with our changes.
+Let's load our template profile and save it under a new name, so that we don't overwrite the template with our changes.<br>
 
 ```python
 from InstaTweet import InstaTweet
@@ -131,7 +129,7 @@ Saved profile "tdkorn"
 <br>
 
 ### Adding Instagram Users to Monitor
-Now that we've got the profile loaded, let's add TD Bank and Korn's Instagram accounts to my user_map
+Let's add TD Bank and Korn's Instagram accounts to the `user_map`
 
 ```python
 users = ['td_canada', 'korn_official']
