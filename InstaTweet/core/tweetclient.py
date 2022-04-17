@@ -170,7 +170,7 @@ class TweetClient(object):
     def _build_tweet(self):
         link = self.post.permalink
         caption = self.post.caption.strip().replace('@', '@/')  # Avoid tagging randos on Twitter
-        characters = 300
+        characters = 295
 
         if self.hashtags:
             random_hashtags = random.sample(self.hashtags, random.choice(min([4, 5], [len(self.hashtags)] * 2)))
