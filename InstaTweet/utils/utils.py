@@ -1,6 +1,7 @@
+import os
 import json
-import pkgutil
 import random
+import pkgutil
 from pathlib import Path
 
 
@@ -32,3 +33,6 @@ class UserAgent(object):
 def get_root():
     return Path(__file__).parent.parent
 
+
+def get_filepath(filename, filetype='.txt'):
+    return os.path.join(get_root(), filename) + filetype
