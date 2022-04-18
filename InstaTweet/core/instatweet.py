@@ -4,7 +4,7 @@ import copy
 import time
 from tqdm import tqdm
 from collections.abc import Iterable
-from InstaTweet.utils import UserAgent, get_root
+from InstaTweet.utils import UserAgent, get_root, get_filepath
 from . import InstaClient, TweetClient
 
 DEFAULT_USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}
@@ -41,7 +41,7 @@ class InstaTweet:
 
             print(f'There are {len(new_posts)} posts to tweet for @{user}')
             for post in new_posts:
-                insta.download_post(post, self.get_filepath(post.id))
+                insta.download_post(post)
                 tweet = TweetClient(post, oauth, hashtags=mapping['hashtags'])
                 tweet.send()
 
@@ -126,7 +126,7 @@ class InstaTweet:
             Missing Keys: {missing_keys}''')
 
         if not all(self.twitter_keys.values()):
-            twitter_file = self.get_filepath('Twitter API Template')
+            twitter_file = get_filepath('Twitter API Template')
             if not os.path.exists(twitter_file):
                 raise ValueError(f'''
                 Values missing for Twitter API Keys.
@@ -183,7 +183,7 @@ class InstaTweet:
         else:
             raise TypeError(f'\n\n'
                             f'Twitter API Keys should be passed as a dictionary.\n'
-                            f'See {self.get_filepath("Twitter API Template")} for expected format\n'
+                            f'See {get_filepath("Twitter API Template")} for expected format\n'
                             f'Expected:\n'
                             f'{json.dumps(TweetClient.DEFAULT_KEYS, indent=4)}')
 
@@ -227,7 +227,7 @@ class InstaTweet:
         """
         if profile_name is None:
             profile_name = self.profile_name
-        profile_path = self.get_filepath(os.path.join('profiles', profile_name))
+        profile_path = get_filepath(os.path.join('profiles', profile_name))
 
         return profile_path if os.path.exists(profile_path) else False
 
@@ -246,16 +246,12 @@ class InstaTweet:
         }
 
     @staticmethod
-    def get_filepath(filename):
-        return os.path.join(get_root(), f'{filename}.txt')
-
-    @staticmethod
     def load_data(filepath):
         with open(filepath, 'r') as data_in:
             return json.load(data_in)
 
     def _save_data(self, data, filename):
-        filepath = self.get_filepath(filename)
+        filepath = get_filepath(filename)
         with open(filepath, 'w') as data_out:
             json.dump(data, data_out, indent=4)
 
