@@ -16,9 +16,9 @@ Specify scrape_only=False if you'd like to tweet all of the most recent posts wh
 it.add_users('td_canada')
 it.add_users('korn_official', scrape_only=False)
 
-hashtags = ['TDKorn', 'TD', 'Korn']     # General hashtags for all users
+hashtags = ['TDKorn', 'TD', 'Korn']  # General hashtags for all users
 for user in it.user_map:
-        it.add_hashtags(user, hashtags)
+    it.add_hashtags(user, hashtags)
 
 # User-specific hashtags
 it.add_hashtags('td_canada', ['finance', 'banking', 'corporate'])
