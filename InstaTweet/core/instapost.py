@@ -1,37 +1,56 @@
 from datetime import datetime
 
 
-class InstaPost(object):
+class InstaPost:
 
     def __init__(self, post_data):
         """Convenience wrapper for Instagram media data"""
         self.json = post_data
         self.id = post_data['id']  # Something's wrong if this raises an error
-        self.shortcode = post_data.get('shortcode', '')
-        self.permalink = f'https://www.instagram.com/p/{self.shortcode}'
-        self.timestamp = datetime.utcfromtimestamp(self.json.get('taken_at_timestamp', ''))
         self.is_video = self.json.get('is_video', False)
-        self.is_carousel = bool(self.json.get('edge_sidecar_to_children', False))
-        self.video_url = post_data.get('video_url', '')
-        self.photo_url = post_data.get('display_url',
-                                       post_data.get('thumbnail_src',
-                                                     post_data.get('thumbnail_resources',
-                                                                   [{}])[-1].get('src', '')))
-        self.owner = {'username': None, 'id': None}
-        self.dimensions = {'height': None, 'width': None}
-
-        self.owner.update(self.json.get('owner', {}))
-        self.dimensions.update(self.json.get('dimensions', {}))
+        self.video_url = self.json.get('video_url', '')
+        self.dimensions = self.json.get('dimensions', {})
 
     def __str__(self):
-        return f'Post {self.id} by @{self.owner["username"]} on {str(self.timestamp)}'
+        return f'Post {self.id} by @{self.owner["username"]} on {self.timestamp}'
+
+    @property
+    def owner(self):
+        if owner := self.json.get('owner', self.json.get('user', {})):
+            return owner
+        return dict.fromkeys(['id', 'username'])
+
+    @property
+    def is_carousel(self):
+        return self.json.get('media_type') == 8
+
+    @property
+    def shortcode(self):
+        return self.json.get('shortcode', self.json.get('code', ''))
+
+    @property
+    def permalink(self):
+        return f'https://www.instagram.com/p/{self.shortcode}'
+
+    @property
+    def thumbnail_url(self):
+        return self.json.get('display_url',
+                             self.json.get('thumbnail_src',
+                                           self.json.get('thumbnail_resources',
+                                                         [{}])[-1].get('src', '')))
+
+    @property
+    def timestamp(self):
+        if timestamp := self.json.get('taken_at_timestamp', self.json.get('taken_at', '')):
+            return datetime.utcfromtimestamp(timestamp)
+        return ''
 
     @property
     def media_url(self):
-        return self.video_url if self.is_video else self.photo_url
+        return self.video_url if self.is_video else self.thumbnail_url
 
     @property
     def caption(self):
-        if caption_node := self.json.get('edge_media_to_caption', {}).get('edges', [{}]):
-            return caption_node[0].get('node', {}).get('text', '')
+        if caption_node := self.json.get('edge_media_to_caption', {}).get('edges', [{}])[0]:
+            return caption_node.get('node', {}).get('text', '')
         return ''
