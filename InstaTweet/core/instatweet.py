@@ -4,7 +4,7 @@ import copy
 import time
 from tqdm import tqdm
 from collections.abc import Iterable
-from InstaTweet.utils import UserAgent, get_root, get_filepath
+from InstaTweet.utils import get_agent, get_root, get_filepath
 from . import InstaClient, TweetClient
 
 DEFAULT_USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}
@@ -13,16 +13,17 @@ DEFAULT_USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}
 class InstaTweet:
 
     def __init__(self, **kwargs):
-        self.profile_name = kwargs.pop('profile', 'default')
-        self.session_id = kwargs.pop('session_id', '')
-        self.user_agent = kwargs.pop('user_agent', UserAgent().default)
-        self.twitter_keys = kwargs.pop('twitter_keys', None)
-        self.user_map = kwargs.pop('user_map', {})
+        self.profile_name = kwargs.get('profile', 'default')
 
-        if self.is_default:
-            print('Using default profile.')
-        else:
+        if not self.is_default:
             self.load_profile(self.profile_name)
+
+        else:
+            self.session_id = kwargs.get('session_id', '')
+            self.twitter_keys = kwargs.get('twitter_keys', None)
+            self.user_agent = kwargs.get('user_agent', get_agent())
+            self.user_map = kwargs.get('user_map', {})
+            print('Using default profile.')
 
     @classmethod
     def load(cls, profile_name: str):
@@ -122,7 +123,7 @@ class InstaTweet:
 
         if missing_keys := [key for key in TweetClient.DEFAULT_KEYS if key not in self.twitter_keys]:
             raise KeyError(f'''
-            Invalid Twitter API Keys Provided  
+            Invalid Twitter API Keys Provided
             Missing Keys: {missing_keys}''')
 
         if not all(self.twitter_keys.values()):
@@ -190,19 +191,14 @@ class InstaTweet:
     def load_profile(self, profile_name: str):
         if profile_path := self.profile_exists(profile_name):
             profile = self.load_data(profile_path)
-            self._session_id = profile['session_id']
             self.user_agent = profile['user_agent']
+            self._session_id = profile['session_id']
             self._twitter_keys = profile['twitter_keys']
             self.user_map = profile['user_map']
-            print(f'Loaded profile "{profile_name}"')
-
+            self.profile_name = profile['profile']
+            print(f'Loaded profile "{self.profile_name}"')
         else:
-            new_profile = input(f'No profile found with the name {profile_name},'
-                                f'would you like to create this profile? Y/N' + '\n' + '>> ')
-            if new_profile.lower() == 'y':
-                self.save_profile(profile_name)
-            else:
-                raise FileNotFoundError('No profile loaded')
+            raise FileNotFoundError('No profile with that name was found')
 
     def save_profile(self, profile_name: str = None, alert: bool = True):
         """Update currently loaded profile, or save a new one. Name only required for new profiles."""
@@ -239,6 +235,7 @@ class InstaTweet:
     @property
     def config(self):
         return {
+            'profile': self.profile_name,
             'session_id': self.session_id,
             'user_agent': self.user_agent,
             'twitter_keys': self.twitter_keys,
