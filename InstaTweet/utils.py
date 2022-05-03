@@ -20,5 +20,5 @@ def get_root():
     return Path(__file__).parent
 
 
-def get_filepath(filename, filetype='.txt'):
-    return os.path.join(get_root(), filename) + filetype
+def get_filepath(filename, filetype='txt'):
+    return os.path.join(get_root(), filename) + '.' + filetype
