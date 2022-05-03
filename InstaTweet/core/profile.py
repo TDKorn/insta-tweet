@@ -1,13 +1,7 @@
 import pickle
+from InstaTweet import db
 from InstaTweet.utils import *
-from InstaTweet.models import Profiles
 from abc import ABC, abstractmethod
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
-DATABASE_URL = os.environ['DATABASE_URL'].replace('postgres://', 'postgresql://', 1)
-engine = create_engine(DATABASE_URL, echo=False)
-Session = sessionmaker(bind=engine)
 
 
 class Profile(ABC):
@@ -53,31 +47,13 @@ class DBProfile(Profile):
 
     @classmethod
     def load(cls, name):
-        db_profile = cls.query_profile(name)
-        if db_profile:
-            return pickle.loads(db_profile.first().config)
-        else:
-            raise LookupError("No profile found with that name")
+        return db.load_profile(name)
 
     def save_profile(self):
-        s = Session()
-        pickle_str = pickle.dumps(self)
-        db_profile = s.query(Profiles).filter_by(name=self.name)
+        db.save_profile(self)
 
-        if db_profile.first():  # Exists -> Update profile configuration
-            db_profile.update({'config': pickle_str})
-        else:  # New   -> Add profile to db
-            s.add(Profiles(name=self.name, config=pickle_str))
-
-        s.commit()
-        s.close()
-
-    @staticmethod
-    def query_profile(name):
-        s = Session()
-        db_profile = s.query(Profiles).filter_by(name=name)
-        s.close()
-        return db_profile
+    def to_pickle(self):
+        return pickle.dumps(self)
 
 
 class LocalProfile(Profile):

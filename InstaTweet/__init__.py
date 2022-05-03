@@ -1,1 +1,1 @@
-from InstaTweet.core import InstaTweet
+from InstaTweet.core import InstaTweet, LocalProfile, DBProfile
