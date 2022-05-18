@@ -19,7 +19,7 @@ class Profile:
                 os.mkdir(self.LOCAL_DIR)
 
     @classmethod
-    def load(cls, name, local=True):
+    def load(cls, name, local=False):
         """Loads an existing profile, either locally or from the database"""
         if not local:
             return db.load_profile(name)
@@ -43,10 +43,11 @@ class Profile:
         """Validate and save profile configuration"""
         if name:
             self.name = name
-        if not self.is_default:  # Either a name was provided, or a name was previously set
-            return self._save_profile()
-        else:  # No name provided and no name previously set; can't save
+
+        if self.is_default:  # No name provided and no name previously set
             raise AttributeError('Profile name is required to save the profile')
+        else:
+            return self._save_profile()
 
     def _save_profile(self):
         """Method is only called after profile is validated"""

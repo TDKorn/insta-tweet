@@ -32,3 +32,14 @@ def save_profile(profile):
 
     Session.commit()  # Unnecessary?
     print("Saved Profile " + profile.name)
+
+
+def delete_profile(name):
+    db_profile = query_profile(name)
+    if not db_profile.first():
+        raise LookupError("No profile found with that name")
+
+    db_profile.delete()
+    Session.commit()
+    print('Deleted Profile' + name)
+
