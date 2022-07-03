@@ -12,17 +12,17 @@ class Profile:
     LOCAL_DIR = os.path.join(utils.get_root(), 'profiles')
     USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}
 
-    def __init__(self, name='default', local=True, **kwargs):
+    def __init__(self, name: str = 'default', local: bool = True, **kwargs):
         r"""Initialize a profile
 
         A :class:`Profile` contains a user map and all API access settings associated with it.
         Note that a name is not necessary to create and run a Profile, but it's required to save a Profile.
 
-        :param local: if True, save files will be in the :attr:`~.LOCAL_DIR`. Otherwise, it will use a Postgres database
-        :param kwargs: See :Keyword Arguments:
+        :param name: profile name; unique identifier for a user map and its associated Twitter/Instagram access keys
+        :param local: if True, pickle files will save to the :attr:`~.LOCAL_DIR`. Otherwise, will save to a Postgres DB
+        :param \**kwargs: see below
 
-        * *name* (``str``) -- the profile name
-             Unique identifier for a user map and associated Twitter/Instagram access keys
+        :Keyword Arguments:
         * *session_id* (``str``) -- Instagram ``sessionid`` cookie
              Obtain by logging in through browser
         * *twitter_keys* (``dict``) -- Twitter API Keys with v1.1 endpoint access
@@ -34,10 +34,7 @@ class Profile:
 
         """
         self.local = local
-        self.name = name
-
-        if self.exists:
-            raise FileExistsError("Profile with that name already exists. Please use Profile.load('name')")
+        self.name = name    # Will raise Exception if name is already used
 
         self.session_id = kwargs.get('session_id', '')
         self.twitter_keys = kwargs.get('twitter_keys', TweetClient.DEFAULT_KEYS)
@@ -50,9 +47,8 @@ class Profile:
         if not local:
             return db.load_profile(name)
 
-        profile_path = cls.get_local_path(name)
-        if os.path.exists(profile_path):
-            with open(profile_path, 'rb') as f:
+        if cls.profile_exists(name):
+            with open(cls.get_local_path(name), 'rb') as f:
                 return pickle.load(f)
 
         raise FileNotFoundError('No local profile found with that name')
@@ -75,58 +71,60 @@ class Profile:
             self.name = name
         if self.is_default:  # Name not provided and not previously set
             raise AttributeError('Profile name is required to save the profile')
-
         return self._save_profile(alert=alert)
 
-    def _save_profile(self, alert=True):
-        """Method is only called after profile is validated"""
+    def _save_profile(self, alert: bool = True) -> bool:
         if not self.local:
             return db.save_profile(self, alert=alert)
         else:
             with open(self.profile_path, 'wb') as f:
                 pickle.dump(self, f)
-
-        if alert:
-            print('Saved Profile ' + self.name)
-        return True
+            if alert:
+                print('Saved Profile ' + self.name)
+            return True
 
     def add_users(self, users: Iterable, send_tweet: bool = False):
-        """Add Instagram user(s) to monitor for new posts to scrape and tweet.
+        """Add Instagram user(s) to monitor for new posts to scrape and tweet
 
-        By default, new users will be scraped and any post after this point will be tweeted.
-        Set ``send_tweet=True`` to immediately scrape AND tweet the user's most recent 12 posts
+        By default, newly added users will only be scraped, and any new posts after this point will be tweeted.
+        Use ``send_tweet=True`` to immediately scrape AND tweet the user's most recent 12 posts
 
-        :param users: Instagram user(s) to automatically tweet content from
-        :param send_tweet: choose if tweets should be sent on the first scrape or for posts going forward
+        :param users: an iterable of Instagram usernames to automatically tweet content from
+        :param send_tweet: indicate if tweets should be sent on the first scrape or only for new posts going forward
         """
         if not isinstance(users, Iterable):
             raise TypeError(f'Invalid type provided. `users` must be an Iterable')
         if isinstance(users, str):
             users = [users]
-
         for user in users:
             self.add_user(user, send_tweet=send_tweet)
 
     def add_user(self, user: str, send_tweet: bool = False):
+        """Add a single Instagram user to the :attr:`~.user_map` to monitor for new posts
+
+        :param user: the Instagram username to add
+        :param send_tweet: indicate if tweets should be sent on the first scrape or only for new posts going forward
+        """
         self.user_map.setdefault(user, copy.deepcopy(self.USER_MAPPING))
         if send_tweet:
-            # Tweets are, by default sent only when posts have previously been scraped
             self.user_map[user]['scraped'].append('-1')
 
-        print(f'Added {user} to the user map')
+        print(f'Added Instagram user @{user} to the user map')
         if self.exists:
-            return self._save_profile(alert=False)
+            self._save_profile(alert=False)
 
-    def add_hashtags(self, user, hashtags):
-        tags = self.user_map[user]['hashtags']
-
+    def add_hashtags(self, user: str, hashtags: Iterable):
+        if not isinstance(hashtags, Iterable):
+            raise TypeError("Hashtags must be provided as a string or iterable of strings")
         if isinstance(hashtags, str):
-            tags.append(hashtags)
-        else:
-            for hashtag in hashtags:
-                if hashtag not in tags:
-                    tags.append(hashtag)
+            hashtags = [hashtags]
 
+        tags = self.user_map[user]['hashtags']
+        for hashtag in hashtags:
+            if hashtag not in tags:
+                tags.append(hashtag)
+
+        print(f'Added hashtags for @{user}')
         if self.exists:
             self._save_profile(alert=False)
 
@@ -138,12 +136,18 @@ class Profile:
         for k, v in self.config.items():
             print(f'{k} : {v}')
 
+    @staticmethod
+    def profile_exists(name: str, local: bool = True) -> bool:
+        """Check if a profile with the given name and location (local/remote) already exists"""
+        if local:
+            return os.path.exists(Profile.get_local_path(name))
+        else:
+            return bool(db.query_profile(name).first())
+
     @property
-    def exists(self):
-        """Returns True if a local save file or database record exists for the profile name"""
-        if self.local:
-            return os.path.exists(self.profile_path)
-        return bool(db.query_profile(self.name).first())
+    def exists(self) -> bool:
+        """Returns True if a local save file or database record exists for the currently set profile name"""
+        return self.profile_exists(name=self.name, local=self.local)
 
     @property
     def is_default(self):
@@ -168,6 +172,24 @@ class Profile:
         self._local = isLocal
 
     @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, profile_name):
+        """Sets the profile name, if a profile with that name doesn't already exist locally/remotely"""
+        if profile_name != 'default' and self.profile_exists(profile_name, local=self.local):
+            if self.local:
+                raise FileExistsError(
+                    f'Local save file with the name "{profile_name}" already exists. Please load or delete the file.'
+                )
+            else:
+                raise FileExistsError(
+                    f'Database record with the name "{profile_name}" already exists. Please load or delete the record.'
+                )
+        self._name = profile_name
+
+    @property
     def session_id(self):
         return self._session_id
 
@@ -175,8 +197,8 @@ class Profile:
     def session_id(self, session_id: str):
         if not isinstance(session_id, str):
             raise TypeError('Session ID cookie must be of type str')
-        self._session_id = session_id
 
+        self._session_id = session_id
         if self.exists:
             self._save_profile(alert=False)
 
