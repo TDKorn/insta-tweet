@@ -12,7 +12,7 @@ class Profile:
     LOCAL_DIR = os.path.join(utils.get_root(), 'profiles')
     USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}
 
-    def __init__(self, local=True, **kwargs):
+    def __init__(self, name='default', local=True, **kwargs):
         r"""Initialize a profile
 
         A :class:`Profile` contains a user map and all API access settings associated with it.
@@ -34,7 +34,7 @@ class Profile:
 
         """
         self.local = local
-        self.name = kwargs.get('name', 'default')
+        self.name = name
 
         if self.exists:
             raise FileExistsError("Profile with that name already exists. Please use Profile.load('name')")
@@ -65,17 +65,18 @@ class Profile:
             filetype='pickle'
         )
 
-    def save(self, name: str = None) -> bool:
+    def save(self, name: str = None, alert: bool = True) -> bool:
         """Saves the current profile configuration using the current name or a new one
 
         :param name: name to save the profile under; will replace the current name
+        :param alert: set to ``True`` to print a message upon successful save
         """
         if name:
             self.name = name
         if self.is_default:  # Name not provided and not previously set
             raise AttributeError('Profile name is required to save the profile')
 
-        return self._save_profile()
+        return self._save_profile(alert=alert)
 
     def _save_profile(self, alert=True):
         """Method is only called after profile is validated"""
@@ -113,7 +114,7 @@ class Profile:
             self.user_map[user]['scraped'].append('-1')
 
         print(f'Added {user} to the user map')
-        if not self.is_default:
+        if self.exists:
             return self._save_profile(alert=False)
 
     def add_hashtags(self, user, hashtags):
@@ -202,6 +203,7 @@ class Profile:
     def config(self):
         return {
             'name': self.name,
+            'local': self.local,
             'session_id': self.session_id,
             'user_agent': self.user_agent,
             'twitter_keys': self.twitter_keys,
