@@ -1,9 +1,8 @@
 from __future__ import annotations
 import os
 import pickle
-from .core.profile import Profile
 
-from . import models
+from . import models, Profile
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 

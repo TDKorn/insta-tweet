@@ -2,10 +2,12 @@ import os
 import json
 import copy
 import time
+
 from tqdm import tqdm
 from collections.abc import Iterable
-from InstaTweet.utils import get_agent, get_root, get_filepath
+
 from . import InstaClient, TweetClient
+from .utils import get_agent, get_root, get_filepath
 
 DEFAULT_USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}
 

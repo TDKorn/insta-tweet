@@ -3,10 +3,9 @@ from __future__ import annotations
 import copy
 import os
 import pickle
-from typing import Union, Iterable
 
-from InstaTweet import db, utils
-from InstaTweet.core import TweetClient, InstaClient
+from typing import Iterable
+from . import db, utils, TweetClient
 
 
 class Profile:
@@ -146,3 +145,4 @@ class Profile:
 
         for user in users:
             self.add_user(user, send_tweet=send_tweet)
+

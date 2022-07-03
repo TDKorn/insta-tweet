@@ -1,6 +1,6 @@
 import requests
 from . import InstaPost, InstaUser
-from InstaTweet.utils import get_filepath
+from .utils import get_filepath
 
 
 class InstaClient(object):
