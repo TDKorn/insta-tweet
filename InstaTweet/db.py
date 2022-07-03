@@ -44,5 +44,5 @@ def delete_profile(name):
 
     db_profile.delete()
     Session.commit()
-    print('Deleted Profile' + name)
+    print('Deleted Profile ' + name)
 
