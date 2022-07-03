@@ -3,7 +3,6 @@ import requests
 
 from pathlib import Path
 
-
 AGENTS = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36']
 
 
@@ -20,14 +19,14 @@ def get_agents() -> list:
     return AGENTS
 
 
-def get_agent(index=0) -> str:
+def get_agent(index: int = 0) -> str:
     """Returns a single user agent string from the specified index of the AGENTS list"""
     return get_agents()[index]  # Specify index only if you hardcode more than 1
 
 
-def get_root():
+def get_root() -> Path:
     return Path(__file__).parent
 
 
-def get_filepath(filename, filetype='txt'):
+def get_filepath(filename: str, filetype: str = 'txt') -> str:
     return os.path.join(get_root(), filename) + '.' + filetype
