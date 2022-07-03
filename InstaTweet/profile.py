@@ -89,8 +89,82 @@ class Profile:
             print('Saved Profile ' + self.name)
         return True
 
+    def add_users(self, users: Iterable, send_tweet: bool = False):
+        """Add Instagram user(s) to monitor for new posts to scrape and tweet.
+
+        By default, new users will be scraped and any post after this point will be tweeted.
+        Set ``send_tweet=True`` to immediately scrape AND tweet the user's most recent 12 posts
+
+        :param users: Instagram user(s) to automatically tweet content from
+        :param send_tweet: choose if tweets should be sent on the first scrape or for posts going forward
+        """
+        if not isinstance(users, Iterable):
+            raise TypeError(f'Invalid type provided. `users` must be an Iterable')
+        if isinstance(users, str):
+            users = [users]
+
+        for user in users:
+            self.add_user(user, send_tweet=send_tweet)
+
+    def add_user(self, user: str, send_tweet: bool = False):
+        self.user_map.setdefault(user, copy.deepcopy(self.USER_MAPPING))
+        if send_tweet:
+            # Tweets are, by default sent only when posts have previously been scraped
+            self.user_map[user]['scraped'].append('-1')
+
+        print(f'Added {user} to the user map')
+        if not self.is_default:
+            return self._save_profile(alert=False)
+
+    def add_hashtags(self, user, hashtags):
+        tags = self.user_map[user]['hashtags']
+
+        if isinstance(hashtags, str):
+            tags.append(hashtags)
+        else:
+            for hashtag in hashtags:
+                if hashtag not in tags:
+                    tags.append(hashtag)
+
+        if self.exists:
+            self._save_profile(alert=False)
+
     def to_pickle(self):
         return pickle.dumps(self)
+
+    def view_config(self):
+        """:meth:`~.config` but make it legible ♥"""
+        for k, v in self.config.items():
+            print(f'{k} : {v}')
+
+    @property
+    def exists(self):
+        """Returns True if a local save file or database record exists for the profile name"""
+        if self.local:
+            return os.path.exists(self.profile_path)
+        return bool(db.query_profile(self.name).first())
+
+    @property
+    def is_default(self):
+        """Check if default profile is being used. Used in initial save/load of profile"""
+        return self.name == 'default'
+
+    @property
+    def profile_path(self):
+        if self.local and not self.is_default:
+            return Profile.get_local_path(self.name)
+        return ''
+
+    @property
+    def local(self):
+        return self._local
+
+    @local.setter
+    def local(self, isLocal: bool):
+        if isLocal:
+            if not os.path.exists(self.LOCAL_DIR):
+                os.mkdir(self.LOCAL_DIR)
+        self._local = isLocal
 
     @property
     def session_id(self):
@@ -125,73 +199,6 @@ class Profile:
             self._save_profile(alert=False)
 
     @property
-    def exists(self):
-        """Returns True if a local save file or database record exists for the profile name"""
-        if self.local:
-            return os.path.exists(self.profile_path)
-        return bool(db.query_profile(self.name).first())
-
-    @property
-    def is_default(self):
-        """Check if default profile is being used. Used in initial save/load of profile"""
-        return self.name == 'default'
-
-    @property
-    def local(self):
-        return self._local
-
-    @local.setter
-    def local(self, isLocal: bool):
-        if isLocal:
-            if not os.path.exists(self.LOCAL_DIR):
-                os.mkdir(self.LOCAL_DIR)
-        self._local = isLocal
-
-    @property
-    def profile_path(self):
-        if self.local and not self.is_default:
-            return Profile.get_local_path(self.name)
-        return ''
-
-    def add_user(self, user: str, send_tweet: bool = False):
-        self.user_map.setdefault(user, copy.deepcopy(self.USER_MAPPING))
-        if send_tweet:
-            # Tweets are, by default sent only when posts have previously been scraped
-            self.user_map[user]['scraped'].append('-1')
-
-        print(f'Added {user} to the user map')
-        if not self.is_default:
-            return self._save_profile(alert=False)
-
-    def add_users(self, users: Iterable, send_tweet: bool = False):
-        """Add Instagram user(s) to monitor for new posts to scrape and tweet.
-
-        By default, new users will be scraped and any post after this point will be tweeted.
-        Set ``send_tweet=True`` to immediately scrape AND tweet the user's most recent 12 posts
-
-        :param users: Instagram user(s) to automatically tweet content from
-        :param send_tweet: choose if tweets should be sent on the first scrape or for posts going forward
-        """
-        if not isinstance(users, Iterable):
-            raise TypeError(f'Invalid type provided. `users` must be an Iterable')
-
-        for user in users:
-            self.add_user(user, send_tweet=send_tweet)
-
-    def add_hashtags(self, user, hashtags):
-        tags = self.user_map[user]['hashtags']
-
-        if isinstance(hashtags, str):
-            tags.append(hashtags)
-        else:
-            for hashtag in hashtags:
-                if hashtag not in tags:
-                    tags.append(hashtag)
-
-        if self.exists:
-            self._save_profile(alert=False)
-
-    @property
     def config(self):
         return {
             'name': self.name,
@@ -201,7 +208,3 @@ class Profile:
             'user_map': self.user_map,
         }
 
-    def view_config(self):
-        """:meth:`~.config` but make it legible ♥"""
-        for k, v in self.config.items():
-            print(f'{k} : {v}')
