@@ -16,10 +16,10 @@ POST_TWEET_URL = 'https://api.twitter.com/1.1/statuses/update.json'
 class TweetClient(object):
 
     DEFAULT_KEYS = {
-        'Consumer Key': None,
-        'Consumer Secret': None,
-        'Access Token': None,
-        'Token Secret': None
+        'Consumer Key': 'string',
+        'Consumer Secret': 'string',
+        'Access Token': 'string',
+        'Token Secret': 'string'
     }
 
     @staticmethod

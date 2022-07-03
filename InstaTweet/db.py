@@ -2,7 +2,7 @@ from __future__ import annotations
 import os
 import pickle
 
-from . import models, Profile
+from . import models, profile
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 
@@ -16,14 +16,14 @@ def query_profile(name):
     return Session.query(models.Profiles).filter_by(name=name)
 
 
-def load_profile(name) -> "Profile":
+def load_profile(name) -> profile.Profile:
     if db_profile := query_profile(name).first():
         return pickle.loads(db_profile.config)
     else:
         raise LookupError("No profile found with that name")
 
 
-def save_profile(profile: Profile, alert: bool = True) -> bool:
+def save_profile(profile: profile.Profile, alert: bool = True) -> bool:
     """Updates profile if it already is saved, or adds it if not"""
     db_profile = query_profile(profile.name)
     if db_profile.first():

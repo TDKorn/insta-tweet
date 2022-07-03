@@ -93,6 +93,38 @@ class Profile:
         return pickle.dumps(self)
 
     @property
+    def session_id(self):
+        return self._session_id
+
+    @session_id.setter
+    def session_id(self, session_id: str):
+        if not isinstance(session_id, str):
+            raise TypeError('Session ID cookie must be of type str')
+        self._session_id = session_id
+
+        if self.exists:
+            self._save_profile(alert=False)
+
+    @property
+    def twitter_keys(self):
+        return self._twitter_keys
+
+    @twitter_keys.setter
+    def twitter_keys(self, twitter_api_keys: dict):
+        if not isinstance(twitter_api_keys, dict):
+            raise TypeError(f'Twitter Keys must be type {dict}')
+
+        for key in TweetClient.DEFAULT_KEYS:
+            if key not in twitter_api_keys:
+                raise KeyError(f'Missing Twitter Key: {key}')
+            if not bool(twitter_api_keys[key]):
+                raise ValueError(f'Missing Value for Twitter Key: {key}')
+
+        self._twitter_keys = twitter_api_keys
+        if self.exists:
+            self._save_profile(alert=False)
+
+    @property
     def exists(self):
         """Returns True if a local save file or database record exists for the profile name"""
         if self.local:
@@ -146,3 +178,30 @@ class Profile:
         for user in users:
             self.add_user(user, send_tweet=send_tweet)
 
+    def add_hashtags(self, user, hashtags):
+        tags = self.user_map[user]['hashtags']
+
+        if isinstance(hashtags, str):
+            tags.append(hashtags)
+        else:
+            for hashtag in hashtags:
+                if hashtag not in tags:
+                    tags.append(hashtag)
+
+        if self.exists:
+            self._save_profile(alert=False)
+
+    @property
+    def config(self):
+        return {
+            'name': self.name,
+            'session_id': self.session_id,
+            'user_agent': self.user_agent,
+            'twitter_keys': self.twitter_keys,
+            'user_map': self.user_map,
+        }
+
+    def view_config(self):
+        """:meth:`~.config` but make it legible ♥"""
+        for k, v in self.config.items():
+            print(f'{k} : {v}')
