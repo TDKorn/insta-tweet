@@ -1,7 +1,7 @@
 from __future__ import annotations
 import os
 import pickle
-from profile import Profile
+from .core.profile import Profile
 
 from . import models
 from sqlalchemy import create_engine
@@ -24,7 +24,7 @@ def load_profile(name) -> "Profile":
         raise LookupError("No profile found with that name")
 
 
-def save_profile(profile):
+def save_profile(profile: Profile, alert: bool = True) -> bool:
     """Updates profile if it already is saved, or adds it if not"""
     db_profile = query_profile(profile.name)
     if db_profile.first():
@@ -32,9 +32,10 @@ def save_profile(profile):
     else:
         new_profile = models.Profiles(name=profile.name, config=profile.to_pickle())
         Session.add(new_profile)
-
     Session.commit()  # Unnecessary?
-    print("Saved Profile " + profile.name)
+    if alert:
+        print("Saved Profile " + profile.name)
+    return True
 
 
 def delete_profile(name):
