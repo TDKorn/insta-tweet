@@ -9,29 +9,30 @@ from . import db, utils, TweetClient
 
 
 class Profile:
-    LOCAL_DIR = os.path.join(utils.get_root(), 'profiles')
+
     USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}
+    LOCAL_DIR = os.path.join(utils.get_root(), 'profiles')
 
     def __init__(self, name: str = 'default', local: bool = True, **kwargs):
-        r"""Initialize a profile
+        """Initialize a profile
 
         A :class:`Profile` contains a user map and all API access settings associated with it.
         Note that a name is not necessary to create and run a Profile, but it's required to save a Profile.
 
         :param name: profile name; unique identifier for a user map and its associated Twitter/Instagram access keys
         :param local: if True, pickle files will save to the :attr:`~.LOCAL_DIR`. Otherwise, will save to a Postgres DB
-        :param \**kwargs: see below
+        :param kwargs: see below
 
         :Keyword Arguments:
-        * *session_id* (``str``) -- Instagram ``sessionid`` cookie
-             Obtain by logging in through browser
-        * *twitter_keys* (``dict``) -- Twitter API Keys with v1.1 endpoint access
-            See :attr:`~TweetClient.DEFAULT_KEYS` for a template
-        * *user_agent* (``str``) -- user agent for requests
-             Will scrape for newest Chrome agent if not provided
-        * *user_map* (``dict``) -- user map setup
-            Fill this in later because blah blah writing words
-
+            * *session_id* (``str``) --
+              Instagram ``sessionid`` cookie, obtained by logging in through browser
+            * *twitter_keys* (``dict``) --
+              Twitter API Keys with v1.1 endpoint access
+                * See :attr:`~TweetClient.DEFAULT_KEYS` for a template
+            * *user_agent* (``str``) --
+              user agent to use for requests. Will scrape newest Chrome agent if not provided
+            * *user_map* (``dict``) --
+              Fill this in later because blah blah writing words
         """
         self.local = local
         self.name = name    # Will raise Exception if name is already used
@@ -62,16 +63,17 @@ class Profile:
         )
 
     def save(self, name: str = None, alert: bool = True) -> bool:
-        """Saves the current profile configuration using the current name or a new one
+        """Saves the Profile as a pickled object, using the specified or currently set name.
 
-        :param name: name to save the profile under; will replace the current name
+        :param name: name to save the profile under; replaces the current name
         :param alert: set to ``True`` to print a message upon successful save
         """
         if name:
             self.name = name
-        if self.is_default:  # Name not provided and not previously set
+        if not self.is_default:
+            return self._save_profile(alert=alert)
+        else:  # Profile name wasn't specified and wasn't previously set
             raise AttributeError('Profile name is required to save the profile')
-        return self._save_profile(alert=alert)
 
     def _save_profile(self, alert: bool = True) -> bool:
         if not self.local:
@@ -79,41 +81,49 @@ class Profile:
         else:
             with open(self.profile_path, 'wb') as f:
                 pickle.dump(self, f)
-            if alert:
-                print('Saved Profile ' + self.name)
-            return True
+        if alert:
+            print(f'Saved Local Profile {self.name}')
+        return True
 
     def add_users(self, users: Iterable, send_tweet: bool = False):
-        """Add Instagram user(s) to monitor for new posts to scrape and tweet
+        """Add multiple Instagram user(s) to the :ivar:`~.user_map` for subsequent monitoring
 
-        By default, newly added users will only be scraped, and any new posts after this point will be tweeted.
-        Use ``send_tweet=True`` to immediately scrape AND tweet the user's most recent 12 posts
-
-        :param users: an iterable of Instagram usernames to automatically tweet content from
+        :param users: an iterable of Instagram usernames to automatically scrape and tweet content from
         :param send_tweet: indicate if tweets should be sent on the first scrape or only for new posts going forward
         """
         if not isinstance(users, Iterable):
             raise TypeError(f'Invalid type provided. `users` must be an Iterable')
         if isinstance(users, str):
             users = [users]
+
         for user in users:
-            self.add_user(user, send_tweet=send_tweet)
+            self.add_user(user, send_tweet)
 
     def add_user(self, user: str, send_tweet: bool = False):
-        """Add a single Instagram user to the :attr:`~.user_map` to monitor for new posts
+        """Add a single Instagram user to the :ivar:`~.user_map` for subsequent monitoring
 
-        :param user: the Instagram username to add
+        By default, newly added users will not have their posts tweeted the first time they are scraped - the post IDs
+        of the most recent 12 posts are stored, and any new posts from this point forward will be tweeted
+        You can override this by setting ``send_tweet=True``, which immediately scrapes AND tweets the most recent posts
+
+        :param user: the Instagram username to add (without the "@")
         :param send_tweet: indicate if tweets should be sent on the first scrape or only for new posts going forward
         """
         self.user_map.setdefault(user, copy.deepcopy(self.USER_MAPPING))
+
         if send_tweet:
             self.user_map[user]['scraped'].append('-1')
-
-        print(f'Added Instagram user @{user} to the user map')
         if self.exists:
             self._save_profile(alert=False)
 
+        print(f'Added Instagram user @{user} to the user map')
+
     def add_hashtags(self, user: str, hashtags: Iterable):
+        """Add hashtag(s) to a user in the :ivar:`user_map`, which will be randomly chosen from when composing Tweets
+
+        :param user: the user in the user map to add hashtags to
+        :param hashtags: hashtags to choose from and include in any Tweets where content comes from this user
+        """
         if not isinstance(hashtags, Iterable):
             raise TypeError("Hashtags must be provided as a string or iterable of strings")
         if isinstance(hashtags, str):
@@ -124,9 +134,9 @@ class Profile:
             if hashtag not in tags:
                 tags.append(hashtag)
 
-        print(f'Added hashtags for @{user}')
         if self.exists:
             self._save_profile(alert=False)
+        print(f'Added hashtags for @{user}')
 
     def to_pickle(self):
         return pickle.dumps(self)

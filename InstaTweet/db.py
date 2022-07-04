@@ -20,7 +20,7 @@ def load_profile(name) -> profile.Profile:
     if db_profile := query_profile(name).first():
         return pickle.loads(db_profile.config)
     else:
-        raise LookupError("No database profile found with that name")
+        raise LookupError(f"No database profile found with the name {name}")
 
 
 def save_profile(profile: profile.Profile, alert: bool = True) -> bool:
@@ -31,21 +31,21 @@ def save_profile(profile: profile.Profile, alert: bool = True) -> bool:
     else:
         new_profile = models.Profiles(name=profile.name, config=profile.to_pickle())
         Session.add(new_profile)
-
     Session.commit()
+
     if alert:
-        print("Saved Profile " + profile.name)
+        print(f"Saved Database Profile: {profile.name}")
     return True
 
 
 def delete_profile(name, alert: bool = True) -> bool:
     db_profile = query_profile(name)
     if not db_profile.first():
-        raise LookupError("No profile found with that name")
+        raise LookupError(f"No database profile found with the name {name}")
 
     db_profile.delete()
     Session.commit()
 
     if alert:
-        print('Deleted Profile ' + name)
+        print(f'Deleted Database Profile: {name}')
     return True
