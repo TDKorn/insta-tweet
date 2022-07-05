@@ -246,3 +246,20 @@ class Profile:
             'user_map': self.user_map,
         }
 
+    def validate(self) -> bool:
+        """Checks to see if the profile is fully configured
+
+            :NOTE:
+                Property setters do the actual data validation
+        """
+        if not self.session_id:
+            raise ValueError('Instagram sessionid cookie is required to scrape posts')
+
+        if bad_keys := [key for key, value in self.twitter_keys.items() if value == 'string']:
+            raise ValueError(
+                'Using default values for the following Twitter keys:\n{}'.format(bad_keys)
+            )
+        if not self.user_map:
+            raise ValueError('You must add at least one Instagram user to auto-tweet from')
+
+        return True
