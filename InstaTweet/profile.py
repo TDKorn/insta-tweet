@@ -191,11 +191,13 @@ class Profile:
         if profile_name != 'default' and self.profile_exists(profile_name, local=self.local):
             if self.local:
                 raise FileExistsError(
-                    f'Local save file with the name "{profile_name}" already exists. Please load or delete the file.'
+                    f'Local save file with the name "{profile_name}" already exists. Please choose another name, '
+                    'load the profile, or delete the file.'
                 )
             else:
-                raise FileExistsError(
-                    f'Database record with the name "{profile_name}" already exists. Please load or delete the record.'
+                raise ResourceWarning(
+                    f'Database record already exists for profile named "{profile_name}" already exists.' + '\n' +
+                    'Please choose another name or use InstaTweet.db load/delete the profile'
                 )
         self._name = profile_name
 
@@ -207,8 +209,8 @@ class Profile:
     def session_id(self, session_id: str):
         if not isinstance(session_id, str):
             raise TypeError('Session ID cookie must be of type str')
-
         self._session_id = session_id
+
         if self.exists:
             self._save_profile(alert=False)
 
@@ -221,13 +223,15 @@ class Profile:
         if not isinstance(twitter_api_keys, dict):
             raise TypeError(f'Twitter Keys must be type {dict}')
 
+        if missing_keys := [key for key in TweetClient.DEFAULT_KEYS if key not in twitter_api_keys]:
+            raise KeyError(f'Missing Twitter Keys: {missing_keys}')
+
         for key in TweetClient.DEFAULT_KEYS:
-            if key not in twitter_api_keys:
-                raise KeyError(f'Missing Twitter Key: {key}')
             if not bool(twitter_api_keys[key]):
                 raise ValueError(f'Missing Value for Twitter Key: {key}')
 
         self._twitter_keys = twitter_api_keys
+
         if self.exists:
             self._save_profile(alert=False)
 
