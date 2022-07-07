@@ -35,14 +35,14 @@ class TweetClient(object):
         self.post = post
         self.auth = auth
         self.hashtags = hashtags
-        self.video_path = post.file_path
+        self.media_path = post.filepath
         # For twitter media upload
         self.media_id = None
         self.processing_info = None
 
     @property
     def total_bytes(self):
-        return os.path.getsize(self.video_path)
+        return os.path.getsize(self.media_path)
 
     def send(self):
         if self.post.is_video:
@@ -53,25 +53,26 @@ class TweetClient(object):
         self._media_upload_append()
         self._media_upload_finalize()
         self.post.tweet = self._post_tweet()
+
         print(f'Tweet sent for post {self.post.id}')
-        os.remove(self.video_path)
+        os.remove(self.media_path)
 
     def crop_video(self):
-        clip = VideoFileClip(self.video_path)
+        clip = VideoFileClip(self.media_path)
         bbox = self._get_bbox(clip)
 
         if bbox:
-            new_path = self.video_path.replace('.mp4', '_cropped.mp4')
+            new_path = self.media_path.replace('.mp4', '_cropped.mp4')
             with crop(clip, x1=bbox[0], y1=bbox[1], x2=bbox[2], y2=bbox[3]) as cropped_clip:
                 cropped_clip.write_videofile(new_path, audio_codec='aac', logger=None)
 
-            os.remove(self.video_path)  # Delete uncropped video
-            self.video_path = new_path
+            os.remove(self.media_path)  # Delete uncropped video
+            self.media_path = new_path
 
         clip.close()
 
     def _get_bbox(self, clip):
-        frame_path = self.video_path.replace('.mp4', '_frame.png')
+        frame_path = self.media_path.replace('.mp4', '_frame.png')
         clip.save_frame(frame_path)
         img = Image.open(frame_path)
         bbox = img.getbbox()
@@ -82,7 +83,7 @@ class TweetClient(object):
     def _media_upload_init(self):
         request_data = {
             'command': 'INIT',
-            'media_type': mimetypes.guess_type(self.video_path)[0],
+            'media_type': mimetypes.guess_type(self.media_path)[0],
             'total_bytes': self.total_bytes,
             'media_category': 'TWEET_VIDEO' if self.post.is_video else 'TWEET_IMAGE'
         }
@@ -97,7 +98,7 @@ class TweetClient(object):
     def _media_upload_append(self):
         segment_id = 0
         bytes_sent = 0
-        file = open(self.video_path, 'rb')
+        file = open(self.media_path, 'rb')
 
         while bytes_sent < self.total_bytes:
             chunk = file.read(4 * 1024 * 1024)
@@ -164,7 +165,12 @@ class TweetClient(object):
 
         r = requests.post(POST_TWEET_URL, data=request_data, auth=self.auth)
         if r.ok:
-            return r.json()
+            tweet_data = r.json()
+            return {
+                'link': f'https://twitter.com/i/web/status/{tweet_data["id"]}',
+                'created_at': tweet_data['created_at'],
+                'text': tweet_data['text'],
+            }
         print(r.json())
 
     def _build_tweet(self):
