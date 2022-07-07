@@ -1,3 +1,4 @@
+from __future__ import annotations
 from datetime import datetime
 
 
@@ -10,6 +11,9 @@ class InstaPost:
         self.is_video = self.json.get('is_video', False)
         self.video_url = self.json.get('video_url', '')
         self.dimensions = self.json.get('dimensions', {})
+
+        self.filepath = None    # Will be set when downloaded
+        self.tweet_data = None  # Will be set when tweeted
 
     def __str__(self):
         return f'Post {self.id} by @{self.owner["username"]} on {self.timestamp}'
@@ -54,3 +58,11 @@ class InstaPost:
         if caption_node := self.json.get('edge_media_to_caption', {}).get('edges', [{}])[0]:
             return caption_node.get('node', {}).get('text', '')
         return ''
+
+    def add_tweet_data(self, tweet: "tweepy.models.Status"):
+        self.tweet_data = {
+            'link': tweet.entities['urls'][0]['url'],
+            'created_at': str(tweet.created_at),
+            'text': tweet.text
+        }
+        return True

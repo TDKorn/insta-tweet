@@ -1,5 +1,5 @@
 from typing import Optional, List
-from . import utils, InstaClient, InstaPost, TweetClient, Profile
+from . import utils, TweetClient, InstaClient, InstaPost, Profile
 
 
 class InstaTweet:
@@ -16,23 +16,40 @@ class InstaTweet:
 
         """
         self.profile = profile
-        self.oauth = TweetClient.oauth(profile.twitter_keys)
-        self.scraper = self.get_scraper()
+        self.proxies = self.get_proxies()
+        self.insta = self.get_insta_client()
+        self.twitter = self.get_tweet_client()
 
     @classmethod
     def load(cls, profile_name: str, local: bool = True):
         return cls(profile=Profile.load(name=profile_name, local=local))
 
-    def get_scraper(self):
+    def get_proxies(self):
+        return utils.get_proxies(
+            env_key=self.profile.proxy_key
+        )
+
+    def get_insta_client(self):
         return InstaClient(
             session_id=self.profile.session_id,
             user_agent=self.profile.user_agent,
-            proxies=utils.get_proxies(self.profile.proxy_key)
+            proxies=self.proxies
+        )
+
+    def get_tweet_client(self):
+        return TweetClient(
+            profile=self.profile,
+            proxies=self.proxies
         )
 
     def start(self):
-        """InstaTweets all users in the :class:`~.Profile`'s user map"""
+        """InstaTweets all users in the :class:`~.Profile`'s user map
+
+        Note that handling and printing of errors is done by :meth:`~.download_post` and :meth:`~.send_tweet`
+        """
         self.profile.validate()
+        print(f'Starting InstaTweet for Profile: {self.profile.name}')
+
         for user, user_dict in self.profile.user_map.items():
             new_posts = self.get_new_posts(user)
             if not new_posts:
@@ -42,16 +59,17 @@ class InstaTweet:
             print(f'There are {len(new_posts)} posts to tweet for @{user}')
 
             for post in new_posts:
-                self.scraper.download_post(post)
-                tweet = TweetClient(
-                    post=post,
-                    auth=self.oauth,
-                    hashtags=user_dict['hashtags']
-                )
-                tweet.send()
+                downloaded = self.insta.download_post(post)
+                if not downloaded:
+                    continue
+
+                tweeted = self.twitter.send_tweet(post, hashtags=user_dict['hashtags'])
+                if not tweeted:
+                    continue
 
                 user_dict['scraped'] += [post.id]
-                user_dict['tweets'] += [post.tweet]
+                user_dict['tweets'] += [post.tweet_data]
+
                 if self.profile.exists:
                     self.profile.save(alert=False)
 
@@ -63,17 +81,18 @@ class InstaTweet:
         """Scrapes recent posts from an Instagram user and returns all posts that haven't been tweeted yet
 
         **NOTE:**  If a user's ``scraped`` list is empty, no posts will be returned.
-        Instead, the user is "initialized" as follows:
 
-        * Their ``scraped`` list will be populated with the ID's from the most recent posts
-        * These IDs are then used in future calls to the method to determine which posts to tweet
+        Instead, the user is "initialized" as follows:
+          * Their ``scraped`` list will be populated with the ID's from the most recent posts
+          * These IDs are then used in future calls to the method to determine which posts to tweet
 
         :param username: the IG username to scrape posts from
         :return: a list of posts that haven't been tweeted yet, or nothing at all (if user is only initialized)
+
         """
         print(f'Checking posts from @{username}')
         user_dict = self.profile.user_map[username]
-        user = self.scraper.get_user(username)
+        user = self.insta.get_user(username)
 
         if user_dict['scraped']:
             new_posts = [post for post in user.posts if post.id not in user_dict['scraped']]

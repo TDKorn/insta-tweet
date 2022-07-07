@@ -63,9 +63,9 @@ class InstaClient:
         """
         response = self.request(post.media_url)
         if not response.ok:
-            raise RuntimeError(
-                f'Failed to download post {post.permalink} by {post.owner["username"]}'
-            )
+            print(f'Failed to download post {post.permalink} by {post.owner["username"]}')
+            return False
+
         if filepath is None:
             filepath = utils.get_filepath(
                 filename=post.id,
