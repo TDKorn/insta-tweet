@@ -1,6 +1,8 @@
 import requests
-from . import InstaPost, InstaUser
+
 from InstaTweet.utils import get_filepath
+from json.decoder import JSONDecodeError
+from . import InstaPost, InstaUser
 
 
 class InstaClient(object):
@@ -31,12 +33,29 @@ class InstaClient(object):
             print(f'Initialized User: @{username}')
             return None     # No posts to tweet
 
-    def get_user(self, username):
-        response = self.request(f'https://www.instagram.com/{username}/?__a=1')
-        if not response.ok:
-            raise Exception(response.json())
+    def get_user(self, username: str) -> InstaUser:
+        """Scrapes an Instagram user's profile and wraps the response
+
+        :param username: the username of the IG user to scrape (without the @)
+        :return: an :class:`InstaUser` object, which wraps the response data
+        """
+        response = self.request(f'https://www.instagram.com/{username}/?__a=1&__d=dis')
+        if response.ok:
+            try:
+                return InstaUser(response.json())
+            except JSONDecodeError as e:
+                msg = f'Unable to scrape Instagram user @{username} - endpoint potentially deprecated?'
+                raise RuntimeError(msg) from e
         else:
-            return InstaUser(response.json())
+            try:
+                error = response.json()
+            except JSONDecodeError:
+                error = response.reason
+            raise RuntimeError(
+                'Failed to scrape Instagram user @{u}\nResponse: [{code}] -- {e}'.format(
+                    u=username, code=response.status_code, e=error
+                )
+            )
 
     def download_post(self, post: InstaPost, filepath=None):
         response = self.request(post.media_url)
