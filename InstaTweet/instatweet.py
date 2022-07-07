@@ -5,12 +5,15 @@ from . import utils, InstaClient, InstaPost, TweetClient, Profile
 class InstaTweet:
 
     def __init__(self, profile: Profile):
-        """Uses the settings from a Profile to do the actual Insta-Tweeting
+        """Uses the settings from a Profile to do the actual InstaTweeting
 
-        You might be wondering, what's Insta-Tweeting? Well, according to TDK Dictionary:
+        You might be wondering, what's InstaTweeting? Well, according to TDK Dictionary:
 
-        **Insta-Tweet** (`verb`):
-            To scrape an IG user -> check for new posts -> download/tweet new content -> update the ``user_map``
+        **InstaTweet** (`verb`):
+            To scrape an Instagram user -> download & tweet any new content -> update the Profile's :attr:`~.user_map`
+                **Ex.** "Oh, you lost 700 Twitter followers after you shared your IG post? Well maybe your tweet would've
+                been less creepy if you InstaTweeted it and people actually saw the picture
+
         """
         self.profile = profile
         self.oauth = TweetClient.oauth(profile.twitter_keys)
@@ -28,7 +31,7 @@ class InstaTweet:
         )
 
     def start(self):
-        """Insta-Tweets all users in the :class:`~.Profile`'s user map"""
+        """InstaTweets all users in the :class:`~.Profile`'s user map"""
         self.profile.validate()
         for user, user_dict in self.profile.user_map.items():
             new_posts = self.get_new_posts(user)
