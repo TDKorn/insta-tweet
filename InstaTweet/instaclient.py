@@ -1,47 +1,60 @@
 import requests
-from typing import Union
-from json.decoder import JSONDecodeError
 
-from . import Profile, InstaUser, InstaPost
-from .utils import get_filepath
+from .utils import get_filepath, get_agent
+from json.decoder import JSONDecodeError
+from . import InstaUser, InstaPost
 
 
 class InstaClient:
 
-    def __init__(self, profile: Profile):
-        if not profile.session_id:
-            raise ValueError(f'Profile is missing Instagram sessionid cookie')
-        else:
-            self.profile = profile
+    def __init__(self, session_id: str, user_agent: str = None):
+        """Minimalistic class for scraping/downloading Instagram user/media data
+
+        :param session_id: valid Instagram sessionid cookie from a browser
+        :param user_agent: user agent to use in requests made by the class
+        """
+        if not isinstance(session_id, str):
+            raise TypeError('session_id must be a string')
+
+        self.session_id = session_id
+        self.user_agent = user_agent if user_agent else get_agent()
 
     def request(self, url: str) -> requests.Response:
+        """Sends a request using the sessionid cookie and user agent
+
+        :param url: the URL to send the request to; should be an Instagram link, but not necessary
+        """
         return requests.get(url, headers=self.headers, cookies=self.cookies)
 
     def get_user(self, username: str) -> InstaUser:
+        """Scrapes an Instagram user's profile and wraps the response
+
+        :param username: the username of the IG user to scrape (without the @)
+        :return: an :class:`InstaUser` object, which wraps the response data
+        """
         response = self.request(f'https://www.instagram.com/{username}/?__a=1&__d=dis')
-        try:
-            return InstaUser(response.json())
-        # Response status code seems to always be 200, but JSON data is only available if actually successful
-        except JSONDecodeError as j:
-            raise DeprecationWarning(
-                f'Unable to scrape Instagram user @{username}. Endpoint has likely been deprecated') from j
-        # In case I'm wrong and there's other reasons for failed requests...
-        except Exception as e:
-            raise RuntimeError(f'Unable to scrape Instagram user @{username}') from e
-
-    def check_posts(self, username, amount=12) -> Union[list[InstaPost], None]:
-        print(f'Checking posts for @{username}')
-        scraped_posts = self.profile.user_map[username]['scraped']
-        user = self.get_user(username)
-
-        if scraped_posts:
-            new_posts = [post for post in user.posts if post.id not in scraped_posts][:amount]
-            return sorted(new_posts, key=lambda post: post.timestamp)
+        if response.ok:
+            try:
+                return InstaUser(response.json())
+            except JSONDecodeError as e:
+                msg = f'Unable to scrape Instagram user @{username} - endpoint potentially deprecated?'
+                raise RuntimeError(msg) from e
         else:
-            scraped_posts.extend(post.id for post in user.posts)
-            print(f'Initialized User: @{username}')
+            try:
+                error = response.json()
+            except JSONDecodeError:
+                error = response.reason
+            raise RuntimeError(
+                'Failed to scrape Instagram user @{u}\nResponse: [{code}] -- {e}'.format(
+                    u=username, code=response.status_code, e=error)
+            )
 
-    def download_post(self, post: InstaPost, filepath=None):
+    def download_post(self, post: InstaPost, filepath: str = None) -> bool:
+        """Downloads the media from an Instagram post
+
+        :param post: the :class:`~.InstaPost` of the post to download
+        :param filepath: the location to save the downloaded file (optional)
+        """
         response = self.request(post.media_url)
         if not response.ok:
             raise RuntimeError(
@@ -61,12 +74,10 @@ class InstaClient:
 
     @property
     def headers(self):
-        return {
-            'User-Agent': self.profile.user_agent
-        }
+        """Headers to use in :meth:`.~request`"""
+        return {'User-Agent': self.user_agent, }
 
     @property
     def cookies(self):
-        return {
-            'sessionid': self.profile.session_id
-        }
+        """Cookies to use in :meth:`.~request`"""
+        return {'sessionid': self.session_id, }

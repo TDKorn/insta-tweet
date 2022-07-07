@@ -191,13 +191,12 @@ class Profile:
         if profile_name != 'default' and self.profile_exists(profile_name, local=self.local):
             if self.local:
                 raise FileExistsError(
-                    f'Local save file with the name "{profile_name}" already exists. Please choose another name, '
-                    'load the profile, or delete the file.'
-                )
+                    'Local save file already exists for profile named "{}"\n'.format(profile_name) +
+                    'Please choose another name, load the profile, or delete the file.')
             else:
                 raise ResourceWarning(
-                    f'Database record already exists for profile named "{profile_name}" already exists.' + '\n' +
-                    'Please choose another name or use InstaTweet.db load/delete the profile'
+                    'Database record already exists for profile named "{}"\n'.format(profile_name) +
+                    'Please choose another name or use InstaTweet.db to load/delete the profile'
                 )
         self._name = profile_name
 
