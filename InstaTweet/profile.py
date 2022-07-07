@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-import copy
 import os
+import copy
 import pickle
 
 from typing import Iterable
-from . import db, utils, TweetClient
+from . import utils, TweetClient
 
 
 class Profile:
@@ -45,15 +45,21 @@ class Profile:
 
     @classmethod
     def load(cls, name: str, local: bool = True) -> Profile:
-        """Loads an existing profile, either locally or from the database"""
-        if not local:
-            return db.load_profile(name)
+        """Loads an existing profile, either locally or from the database
 
-        if cls.profile_exists(name):
-            with open(cls.get_local_path(name), 'rb') as f:
-                return pickle.load(f)
+        :param name: the name of the :class:`Profile` to load
+        :param local: whether the profile is saved locally (default, True) or remotely on a database
+            If saved remotely, the ``DATABASE_URL`` environment variable must be configured
+        """
+        if local:
+            if Profile.profile_exists(name):
+                with open(Profile.get_local_path(name), 'rb') as f:
+                    return pickle.load(f)
+            else:
+                raise FileNotFoundError('No local profile found with that name')
 
-        raise FileNotFoundError('No local profile found with that name')
+        from InstaTweet.db import load_profile
+        return load_profile(name)
 
     @staticmethod
     def get_local_path(name: str) -> str:
@@ -77,14 +83,15 @@ class Profile:
             raise AttributeError('Profile name is required to save the profile')
 
     def _save_profile(self, alert: bool = True) -> bool:
-        if not self.local:
-            return db.save_profile(self, alert=alert)
-        else:
+        if self.local:
             with open(self.profile_path, 'wb') as f:
                 pickle.dump(self, f)
-        if alert:
-            print(f'Saved Local Profile {self.name}')
-        return True
+            if alert:
+                print(f'Saved Local Profile {self.name}')
+            return True
+        else:
+            from InstaTweet.db import save_profile
+            return save_profile(profile=self, alert=alert)
 
     def add_users(self, users: Iterable, send_tweet: bool = False):
         """Add multiple Instagram user(s) to the :ivar:`~.user_map` for subsequent monitoring
@@ -153,7 +160,8 @@ class Profile:
         if local:
             return os.path.exists(Profile.get_local_path(name))
         else:
-            return bool(db.query_profile(name).first())
+            from InstaTweet.db import query_profile
+            return bool(query_profile(name).first())
 
     @property
     def exists(self) -> bool:
@@ -176,11 +184,12 @@ class Profile:
         return self._local
 
     @local.setter
-    def local(self, isLocal: bool):
-        if isLocal:
+    def local(self, local: bool):
+        if local:
             if not os.path.exists(self.LOCAL_DIR):
                 os.mkdir(self.LOCAL_DIR)
-        self._local = isLocal
+
+        self._local = local
 
     @property
     def name(self):
