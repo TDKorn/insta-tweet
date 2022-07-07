@@ -1,7 +1,8 @@
 import os
 import requests
-
 from pathlib import Path
+from typing import Optional
+
 
 AGENTS = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36']
 
@@ -22,6 +23,16 @@ def get_agents() -> list:
 def get_agent(index: int = 0) -> str:
     """Returns a single user agent string from the specified index of the AGENTS list"""
     return get_agents()[index]  # Specify index only if you hardcode more than 1
+
+
+def get_proxies(env_key) -> Optional[dict]:
+    """Retrieve proxies from an environment variable"""
+    if env_key:
+        return {
+            "http": os.environ[env_key],
+            "https": os.environ[env_key]
+        }
+    return None
 
 
 def get_root() -> Path:

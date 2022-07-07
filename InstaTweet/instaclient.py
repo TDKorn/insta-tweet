@@ -1,13 +1,12 @@
+import utils
 import requests
-
-from .utils import get_filepath, get_agent
 from json.decoder import JSONDecodeError
 from . import InstaUser, InstaPost
 
 
 class InstaClient:
 
-    def __init__(self, session_id: str, user_agent: str = None):
+    def __init__(self, session_id: str, user_agent: str = None, proxies: dict = None):
         """Minimalistic class for scraping/downloading Instagram user/media data
 
         :param session_id: valid Instagram sessionid cookie from a browser
@@ -17,14 +16,20 @@ class InstaClient:
             raise TypeError('session_id must be a string')
 
         self.session_id = session_id
-        self.user_agent = user_agent if user_agent else get_agent()
+        self.user_agent = user_agent if user_agent else utils.get_agent()
+        self.proxies = proxies
 
     def request(self, url: str) -> requests.Response:
-        """Sends a request using the sessionid cookie and user agent
+        """Sends a request using the :attr:`cookies`, :attr:`headers`, and :ivar:`proxies`
 
-        :param url: the URL to send the request to; should be an Instagram link, but not necessary
+        :param url: the Instagram URL to send the request to
         """
-        return requests.get(url, headers=self.headers, cookies=self.cookies)
+        return requests.get(
+            url,
+            headers=self.headers,
+            cookies=self.cookies,
+            proxies=self.proxies
+        )
 
     def get_user(self, username: str) -> InstaUser:
         """Scrapes an Instagram user's profile and wraps the response
@@ -46,7 +51,8 @@ class InstaClient:
                 error = response.reason
             raise RuntimeError(
                 'Failed to scrape Instagram user @{u}\nResponse: [{code}] -- {e}'.format(
-                    u=username, code=response.status_code, e=error)
+                    u=username, code=response.status_code, e=error
+                )
             )
 
     def download_post(self, post: InstaPost, filepath: str = None) -> bool:
@@ -61,7 +67,7 @@ class InstaClient:
                 f'Failed to download post {post.permalink} by {post.owner["username"]}'
             )
         if filepath is None:
-            filepath = get_filepath(
+            filepath = utils.get_filepath(
                 filename=post.id,
                 filetype='mp4' if post.is_video else 'jpg'
             )

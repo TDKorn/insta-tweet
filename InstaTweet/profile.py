@@ -40,6 +40,7 @@ class Profile:
         self.session_id = kwargs.get('session_id', '')
         self.twitter_keys = kwargs.get('twitter_keys', TweetClient.DEFAULT_KEYS)
         self.user_agent = kwargs.get('user_agent', utils.get_agent())
+        self.proxy_key = kwargs.get('proxy_key', None)
         self.user_map = kwargs.get('user_map', {})
 
     @classmethod
@@ -240,8 +241,9 @@ class Profile:
             'name': self.name,
             'local': self.local,
             'session_id': self.session_id,
-            'user_agent': self.user_agent,
             'twitter_keys': self.twitter_keys,
+            'user_agent': self.user_agent,
+            'proxy_key': self.proxy_key,
             'user_map': self.user_map,
         }
 

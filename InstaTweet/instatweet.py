@@ -1,5 +1,5 @@
 from typing import Optional, List
-from . import InstaClient, InstaPost, TweetClient, Profile
+from . import utils, InstaClient, InstaPost, TweetClient, Profile
 
 
 class InstaTweet:
@@ -13,12 +13,19 @@ class InstaTweet:
             To scrape an IG user -> check for new posts -> download/tweet new content -> update the ``user_map``
         """
         self.profile = profile
-        self.scraper = InstaClient(profile.session_id, profile.user_agent)
         self.oauth = TweetClient.oauth(profile.twitter_keys)
+        self.scraper = self.get_scraper()
 
     @classmethod
     def load(cls, profile_name: str, local: bool = True):
         return cls(profile=Profile.load(name=profile_name, local=local))
+
+    def get_scraper(self):
+        return InstaClient(
+            session_id=self.profile.session_id,
+            user_agent=self.profile.user_agent,
+            proxies=utils.get_proxies(self.profile.proxy_key)
+        )
 
     def start(self):
         """Insta-Tweets all users in the :class:`~.Profile`'s user map"""
