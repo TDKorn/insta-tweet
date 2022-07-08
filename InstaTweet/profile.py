@@ -62,6 +62,15 @@ class Profile:
         return load_profile(name)
 
     @staticmethod
+    def profile_exists(name: str, local: bool = True) -> bool:
+        """Check if a profile with the given name and location (local/remote) already exists"""
+        if local:
+            return os.path.exists(Profile.get_local_path(name))
+        else:
+            from InstaTweet.db import query_profile
+            return bool(query_profile(name).first())
+
+    @staticmethod
     def get_local_path(name: str) -> str:
         """Returns filepath of where a local profile would be saved"""
         return utils.get_filepath(
@@ -69,32 +78,8 @@ class Profile:
             filetype='pickle'
         )
 
-    def save(self, name: str = None, alert: bool = True) -> bool:
-        """Saves the Profile as a pickled object, using the specified or currently set name.
-
-        :param name: name to save the profile under; replaces the current name
-        :param alert: set to ``True`` to print a message upon successful save
-        """
-        if name:
-            self.name = name
-        if not self.is_default:
-            return self._save_profile(alert=alert)
-        else:  # Profile name wasn't specified and wasn't previously set
-            raise AttributeError('Profile name is required to save the profile')
-
-    def _save_profile(self, alert: bool = True) -> bool:
-        if self.local:
-            with open(self.profile_path, 'wb') as f:
-                pickle.dump(self, f)
-            if alert:
-                print(f'Saved Local Profile {self.name}')
-            return True
-        else:
-            from InstaTweet.db import save_profile
-            return save_profile(profile=self, alert=alert)
-
     def add_users(self, users: Iterable, send_tweet: bool = False):
-        """Add multiple Instagram user(s) to the :ivar:`~.user_map` for subsequent monitoring
+        """Add multiple Instagram user(s) to the :attr:`~.user_map` for subsequent monitoring
 
         :param users: an iterable of Instagram usernames to automatically scrape and tweet content from
         :param send_tweet: indicate if tweets should be sent on the first scrape or only for new posts going forward
@@ -108,7 +93,7 @@ class Profile:
             self.add_user(user, send_tweet)
 
     def add_user(self, user: str, send_tweet: bool = False):
-        """Add a single Instagram user to the :ivar:`~.user_map` for subsequent monitoring
+        """Add a single Instagram user to the :attr:`~.user_map` for subsequent monitoring
 
         By default, newly added users will not have their posts tweeted the first time they are scraped - the post IDs
         of the most recent 12 posts are stored, and any new posts from this point forward will be tweeted
@@ -127,7 +112,7 @@ class Profile:
         print(f'Added Instagram user @{user} to the user map')
 
     def add_hashtags(self, user: str, hashtags: Iterable):
-        """Add hashtag(s) to a user in the :ivar:`user_map`, which will be randomly chosen from when composing Tweets
+        """Add hashtag(s) to a user in the :attr:`~.user_map`, which will be randomly chosen from when composing Tweets
 
         :param user: the user in the user map to add hashtags to
         :param hashtags: hashtags to choose from and include in any Tweets where content comes from this user
@@ -146,22 +131,52 @@ class Profile:
             self._save_profile(alert=False)
         print(f'Added hashtags for @{user}')
 
-    def to_pickle(self):
-        return pickle.dumps(self)
+    def validate(self) -> None:
+        """Checks to see if the profile is fully configured for InstaTweeting
+
+        :raises ValueError: if the :attr:`~.session_id`, :attr:`~.twitter_keys`, or :attr:`~.user_map` are invalid
+        """
+        if not self.session_id:
+            raise ValueError('Instagram sessionid cookie is required to scrape posts')
+
+        if bad_keys := [key for key, value in self.twitter_keys.items() if value == 'string']:
+            raise ValueError(f'Values not set for the following Twitter keys: {bad_keys}')
+
+        if not self.user_map:
+            raise ValueError('You must add at least one Instagram user to auto-tweet from')
+
+    def save(self, name: str = None, alert: bool = True) -> bool:
+        """Saves the Profile as a pickled object, using the specified or currently set name.
+
+        :param name: name to save the profile under; replaces the current name
+        :param alert: set to ``True`` to print a message upon successful save
+        """
+        if name:
+            self.name = name
+        if not self.is_default:
+            return self._save_profile(alert=alert)
+        else:  # Profile name wasn't specified and wasn't previously set
+            raise AttributeError('Profile name is required to save the profile')
+
+    def _save_profile(self, alert: bool = True) -> bool:
+        """Internal function to save the profile, based on the value of :attr:`~.local`"""
+        if self.local:
+            with open(self.profile_path, 'wb') as f:
+                pickle.dump(self, f)
+            if alert:
+                print(f'Saved Local Profile {self.name}')
+            return True
+        else:
+            from InstaTweet.db import save_profile
+            return save_profile(profile=self, alert=alert)
 
     def view_config(self):
-        """:meth:`~.config` but make it legible ♥"""
+        """Prints the :attr:`~.config` dict to make it legible"""
         for k, v in self.config.items():
             print(f'{k} : {v}')
 
-    @staticmethod
-    def profile_exists(name: str, local: bool = True) -> bool:
-        """Check if a profile with the given name and location (local/remote) already exists"""
-        if local:
-            return os.path.exists(Profile.get_local_path(name))
-        else:
-            from InstaTweet.db import query_profile
-            return bool(query_profile(name).first())
+    def to_pickle(self) -> bytes:
+        return pickle.dumps(self)
 
     @property
     def exists(self) -> bool:
@@ -169,18 +184,20 @@ class Profile:
         return self.profile_exists(name=self.name, local=self.local)
 
     @property
-    def is_default(self):
-        """Check if default profile is being used. Used in initial save/load of profile"""
+    def is_default(self) -> bool:
+        """Check if profile :attr:`~.name` is set or not"""
         return self.name == 'default'
 
     @property
-    def profile_path(self):
+    def profile_path(self) -> str:
+        """If :attr:`~.local` is ``True``, returns the file path for where this profile would be/is saved"""
         if self.local and not self.is_default:
             return Profile.get_local_path(self.name)
         return ''
 
     @property
-    def local(self):
+    def local(self) -> bool:
+        """Indicates if profile is being saved locally (``True``) or on a remote database (``False``)"""
         return self._local
 
     @local.setter
@@ -192,7 +209,8 @@ class Profile:
         self._local = local
 
     @property
-    def name(self):
+    def name(self) -> str:
+        """The profile name"""
         return self._name
 
     @name.setter
@@ -211,7 +229,8 @@ class Profile:
         self._name = profile_name
 
     @property
-    def session_id(self):
+    def session_id(self) -> str:
+        """The Instagram ``sessionid`` cookie"""
         return self._session_id
 
     @session_id.setter
@@ -224,7 +243,8 @@ class Profile:
             self._save_profile(alert=False)
 
     @property
-    def twitter_keys(self):
+    def twitter_keys(self) -> dict:
+        """The Twitter developer API keys with v1.1 endpoint access"""
         return self._twitter_keys
 
     @twitter_keys.setter
@@ -245,7 +265,8 @@ class Profile:
             self._save_profile(alert=False)
 
     @property
-    def config(self):
+    def config(self) -> dict:
+        """Returns a dictionary containing important configuration settings"""
         return {
             'name': self.name,
             'local': self.local,
@@ -255,21 +276,3 @@ class Profile:
             'proxy_key': self.proxy_key,
             'user_map': self.user_map,
         }
-
-    def validate(self) -> bool:
-        """Checks to see if the profile is fully configured
-
-            :NOTE:
-                Property setters do the actual data validation
-        """
-        if not self.session_id:
-            raise ValueError('Instagram sessionid cookie is required to scrape posts')
-
-        if bad_keys := [key for key, value in self.twitter_keys.items() if value == 'string']:
-            raise ValueError(
-                'Using default values for the following Twitter keys:\n{}'.format(bad_keys)
-            )
-        if not self.user_map:
-            raise ValueError('You must add at least one Instagram user to auto-tweet from')
-
-        return True
