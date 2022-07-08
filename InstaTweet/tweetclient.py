@@ -7,25 +7,33 @@ from tweepy.errors import TweepyException
 
 class TweetClient:
 
+    DEFAULT_KEYS = {
+        'Consumer Key': 'string',
+        'Consumer Secret': 'string',
+        'Access Token': 'string',
+        'Token Secret': 'string'
+    }
+
     def __init__(self, profile, proxies=None):
         self.profile = profile
         self.proxies = proxies
         self.api = self.get_api()
 
     @staticmethod
-    def get_oauth(profile):
-        twitter_keys = profile.twitter_keys
-        if not all(twitter_keys.values()):
+    def get_oauth(api_keys: dict):
+        if missing_keys := [key for key in TweetClient.DEFAULT_KEYS if key not in api_keys]:
+            raise KeyError(
+                f"Missing the following Twitter Keys: {missing_keys}"
+            )
+        if bad_keys := [key for key in TweetClient.DEFAULT_KEYS if not api_keys[key] or api_keys[key] == 'string']:
             raise ValueError(
-                "Missing values for the following Twitter keys: {}".format(
-                    [key for key in twitter_keys if not twitter_keys[key]]
-                )
+                f"Invalid values for the following Twitter keys: {bad_keys}"
             )
         return tweepy.OAuth1UserHandler(
-            consumer_key=twitter_keys['Consumer Key'],
-            consumer_secret=twitter_keys['Consumer Secret'],
-            access_token=twitter_keys['Access Token'],
-            access_token_secret=twitter_keys['Token Secret']
+            consumer_key=api_keys['Consumer Key'],
+            consumer_secret=api_keys['Consumer Secret'],
+            access_token=api_keys['Access Token'],
+            access_token_secret=api_keys['Token Secret']
         )
 
     def get_api(self):
