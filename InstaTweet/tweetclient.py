@@ -1,7 +1,10 @@
+from __future__ import annotations
 import os
 import tweepy
-from typing import Union
-from InstaTweet import InstaPost
+import InstaTweet
+
+from . import InstaPost
+from typing import Union, Optional
 from tweepy.errors import TweepyException
 
 
@@ -14,13 +17,28 @@ class TweetClient:
         'Token Secret': 'string'
     }
 
-    def __init__(self, profile, proxies=None):
+    def __init__(self, profile: InstaTweet.Profile, proxies: dict = None):
+        """Initialize TweetClient using a profile
+
+        Basically just a wrapper for tweepy. It uses the settings of a profile to initialize the API and send tweets
+
+        :param profile: the profile to use when initializing a :class:`tweepy.API` object
+        :param proxies: optional proxies to use (
+        """
         self.profile = profile
         self.proxies = proxies
         self.api = self.get_api()
 
+    def get_api(self) -> tweepy.API:
+        """Initializes a :class:`tweepy.API` (Twitter API v1.1) using the current :class:`Profile`"""
+        return tweepy.API(
+            auth=self.get_oauth(self.profile.twitter_keys),
+            user_agent=self.profile.user_agent,
+            proxy=self.proxies
+        )
+
     @staticmethod
-    def get_oauth(api_keys: dict):
+    def get_oauth(api_keys: dict) -> tweepy.OAuth1UserHandler:
         if missing_keys := [key for key in TweetClient.DEFAULT_KEYS if key not in api_keys]:
             raise KeyError(
                 f"Missing the following Twitter Keys: {missing_keys}"
@@ -36,14 +54,7 @@ class TweetClient:
             access_token_secret=api_keys['Token Secret']
         )
 
-    def get_api(self):
-        return tweepy.API(
-            auth=self.get_oauth(self.profile),
-            user_agent=self.profile.user_agent,
-            proxy=self.proxies
-        )
-
-    def send_tweet(self, post: InstaPost, hashtags: list[str]) -> bool:
+    def send_tweet(self, post: InstaPost, hashtags: Optional[list[str]] = None) -> bool:
         """Composes and sends a Tweet using an already-downloaded Instagram post
 
         :param post: the post to tweet; uses the :attr:`~.InstaPost.filepath` as media file source
@@ -58,7 +69,7 @@ class TweetClient:
 
         try:
             tweet = self.api.update_status(
-                status=self.build_tweet(post),
+                status=self.build_tweet(post, hashtags),
                 media_ids=[str(uploaded.media_id)],
             )
             return post.add_tweet_data(tweet)
@@ -86,7 +97,7 @@ class TweetClient:
             print(f'Successfully uploaded media to Twitter for {post}')
             return media
 
-    def build_tweet(self, post: InstaPost):
+    def build_tweet(self, post: InstaPost, hashtags: Optional[list[str]] = None):
         characters = 295 - len(post.permalink)
         caption = post.caption.strip().replace('@', '@/')  # Avoid tagging randos on Twitter
         tweet = "{text}\n\n{link}".format(

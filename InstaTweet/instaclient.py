@@ -1,7 +1,6 @@
-import utils
 import requests
 from json.decoder import JSONDecodeError
-from . import InstaUser, InstaPost
+from . import InstaUser, InstaPost, utils
 
 
 class InstaClient:
