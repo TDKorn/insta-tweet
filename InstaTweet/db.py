@@ -32,7 +32,7 @@ class DBConnection:
 
     """Database Connection class with context management ooh wow
 
-    Uses ``SQLAlchemy`` to connect and interact with the database specified in the ``DATABASE_URL`` environment variable
+    Uses :mod:`.SQLAlchemy` to connect and interact with the database specified in the ``DATABASE_URL`` environment variable
 
     **Sample Usage**
 
@@ -40,8 +40,6 @@ class DBConnection:
     >>>     with DBConnection() as db:
     >>>         if db.query_profile(name="POOP").first():
     >>>             raise FileExistsError('DELETE THIS NEPHEW......')
-    >>>         else:
-    >>>             print("Congrats, you're normal")
     """
 
     SESSION = None
