@@ -1,7 +1,7 @@
 import os
 import tweepy
 from typing import Union
-from InstaTweet import InstaPost
+from InstaTweet import InstaPost, Profile
 from tweepy.errors import TweepyException
 
 
@@ -14,10 +14,25 @@ class TweetClient:
         'Token Secret': 'string'
     }
 
-    def __init__(self, profile, proxies=None):
+    def __init__(self, profile: Profile, proxies: dict = None):
+        """Initialize TweetClient using a profile
+
+        Basically just a wrapper for tweepy. It uses the settings of a profile to initialize the API and send tweets
+
+        :param profile: the profile to use when initializing a :class:`tweepy.API` object
+        :param proxies: optional proxies to use (
+        """
         self.profile = profile
         self.proxies = proxies
         self.api = self.get_api()
+
+    def get_api(self):
+        """Initializes a :class:`tweepy.API` (Twitter API v1.1) using the current :class:`Profile`"""
+        return tweepy.API(
+            auth=self.get_oauth(self.profile.twitter_keys),
+            user_agent=self.profile.user_agent,
+            proxy=self.proxies
+        )
 
     @staticmethod
     def get_oauth(api_keys: dict):
@@ -34,13 +49,6 @@ class TweetClient:
             consumer_secret=api_keys['Consumer Secret'],
             access_token=api_keys['Access Token'],
             access_token_secret=api_keys['Token Secret']
-        )
-
-    def get_api(self):
-        return tweepy.API(
-            auth=self.get_oauth(self.profile),
-            user_agent=self.profile.user_agent,
-            proxy=self.proxies
         )
 
     def send_tweet(self, post: InstaPost, hashtags: list[str]) -> bool:
