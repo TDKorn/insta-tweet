@@ -133,10 +133,8 @@ class Profile:
         if isinstance(hashtags, str):
             hashtags = [hashtags]
 
-        tags = self.get_hashtags_for(user)
-        for hashtag in hashtags:
-            if hashtag not in tags:
-                tags.append(hashtag)
+        tags = self.get_hashtags_for(user)  # Add only new hashtags
+        tags.extend(set(hashtags) - set(tags))  # Case sensitive
 
         if self.exists:
             self._save_profile(alert=False)
