@@ -1,10 +1,10 @@
 from InstaTweet import InstaTweet
 
-PROFILES = ['profile_name', 'profile_name_1']
+PROFILES = ['aProfile', 'myProfile']
 LOCAL = True
 
 
-def run(profile_name: str, local: bool):
+def run(profile_name: str, local: bool = LOCAL):
     """Loads and InstaTweets a profile
 
     :param profile_name: the name of the :class:`~.Profile`
