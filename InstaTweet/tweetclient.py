@@ -25,7 +25,7 @@ class TweetClient:
         Basically just a wrapper for tweepy. It uses the settings of a profile to initialize the API and send tweets
 
         :param profile: the profile to use when initializing a :class:`tweepy.API` object
-        :param proxies: optional proxies to use (
+        :param proxies: optional proxies to use when making API requests
         """
         self.profile = profile
         self.proxies = proxies
@@ -41,6 +41,10 @@ class TweetClient:
 
     @staticmethod
     def get_oauth(api_keys: dict) -> tweepy.OAuth1UserHandler:
+        """Initializes and returns an ``OAuth1UserHandler`` object from tweepy using the provided API keys
+
+        :param api_keys: Twitter developer API keys with v1.1 endpoint access
+        """
         if missing_keys := [key for key in TweetClient.DEFAULT_KEYS if key not in api_keys]:
             raise KeyError(
                 f"Missing the following Twitter Keys: {missing_keys}"

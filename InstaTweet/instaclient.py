@@ -9,7 +9,8 @@ class InstaClient:
         """Minimalistic class for scraping/downloading Instagram user/media data
 
         :param session_id: valid Instagram sessionid cookie from a browser
-        :param user_agent: user agent to use in requests made by the class
+        :param user_agent: user agent to use for requests made by the class
+        :param proxies: proxies to use for requests made by the class
         """
         if not isinstance(session_id, str):
             raise TypeError('session_id must be a string')
@@ -19,7 +20,7 @@ class InstaClient:
         self.proxies = proxies
 
     def request(self, url: str) -> requests.Response:
-        """Sends a request using the :attr:`cookies`, :attr:`headers`, and :ivar:`proxies`
+        """Sends a request using the :attr:`cookies`, :attr:`headers`, and :attr:`proxies`
 
         :param url: the Instagram URL to send the request to
         """
@@ -78,11 +79,11 @@ class InstaClient:
         return True
 
     @property
-    def headers(self):
+    def headers(self) -> dict:
         """Headers to use in :meth:`.~request`"""
         return {'User-Agent': self.user_agent, }
 
     @property
-    def cookies(self):
+    def cookies(self) -> dict:
         """Cookies to use in :meth:`.~request`"""
         return {'sessionid': self.session_id, }
