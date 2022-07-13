@@ -70,10 +70,12 @@ class Profile:
 
     @classmethod
     def from_json(cls, json_str: str) -> Profile:
+        """Creates a profile from a JSON formatted string of config settings"""
         return cls.from_dict(json.loads(json_str))
 
     @classmethod
     def from_dict(cls, d: dict) -> Profile:
+        """Creates a profile from a dictionary of config settings"""
         return cls(**d)
 
     @staticmethod
@@ -113,8 +115,8 @@ class Profile:
             mapping = copy.deepcopy(Profile.USER_MAPPING)
             self.user_map.setdefault(user, mapping)
 
-            if send_tweet:
-                self.get_scraped_from(user).append(-1)  # Non-empty scraped list will trigger Tweets to send
+            if send_tweet:  # Non-empty scraped list will trigger Tweets to send
+                self.get_scraped_from(user).append(-1)
 
             print(f'Added Instagram user @{user} to the user map')
 
@@ -231,15 +233,15 @@ class Profile:
 
     def get_scraped_from(self, user: str) -> list:
         """Returns a list of posts that have been scraped from the specified user"""
-        return self.get_user(user)['scraped']
+        return self.user_map[user]['scraped']
 
     def get_tweets_for(self, user: str) -> list:
         """Returns a list of tweets that use the specified user's scraped content"""
-        return self.get_user(user)['tweets']
+        return self.user_map[user]['tweets']
 
     def get_hashtags_for(self, user: str) -> list:
         """Returns the hashtag list for the specified user"""
-        return self.get_user(user)['hashtags']
+        return self.user_map[user]['hashtags']
 
     @property
     def local(self) -> bool:
