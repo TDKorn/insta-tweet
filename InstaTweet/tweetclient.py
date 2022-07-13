@@ -1,5 +1,6 @@
 from __future__ import annotations
 import os
+import random
 import tweepy
 import InstaTweet
 
@@ -10,6 +11,7 @@ from tweepy.errors import TweepyException
 
 class TweetClient:
 
+    MAX_HASHTAGS = 5
     DEFAULT_KEYS = {
         'Consumer Key': 'string',
         'Consumer Secret': 'string',
@@ -72,10 +74,11 @@ class TweetClient:
                 status=self.build_tweet(post, hashtags),
                 media_ids=[str(uploaded.media_id)],
             )
+            print(f'Sent tweet for {post}')
             return post.add_tweet_data(tweet)
 
         except TweepyException as e:
-            print('Failed to update status:\nResponse: {}'.format(e))
+            print('Failed to send tweet for {}:\nResponse: {}'.format(post, e))
             return False
 
     def upload_media(self, post: InstaPost) -> Union[tweepy.Media, bool]:
@@ -97,11 +100,45 @@ class TweetClient:
             print(f'Successfully uploaded media to Twitter for {post}')
             return media
 
-    def build_tweet(self, post: InstaPost, hashtags: Optional[list[str]] = None):
-        characters = 295 - len(post.permalink)
+    def build_tweet(self, post: InstaPost, hashtags: Optional[list[str]] = None) -> str:
+        """Uses an :class:`InstaPost` to build the body text of a tweet
+
+        :param post: the post that's being tweeted; the caption and link are used
+        :param hashtags: optional list of hashtags to randomly pick from and include
+        :return: the text to use for the tweet
+        """
+        tags = self.pick_hashtags(hashtags)
         caption = post.caption.strip().replace('@', '@/')  # Avoid tagging randos on Twitter
-        tweet = "{text}\n\n{link}".format(
+        characters = 280 - len(tags) - len(post.permalink) - 2
+        tweet = "{text}\n{hashtags}\n{link}".format(
             text=caption[:characters],
+            hashtags=tags,
             link=post.permalink
         )
         return tweet
+
+    @staticmethod
+    def pick_hashtags(hashtags: list[str]) -> str:
+        """Randomly chooses hashtags from provided list, then returns them formatted as a string
+
+        The qty chosen will either be 1 less than the length of the list (to avoid using the same ones in every tweet)
+            or the value of :attr:`~.MAX_HASHTAGS`, whichever is smaller
+
+        :param hashtags: a list of hashtags to randomly choose from and include in a tweet
+
+        :Example:
+            pick_hashtags(['cat','dog','woof']) -> '#woof #cat\n'
+
+        :Note:
+            A newline is included to make character counting easier for :meth:`~.build_tweet`
+
+        """
+        if not hashtags:
+            return ''
+        if not isinstance(hashtags, list):
+            raise TypeError('Provide a list of hashtags')
+
+        num_hashtags = min(len(hashtags) - 1, TweetClient.MAX_HASHTAGS)  # Pick at most MAX_HASHTAGS
+        random_hashtags = random.sample(hashtags, max(1, num_hashtags))  # Pick at least 1
+
+        return ' '.join(f'#{hashtag}' for hashtag in random_hashtags) + '\n'
