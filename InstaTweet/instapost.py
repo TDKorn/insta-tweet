@@ -55,8 +55,8 @@ class InstaPost:
 
     @property
     def caption(self):
-        if caption_node := self.json.get('edge_media_to_caption', {}).get('edges', [{}])[0]:
-            return caption_node.get('node', {}).get('text', '')
+        if caption_edge := self.json.get('edge_media_to_caption', {}).get('edges', []):
+            return caption_edge[0].get('node', {}).get('text', '')
         return ''
 
     def add_tweet_data(self, tweet: "tweepy.models.Status"):
