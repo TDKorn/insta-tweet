@@ -15,15 +15,22 @@ class Profile:
     LOCAL_DIR = os.path.join(utils.get_root(), 'profiles')
 
     def __init__(self, name: str = 'default', local: bool = True, **kwargs):
-        """Create a new profile
+        """Create a new :class:`Profile`
 
         A :class:`Profile` contains a ``user_map`` and all API access settings associated with it
 
-        The ``user_map`` is a mapping of added Instagram usernames and their associated lists of hashtags,
-        scraped posts, and sent tweets. The ``scraped`` list is used to determine which posts are new when InstaTweeting
+        ...
+
+        The ``user_map`` is a mapping of added Instagram usernames to their associated :attr:`USER_MAPPING`
+
+        * The mapping includes a list of hashtags, scraped posts, and sent tweets
+        * Methods exist to access and modify these lists for a particular user
+        * Mainly used to help compose tweets and detect when posts are new
+
+        ...
 
         :param name: unique profile name
-        :param local: if ``True``, saving will use a file in the :attr:`~.LOCAL_DIR`. Otherwise, will save to a database
+        :param local: indicates if profile is being saved locally or on a remote database
         :param kwargs: see below
 
         :Keyword Arguments:

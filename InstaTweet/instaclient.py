@@ -35,7 +35,7 @@ class InstaClient:
         """Scrapes an Instagram user's profile and wraps the response
 
         :param username: the username of the IG user to scrape (without the @)
-        :return: an :class:`InstaUser` object, which wraps the response data
+        :return: an :class:`~.InstaUser` object, which wraps the response data
         """
         response = self.request(f'https://www.instagram.com/{username}/?__a=1&__d=dis')
         if response.ok:
@@ -80,10 +80,10 @@ class InstaClient:
 
     @property
     def headers(self) -> dict:
-        """Headers to use in :meth:`.~request`"""
+        """Headers to use in :meth:`~.request`"""
         return {'User-Agent': self.user_agent, }
 
     @property
     def cookies(self) -> dict:
-        """Cookies to use in :meth:`.~request`"""
+        """Cookies to use in :meth:`~.request`"""
         return {'sessionid': self.session_id, }
