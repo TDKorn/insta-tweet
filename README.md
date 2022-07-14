@@ -18,8 +18,9 @@ With InstaTweet, you can rest easy knowing that, although nobody will click the 
 ## What's InstaTweet?
 InstaTweet is a tool to automatically repost content from Instagram to Twitter. 
 
-After you configure a ```Profile``` and add the Instagram users of your choice, InstaTweet will periodically scrape their 
-accounts to check for new posts. When new content is found, it will be automatically downloaded, uploaded to Twitter, and tweeted.
+Simply create a ```Profile```, configure the necessary Instagram/Twitter settings, and populate the ```user_map``` with 
+Instagram users to scrape. InstaTweet will then periodically check their accounts for new posts, and any new content 
+will be automatically downloaded, uploaded to Twitter, and tweeted.
 
 <br>
 
@@ -50,6 +51,12 @@ Regardless of your intention, InstaTweet will detect new posts from the users yo
 
 <br>
 
+## Documentation
+
+Documentation can be found on [Read the Docs](https://my-magento.readthedocs.io) or [pdoc]()
+
+<br>
+
 ## Installation
 
 To clone and install this repository with pip:
@@ -64,7 +71,7 @@ pip install https://github.com/TDKorn/insta-tweet.git#db-and-profiles
 
 InstaTweet uses the ```Profile``` class to help manage Twitter accounts, Instagram sessions, and user maps
 
-https://github.com/TDKorn/insta-tweet/blob/dc904af214596588bfc75b32eccc1ff37d0c271b/InstaTweet/profile.py#L12-L17
+https://github.com/TDKorn/insta-tweet/blob/dc904af214596588bfc75b32eccc1ff37d0c271b/InstaTweet/profile.py#L12-L49
 
 <br>
 
