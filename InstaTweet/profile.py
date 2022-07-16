@@ -7,6 +7,7 @@ import pickle
 
 from typing import Iterable
 from . import utils, TweetClient
+from .db import DBConnection
 
 
 class Profile:
@@ -56,17 +57,16 @@ class Profile:
         :param local: whether the profile is saved locally (default, ``True``) or remotely on a database
             If saved remotely, the ``DATABASE_URL`` environment variable must be configured
         """
+        if not cls.profile_exists(name, local):
+            raise LookupError(
+                f'No {"local" if local else "database"} profile found with the name "{name}"'
+            )
         if local:
-            if Profile.profile_exists(name):
-                with open(Profile.get_local_path(name), 'rb') as f:
-                    return pickle.load(f)
-            else:
-                raise FileNotFoundError(
-                    'No local profile found with that name'
-                )
+            with open(cls.get_local_path(name), 'rb') as f:
+                return pickle.load(f)
         else:
-            from InstaTweet import db
-            return db.load_profile(name)
+            with DBConnection() as db:
+                return db.load_profile(name)
 
     @classmethod
     def from_json(cls, json_str: str) -> Profile:
@@ -84,16 +84,13 @@ class Profile:
         if local:
             return os.path.exists(Profile.get_local_path(name))
         else:
-            from InstaTweet import db
-            return bool(db.query_profile(name).first())
+            with DBConnection() as db:
+                return bool(db.query_profile(name).first())
 
     @staticmethod
     def get_local_path(name: str) -> str:
         """Returns filepath of where a local profile would be saved"""
-        return utils.get_filepath(
-            filename=os.path.join(Profile.LOCAL_DIR, name),
-            filetype='pickle'
-        )
+        return os.path.join(Profile.LOCAL_DIR, name) + '.pickle'
 
     def add_users(self, users: Iterable, send_tweet: bool = False):
         """Add Instagram user(s) to the :attr:`~.user_map` for subsequent monitoring
@@ -163,8 +160,8 @@ class Profile:
                 print(f'Saved Local Profile {self.name}')
             return True
         else:
-            from InstaTweet import db
-            return db.save_profile(profile=self, alert=alert)
+            with DBConnection() as db:
+                return db.save_profile(profile=self, alert=alert)
 
     def validate(self) -> None:
         """Checks to see if the profile is fully configured for InstaTweeting
