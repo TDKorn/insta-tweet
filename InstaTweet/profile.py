@@ -6,8 +6,7 @@ import json
 import pickle
 
 from typing import Iterable
-from . import utils, TweetClient
-from .db import DBConnection
+from . import utils, TweetClient, DBConnection
 
 
 class Profile:

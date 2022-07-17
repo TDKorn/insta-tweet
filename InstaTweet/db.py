@@ -13,8 +13,12 @@ Base = declarative_base()
 
 
 class Profiles(Base):
-    """Database table for :class:`Profile:profiles
-    Config is just a pickle bytestring for now
+    """Database table used to store :class:`~.Profile` settings
+
+    Each time a :class:`~.Profile` is saved using ``local=False``, it's :attr:`~.Profile.name`
+    will be used as the primary key to either insert a new db row or update an existing one
+
+    * Currently, the table only stores the :class:`~.Profile` name and pickle bytes
     """
     __tablename__ = 'profiles'
     name = Column(String, primary_key=True)
@@ -27,34 +31,35 @@ class Profiles(Base):
 class DBConnection(object):
     """Database Connection class with context management ooh wow
 
-    Sample Usage:
+    **Sample Usage**
+
     >>> def poop_check():
     >>>     with DBConnection() as db:
     >>>         if db.query_profile(name="POOP").first() is None:
     >>>             print("Congrats, you're normal")
     >>>         else:
     >>>              raise EnvironmentError("Hostile")
-    EnvironmentError: "Hostile"
     """
 
     SESSION = None
 
     def __enter__(self):
-        if not self.SESSION:
-            if not DATABASE_URL:
-                raise EnvironmentError('DATABASE_URL not set')
-            self.connect()
+        if not DATABASE_URL:
+            raise EnvironmentError(
+                'Must set the DATABASE_URL environment variable'
+            )
+        self.connect()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.SESSION.close()
+        DBConnection.SESSION.bind.dispose()
+        DBConnection.SESSION = None
 
     @staticmethod
     def connect():
         engine = create_engine(DATABASE_URL, echo=False)
         DBConnection.SESSION = scoped_session(sessionmaker(bind=engine))
         Base.metadata.create_all(engine)
-        print('Connected to database')
 
     def query_profile(self, name: str) -> Query:
         """Execute a query by profile name. Call :meth:`~.Query.first`
