@@ -43,7 +43,7 @@ class InstaTweet:
         return cls(profile=Profile.load(name=profile_name, local=local))
 
     def get_proxies(self) -> Optional[dict]:
-        """Retrieve proxies using the loaded :class:`Profile` settings"""
+        """Retrieve proxies using the loaded :class:`~.Profile` settings"""
         return utils.get_proxies(
             env_key=self.profile.proxy_key
         )
@@ -70,8 +70,8 @@ class InstaTweet:
         if any are new. If there's new posts, the content from them will be downloaded and tweeted
 
         **Notes**
-            * The :class:`Profile` is only saved upon successfully downloading and tweeting a post
-                - This allows any failed attempts to be retried in the next call to :meth:`~.start`
+            * The :class:`~.Profile` is only saved upon successfully downloading and tweeting a post
+                - This allows any failed attempts to be retried in the next call to :meth:`~start`
             * Error handling/printing is done by :meth:`~.download_post` and :meth:`~.send_tweet`
         """
         profile = self.profile
