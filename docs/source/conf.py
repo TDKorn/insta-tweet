@@ -25,7 +25,6 @@ author = 'Adam Korn'
 # The full version, including alpha/beta/rc tags
 release = '2.0.0b0'
 
-
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -35,7 +34,6 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.intersphinx',
-    'sphinxcontrib.restbuilder'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -58,16 +56,30 @@ html_theme = 'sphinx_rtd_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+# InterSphinx to add Python and Tweepy references
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3', None),
+    'tweepy': ('https://docs.tweepy.org/en/stable/', None),
+    'sqlalchemy': ('https://docs.sqlalchemy.org/en/14/', None)
+}
+
 # I don't think i need this but..
 master_doc = 'index'
 
-# Documentation order based on source files
-autodoc_member_order = 'bysource'
+# ---- Autodoc Settings ------------------------------------------------------
+
+autodoc_member_order = 'bysource'  # Order based on source
+# Remove typehints from method signatures and put in description instead
 autodoc_typehints = 'description'
+# Only add typehints for documented parameters (and all return types);
+# this prevents parameters being documented twice for both the class and __init__
+# which was driving me INSANE bc literally for what??? like who.. WHO wants that
+autodoc_typehints_description_target = 'documented_params'
 
 
+# ---- Skip and Setup Method -------------------------------------------------
 def skip(app, what, name, obj, would_skip, options):
-    """Includes magic methods in docs... allegedly"""
+    """Include __init__ as a documented method"""
     if name in ('__init__',):
         return False
     return would_skip
@@ -75,4 +87,4 @@ def skip(app, what, name, obj, would_skip, options):
 
 def setup(app):
     app.connect('autodoc-skip-member', skip)
-    app.add_css_file("property.css")  # To prevent horizontally stacking them
+    app.add_css_file("property.css")  # To prevent horizontal stacking in RTD
