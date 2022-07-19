@@ -87,8 +87,8 @@ class InstaTweet:
             print(f'There are {len(new_posts)} posts to tweet for @{user}')
 
             for post in new_posts:
-                downloaded = self.insta.download_post(post)
-                if not downloaded:
+                self.insta.download_post(post)
+                if not post.is_downloaded:
                     continue
 
                 tweeted = self.twitter.send_tweet(post, hashtags=profile.get_hashtags_for(user))

@@ -1,5 +1,6 @@
-from __future__ import annotations
+import os
 from datetime import datetime
+from tweepy.models import Status
 
 
 class InstaPost:
@@ -8,15 +9,30 @@ class InstaPost:
         """Convenience wrapper for Instagram media data"""
         self.json = post_data
         self.id = post_data['id']  # Something's wrong if this raises an error
-        self.is_video = self.json.get('is_video', False)
-        self.video_url = self.json.get('video_url', '')
-        self.dimensions = self.json.get('dimensions', {})
+        self.is_video = post_data.get('is_video', False)
+        self.video_url = post_data.get('video_url', '')
+        self.dimensions = post_data.get('dimensions', {})
 
-        self.filepath = None    # Will be set when downloaded
+        self.filepath = ''    # Will be set when downloaded
         self.tweet_data = None  # Will be set when tweeted
 
     def __str__(self):
         return f'Post {self.id} by @{self.owner["username"]} on {self.timestamp}'
+
+    @property
+    def filename(self) -> str:
+        """Default filepath basename to use when downloading the post (:attr:`~id` + :attr:`~filetype`)"""
+        return self.id + self.filetype
+
+    @property
+    def filetype(self) -> str:
+        """Filetype of the post, based on the value of :attr:`~is_video`"""
+        return 'mp4' if self.is_video else 'jpg'
+
+    @property
+    def is_downloaded(self) -> bool:
+        """Checks if the post has been downloaded yet (``filepath`` attribute is set by :class:`~.InstaClient`)"""
+        return os.path.exists(self.filepath)
 
     @property
     def owner(self):
@@ -59,7 +75,8 @@ class InstaPost:
             return caption_edge[0].get('node', {}).get('text', '')
         return ''
 
-    def add_tweet_data(self, tweet: "tweepy.models.Status"):
+    def add_tweet_data(self, tweet: Status) -> bool:
+        """Adds some tweet data after the post has been successfully tweeted"""
         self.tweet_data = {
             'link': tweet.entities['urls'][0]['url'],
             'created_at': str(tweet.created_at),
