@@ -8,18 +8,19 @@ class InstaTweet:
 
     You might be wondering, what's InstaTweeting? According to TDK Dictionary:
 
-        **InstaTweet** (`verb`): to scrape an Instagram account -> download & tweet any new content -> update the loaded :class:`~.Profile`
+        **InstaTweet** (`verb`):
+            To scrape an Instagram account -> download & tweet any new content -> update and save the loaded :class:`~.Profile`
 
-            **Example**
+        **Example Sentence**
+            "Oh, you lost 700 Twitter followers after you shared your IG post? Well maybe if people actually saw the
+            picture and not just the caption your tweet would've been less creepy. You should've InstaTweeted it.
 
-                "Oh, you lost 700 Twitter followers after you shared your IG post? Well maybe if people actually saw the picture
-                and not just the caption your tweet would've been less creepy. You should've InstaTweeted it.
-        """
+    """
 
     def __init__(self, profile: Profile):
-        """Initializes InstaTweet using a fully configured :class:`Profile`
+        """Initializes InstaTweet using a fully configured :class:`~.Profile`
 
-        The :class:`Profile` will be used to initialize an :class:`InstaClient` and :class:`TweetClient`
+        The :class:`Profile` will be used to initialize an :class:`~.InstaClient` and :class:`~.TweetClient`
 
         :Note:
             Profile settings will only be validated when calling :meth:`~.start`
@@ -42,13 +43,13 @@ class InstaTweet:
         return cls(profile=Profile.load(name=profile_name, local=local))
 
     def get_proxies(self) -> Optional[dict]:
-        """Retrieve proxies using the loaded :class:`Profile` settings"""
+        """Retrieve proxies using the loaded :class:`~.Profile` settings"""
         return utils.get_proxies(
             env_key=self.profile.proxy_key
         )
 
     def get_insta_client(self) -> InstaClient:
-        """Initializes an :class:`InstaClient` using the loaded :class:`Profile` settings"""
+        """Initializes an :class:`~.InstaClient` using the loaded :class:`~.Profile` settings"""
         return InstaClient(
             session_id=self.profile.session_id,
             user_agent=self.profile.user_agent,
@@ -56,21 +57,21 @@ class InstaTweet:
         )
 
     def get_tweet_client(self) -> TweetClient:
-        """Initializes an :class:`TweetClient` using the loaded :class:`Profile` settings"""
+        """Initializes an :class:`~.TweetClient` using the loaded :class:`~.Profile` settings"""
         return TweetClient(
             profile=self.profile,
             proxies=self.proxies
         )
 
     def start(self) -> None:
-        """InstaTweets all users in the :class:`Profile`'s user map
+        """InstaTweets all users in the :class:`~.Profile`'s user map
 
         Each user will have their profile scraped, and their posts will be compared to their "scraped" list to determine
         if any are new. If there's new posts, the content from them will be downloaded and tweeted
 
         **Notes**
-            * The :class:`Profile` is only saved upon successfully downloading and tweeting a post
-                - This allows any failed attempts to be retried in the next call to :meth:`~.start`
+            * The :class:`~.Profile` is only saved upon successfully downloading and tweeting a post
+                - This allows any failed attempts to be retried in the next call to :meth:`~start`
             * Error handling/printing is done by :meth:`~.download_post` and :meth:`~.send_tweet`
         """
         profile = self.profile

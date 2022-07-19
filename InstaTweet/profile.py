@@ -15,29 +15,40 @@ class Profile:
     LOCAL_DIR = os.path.join(utils.get_root(), 'profiles')
 
     def __init__(self, name: str = 'default', local: bool = True, **kwargs):
-        """Create a new profile
+        """Create a new :class:`Profile`
 
-        A :class:`Profile` contains a user map and all API access settings associated with it.
-        The user map keeps track of previously scraped posts, which is then used to determine which posts are new
+        A :class:`Profile` contains a ``user_map`` and all API access settings associated with it
 
-        Note that a name is not necessary to create and *InstaTweet* a profile, but it's required to save one
+        ...
+
+        The ``user_map`` is a mapping of added Instagram usernames to their associated :attr:`USER_MAPPING`
+
+        * The mapping includes a list of hashtags, scraped posts, and sent tweets
+        * Methods exist to access and modify these lists for a particular user
+        * Mainly used to help compose tweets and detect when posts are new
+
+        ...
 
         :param name: unique profile name
-        :param local: if True, pickle files will save to the :attr:`~.LOCAL_DIR`. Otherwise, will save to a Postgres DB
+        :param local: indicates if profile is being saved locally or on a remote database
         :param kwargs: see below
 
         :Keyword Arguments:
             * *session_id* (``str``) --
-              Instagram ``sessionid`` cookie, obtained by logging in through browser
+                Instagram ``sessionid`` cookie, obtained by logging in through browser
             * *twitter_keys* (``dict``) --
-              Twitter API Keys with v1.1 endpoint access
-                * See :attr:`~TweetClient.DEFAULT_KEYS` for a template
+                Twitter API Keys with v1.1 endpoint access
+                * See :attr:`~InstaTweet.tweetclient.TweetClient.DEFAULT_KEYS` for a template
             * *user_agent* (``str``) -- Optional
-              The user agent to use for requests; scrapes the newest Chrome agent if not provided
+                The user agent to use for requests; scrapes the newest Chrome agent if not provided
             * *proxy_key* (``str``) -- Optional
-              Name of environment variable to retrieve proxies from
+                Name of environment variable to retrieve proxies from
             * *user_map* (``dict``) -- Optional
-              A dict of Instagram users and their associated :cvar:`~.USER_MAPPING`
+                A dict of Instagram users and their associated :attr:`~.USER_MAPPING`
+
+        :Note:
+            A name is not necessary to create and *InstaTweet* a profile, but it's required to :meth:`~.save` it
+
         """
         self.local = local
         self.name = name    # Will raise Exception if name is already used
@@ -138,9 +149,9 @@ class Profile:
         print(f'Added hashtags for @{user}')
 
     def save(self, name: str = None, alert: bool = True) -> bool:
-        """Saves the Profile as a pickled object, using the specified or currently set name.
+        """Pickles and saves the :class:`Profile` using the specified or currently set name.
 
-        :param name: name to save the profile under; replaces the current name
+        :param name: name to save the :class:`Profile` under; replaces the current :attr:`~.name`
         :param alert: set to ``True`` to print a message upon successful save
         """
         if name:
@@ -163,7 +174,7 @@ class Profile:
                 return db.save_profile(profile=self, alert=alert)
 
     def validate(self) -> None:
-        """Checks to see if the profile is fully configured for InstaTweeting
+        """Checks to see if the Profile is fully configured for InstaTweeting
 
         :raises ValueError: if the :attr:`~.session_id`, :attr:`~.twitter_keys`, or :attr:`~.user_map` are invalid
         """
@@ -276,7 +287,7 @@ class Profile:
     def session_id(self) -> str:
         """Instagram ``sessionid`` cookie, obtained by logging in through a browser
 
-            :Tip: Log in to a browser you don't use to make sure your session doesn't change
+            :Tip: If you log into your account with a browser you don't use, the session cookie will last longer
         """
         return self._session_id
 
@@ -292,7 +303,7 @@ class Profile:
 
     @property
     def twitter_keys(self) -> dict:
-        """Twitter developer API keys with v1.1 endpoint access. See :attr:`TweetClient.DEFAULT_KEYS`"""
+        """Twitter developer API keys with v1.1 endpoint access. See :attr:`~.DEFAULT_KEYS`"""
         return self._twitter_keys
 
     @twitter_keys.setter

@@ -11,10 +11,11 @@ class InstaClient:
     DOWNLOAD_DIR = os.path.abspath('downloads')
 
     def __init__(self, session_id: str, user_agent: str = None, proxies: dict = None):
-        """Initialize an :class:`~InstaClient` with a sessionid cookie (at minimum)
+        """Initialize an :class:`~InstaClient` with an Instagram sessionid cookie (at minimum)
 
         :param session_id: valid Instagram sessionid cookie from a browser
         :param user_agent: user agent to use in requests made by the class
+        :param proxies: proxies to use in requests made by the class
         """
         if not isinstance(session_id, str):
             raise TypeError('session_id must be a string')
@@ -27,7 +28,7 @@ class InstaClient:
             os.mkdir(InstaClient.DOWNLOAD_DIR)
 
     def request(self, url: str) -> requests.Response:
-        """Sends a request using the :attr:`cookies`, :attr:`headers`, and :ivar:`proxies`
+        """Sends a request using the :attr:`cookies`, :attr:`headers`, and :attr:`proxies`
 
         :param url: the Instagram URL to send the request to
         """
@@ -42,7 +43,7 @@ class InstaClient:
         """Scrapes an Instagram user's profile and wraps the response
 
         :param username: the username of the IG user to scrape (without the @)
-        :return: an :class:`InstaUser` object, which wraps the response data
+        :return: an :class:`~.InstaUser` object, which wraps the response data
         """
         response = self.request(f'https://www.instagram.com/{username}/?__a=1&__d=dis')
         if response.ok:
@@ -82,11 +83,11 @@ class InstaClient:
         return True
 
     @property
-    def headers(self):
-        """Headers to use in :meth:`.~request`"""
+    def headers(self) -> dict:
+        """Headers to use in :meth:`~.request`"""
         return {'User-Agent': self.user_agent, }
 
     @property
-    def cookies(self):
-        """Cookies to use in :meth:`.~request`"""
+    def cookies(self) -> dict:
+        """Cookies to use in :meth:`~.request`"""
         return {'sessionid': self.session_id, }

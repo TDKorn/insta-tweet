@@ -25,14 +25,14 @@ class TweetClient:
         Basically just a wrapper for tweepy. It uses the settings of a profile to initialize the API and send tweets
 
         :param profile: the profile to use when initializing a :class:`tweepy.API` object
-        :param proxies: optional proxies to use (
+        :param proxies: optional proxies to use when making API requests
         """
         self.profile = profile
         self.proxies = proxies
         self.api = self.get_api()
 
     def get_api(self) -> tweepy.API:
-        """Initializes a :class:`tweepy.API` (Twitter API v1.1) using the current :class:`Profile`"""
+        """Initializes a :class:`tweepy.API` object using the API keys of the loaded :class:`~.Profile`"""
         return tweepy.API(
             auth=self.get_oauth(self.profile.twitter_keys),
             user_agent=self.profile.user_agent,
@@ -41,6 +41,10 @@ class TweetClient:
 
     @staticmethod
     def get_oauth(api_keys: dict) -> tweepy.OAuth1UserHandler:
+        """Initializes and returns an ``OAuth1UserHandler`` object from tweepy using the specified API keys
+
+        :param api_keys: Twitter developer API keys with v1.1 endpoint access
+        """
         if missing_keys := [key for key in TweetClient.DEFAULT_KEYS if key not in api_keys]:
             raise KeyError(
                 f"Missing the following Twitter Keys: {missing_keys}"
@@ -61,7 +65,7 @@ class TweetClient:
 
         :param post: the post to tweet; uses the :attr:`~.InstaPost.filepath` as media file source
         :param hashtags: a list of hashtags, from the :attr:`~.user_map`
-            If non-empty, a few will randomly be chosen and included in the tweet
+            If non-empty, a few will randomly be chosen to include in the tweet
         """
         if not post.filepath or not os.path.exists(post.filepath):
             raise FileNotFoundError('Post must be downloaded first')
@@ -101,7 +105,7 @@ class TweetClient:
             return media
 
     def build_tweet(self, post: InstaPost, hashtags: Optional[list[str]] = None) -> str:
-        """Uses an :class:`InstaPost` to build the body text of a tweet
+        """Uses an :class:`~.InstaPost` to build the body text of a tweet
 
         :param post: the post that's being tweeted; the caption and link are used
         :param hashtags: optional list of hashtags to randomly pick from and include
@@ -119,19 +123,18 @@ class TweetClient:
 
     @staticmethod
     def pick_hashtags(hashtags: list[str]) -> str:
-        """Randomly chooses hashtags from provided list, then returns them formatted as a string
+        """Randomly picks hashtags from the provided list and returns them as a single string
 
-        The qty chosen will either be 1 less than the length of the list (to avoid using the same ones in every tweet)
-            or the value of :attr:`~.MAX_HASHTAGS`, whichever is smaller
+        The number of hashtags chosen will either be 1 less than the length of the list (to avoid using the same tags
+        in every tweet), or the value of :attr:`~.MAX_HASHTAGS`, whichever is smaller
 
-        :param hashtags: a list of hashtags to randomly choose from and include in a tweet
+        :param hashtags: a list of hashtags to randomly choose from
 
         :Example:
-            pick_hashtags(['cat','dog','woof']) -> '#woof #cat\n'
+            >>> TweetClient.pick_hashtags(['cat','dog','woof'])
+            "#woof #cat\\n"
 
-        :Note:
-            A newline is included to make character counting easier for :meth:`~.build_tweet`
-
+        :Note: A newline is added to help with formatting & character counting in :meth:`~.build_tweet`
         """
         if not hashtags:
             return ''

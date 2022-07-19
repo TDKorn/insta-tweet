@@ -5,16 +5,21 @@ from tweepy.models import Status
 
 class InstaPost:
 
-    def __init__(self, post_data):
-        """Convenience wrapper for Instagram media data"""
+    """Minimalistic API response wrapper for an Instagram post"""
+
+    def __init__(self, post_data: dict):
+        """Initialize an :class:`~InstaPost`
+
+        :param post_data: the JSON response data of an Instagram post -- found within auser's profile data
+        """
         self.json = post_data
         self.id = post_data['id']  # Something's wrong if this raises an error
         self.is_video = post_data.get('is_video', False)
         self.video_url = post_data.get('video_url', '')
         self.dimensions = post_data.get('dimensions', {})
-
-        self.filepath = ''    # Will be set when downloaded
-        self.tweet_data = None  # Will be set when tweeted
+        # Attributes set by other classes
+        self.filepath = ''    # Set by InstaClient when downloaded
+        self.tweet_data = None  # Set by TweetClient when tweeted
 
     def __str__(self):
         return f'Post {self.id} by @{self.owner["username"]} on {self.timestamp}'
@@ -76,7 +81,10 @@ class InstaPost:
         return ''
 
     def add_tweet_data(self, tweet: Status) -> bool:
-        """Adds some tweet data after the post has been successfully tweeted"""
+        """Used by :class:`~.TweetClient` to add minimal tweet data after the post has been tweeted
+
+        :param tweet: a :class:`~tweepy.models.Status` object from a successfully sent tweet
+        """
         self.tweet_data = {
             'link': tweet.entities['urls'][0]['url'],
             'created_at': str(tweet.created_at),
