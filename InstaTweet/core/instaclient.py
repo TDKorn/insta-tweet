@@ -44,7 +44,7 @@ class InstaClient(object):
             raise RuntimeError(f'Failed to download post {post.permalink} by {post.owner["username"]}')
 
         if filepath is None:
-            filetype = '.mp4' if post.is_video else '.jpg'
+            filetype = 'mp4' if post.is_video else 'jpg'
             filepath = get_filepath(post.id, filetype=filetype)
         with open(filepath, 'wb') as f:
             f.write(response.content)
