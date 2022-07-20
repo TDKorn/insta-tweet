@@ -1,4 +1,4 @@
-# InstaTweet
+# InstaTweet v2.0.0-beta
 ## Automatically Repost Content From Instagram to Twitter
 Ever tried sharing an Instagram post to Twitter, only to find out that all you tweeted was a link, and not the actual photo/video?<br>
 
