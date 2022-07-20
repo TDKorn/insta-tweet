@@ -47,9 +47,9 @@ InstaTweet has two main use cases:
 Regardless of your intention, InstaTweet will detect new posts from the users you specify, download them, and repost them to Twitter.<br>
 
 ## Installation
-To clone and install this repository with pip:
+To install this package with pip:
 ```bash
-python -m pip install git+https://github.com/TDKorn/insta-tweet
+pip install insta-tweet
 ```
 
 # Getting Started
