@@ -9,16 +9,16 @@ from sqlalchemy.ext.declarative import declarative_base
 
 
 DATABASE_URL = os.getenv('DATABASE_URL', '').replace('postgres://', 'postgresql://', 1)
+"""The Database URL to use, obtained from the ``DATABASE_URL`` environment variable"""
+
 Base = declarative_base()
+"""Base for creating tables"""
 
 
 class Profiles(Base):
-    """Database table used to store :class:`~.Profile` settings
+    """Database table used to store :class:`~.Profile` setting
 
-    When a :class:`~.Profile` calls :meth:`~.Profile.save` and has :attr:`~.Profile.local` ``= False``, its
-    :attr:`~.Profile.name` will be used as the primary key to either insert or update a table row
-
-    * Currently the table only has fields for the :attr:`~.Profile.name` and pickle bytes (from :meth:`~.to_pickle`)
+    Currently has fields only for the :attr:`~.Profile.name` and pickle bytes (from :meth:`~.to_pickle`)
     """
     __tablename__ = 'profiles'
     name = Column(String, primary_key=True)
@@ -32,7 +32,13 @@ class DBConnection:
 
     """Database Connection class with context management ooh wow
 
-    Uses :mod:`.SQLAlchemy` to connect and interact with the database specified in the ``DATABASE_URL`` environment variable
+    Uses ``SQLAlchemy`` to connect and interact with the database specified in the ``DATABASE_URL`` environment variable
+
+    :cvar SESSION: the currently active session; deleted on object exit
+    :type SESSION: :class:`~.sqlalchemy.orm.scoped_session`
+    :cvar ENGINE: the engine for the currently set `~db.DATABASE_URL`; reused after first connection
+    :type ENGINE: :class:`~.sqlalchemy.engine.base.Engine`
+
 
     **Sample Usage**
 
