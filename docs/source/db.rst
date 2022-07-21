@@ -7,10 +7,10 @@ The :mod:`~.db` module contains the :class:`~.DBConnection` class as well as the
 * The :attr:`.Profile.name` will be used as the primary key for lookups/insertions
 
 
-When a :class:`~.Profile` calls :meth:`~.Profile.save` and has :attr:`~.Profile.local` ``= False``, the database is
-queried by its :attr:`~.Profile.name`
+When a :class:`~.Profile` calls :meth:`~.Profile.save` and has :attr:`~.Profile.local` ``= False``, the database will
+be queried
 
-* If an existing save is found, it will be updated with the new pickled data
+* If an existing database row is found for the  :attr:`~.Profile.name`, the save data will be updated
 * Otherwise, a new row will be inserted and the settings will be saved there
 
 ...
@@ -25,7 +25,31 @@ queried by its :attr:`~.Profile.name`
 
 ...
 
-.. automodule:: InstaTweet.db
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. autodata:: InstaTweet.db.DATABASE_URL
+   :annotation:
+
+...
+
+.. autoclass:: InstaTweet.db.Profiles
+   :exclude-members: __init__
+
+   .. autoattribute:: InstaTweet.db.Profiles.name
+    :annotation:
+
+   .. autoattribute:: InstaTweet.db.Profiles.config
+    :annotation:
+
+...
+
+.. autoclass:: InstaTweet.db.DBConnection
+    :members:
+    :exclude-members: SESSION, ENGINE
+
+    .. autoattribute:: InstaTweet.db.DBConnection.SESSION
+     :annotation:
+
+    .. autoattribute:: InstaTweet.db.DBConnection.ENGINE
+     :annotation:
+
+
+
