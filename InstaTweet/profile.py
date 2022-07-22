@@ -11,21 +11,32 @@ from . import utils, TweetClient, DBConnection
 
 class Profile:
 
-    USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}
-    LOCAL_DIR = os.path.join(utils.get_root(), 'profiles')
+    """A :class:`Profile` contains a ``user_map`` and all API access settings associated with it
+
+    ...
+
+    The ``user_map`` is a dictionary which maps added Instagram usernames to their :attr:`USER_MAPPING`
+
+    * The mapping includes a list of hashtags, scraped posts, and sent tweets
+    * Methods exist to access and modify these lists for a particular user
+    * Mainly used to help compose tweets and detect when posts are new
+
+    ...
+    """
+
+    USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}  #: Template for an entry in the ``user_map``
+    LOCAL_DIR = os.path.abspath('profiles')  #: Directory where local profiles are saved
 
     def __init__(self, name: str = 'default', local: bool = True, **kwargs):
-        """Create a new :class:`Profile`
-
-        A :class:`Profile` contains a ``user_map`` and all API access settings associated with it
+        """Initialize a new local or remote :class:`Profile`
 
         ...
 
-        The ``user_map`` is a mapping of added Instagram usernames to their associated :attr:`USER_MAPPING`
+        **Profile Creation Tips**
 
-        * The mapping includes a list of hashtags, scraped posts, and sent tweets
-        * Methods exist to access and modify these lists for a particular user
-        * Mainly used to help compose tweets and detect when posts are new
+        * All attributes can be set at the time of initialization or after the :class:`Profile` is created
+        * Property setters validate data for attributes that must be set to run ``InstaTweet``
+        * The :class:`~Profile` as a whole is validated by :meth:`~validate` when :meth:`~.start` is called
 
         ...
 
@@ -34,17 +45,17 @@ class Profile:
         :param kwargs: see below
 
         :Keyword Arguments:
-            * *session_id* (``str``) --
+            * *session_id* (``str``)
                 Instagram ``sessionid`` cookie, obtained by logging in through browser
-            * *twitter_keys* (``dict``) --
+            * *twitter_keys* (``dict``)
                 Twitter API Keys with v1.1 endpoint access
-                * See :attr:`~InstaTweet.tweetclient.TweetClient.DEFAULT_KEYS` for a template
+                (see :attr:`~.TweetClient.DEFAULT_KEYS` for a template)
             * *user_agent* (``str``) -- Optional
                 The user agent to use for requests; scrapes the newest Chrome agent if not provided
             * *proxy_key* (``str``) -- Optional
-                Name of environment variable to retrieve proxies from
+                Environment variable to retrieve proxies from
             * *user_map* (``dict``) -- Optional
-                A dict of Instagram users and their associated :attr:`~.USER_MAPPING`
+                A dict of Instagram users and their associated :attr:`~USER_MAPPING`
 
         :Note:
             A name is not necessary to create and *InstaTweet* a profile, but it's required to :meth:`~.save` it
@@ -61,11 +72,13 @@ class Profile:
 
     @classmethod
     def load(cls, name: str, local: bool = True) -> Profile:
-        """Loads an existing profile from a locally saved pickle file or remotely stored pickle byte string
+        """Loads an existing profile from a locally saved pickle file or remotely stored pickle bytes
 
         :param name: the name of the :class:`Profile` to load
         :param local: whether the profile is saved locally (default, ``True``) or remotely on a database
-            If saved remotely, the ``DATABASE_URL`` environment variable must be configured
+
+        :Note:
+            The ``DATABASE_URL`` environment variable must be configured to load/save profiles remotely
         """
         if not cls.profile_exists(name, local):
             raise LookupError(

@@ -67,10 +67,13 @@ intersphinx_mapping = {
 master_doc = 'index'
 
 # ---- Autodoc Settings ------------------------------------------------------
-
-autodoc_member_order = 'bysource'  # Order based on source
+#
+# Order based on source
+autodoc_member_order = 'bysource'
+#
 # Remove typehints from method signatures and put in description instead
 autodoc_typehints = 'description'
+#
 # Only add typehints for documented parameters (and all return types);
 # this prevents parameters being documented twice for both the class and __init__
 # which was driving me INSANE bc literally for what??? like who.. WHO wants that

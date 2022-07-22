@@ -8,7 +8,7 @@ class InstaClient:
 
     """Minimalistic class for scraping/downloading Instagram user/media data"""
 
-    DOWNLOAD_DIR = os.path.abspath('downloads')
+    DOWNLOAD_DIR = os.path.abspath('downloads')  #: [*Optional*] -- Directory to temporarily download media to
 
     def __init__(self, session_id: str, user_agent: str = None, proxies: dict = None):
         """Initialize an :class:`~InstaClient` with an Instagram sessionid cookie (at minimum)

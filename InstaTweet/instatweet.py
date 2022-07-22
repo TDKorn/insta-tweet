@@ -66,13 +66,14 @@ class InstaTweet:
     def start(self) -> None:
         """InstaTweets all users in the :class:`~.Profile`'s user map
 
-        Each user will have their profile scraped, and their posts will be compared to their "scraped" list to determine
-        if any are new. If there's new posts, the content from them will be downloaded and tweeted
+        Each user's IG page will be scraped and compared to the ``scraped`` list in their :attr:`~.USER_MAPPING`.
+        Posts that weren't previously scraped will be downloaded and tweeted
 
-        **Notes**
-            * The :class:`~.Profile` is only saved upon successfully downloading and tweeting a post
-                - This allows any failed attempts to be retried in the next call to :meth:`~start`
-            * Error handling/printing is done by :meth:`~.download_post` and :meth:`~.send_tweet`
+        |  **Notes**
+        |  · The :class:`~.Profile` is only saved upon successfully downloading and tweeting a post
+        |     ‣ This allows any failed attempts to be retried in the next call to :meth:`~start`
+        |  · Error handling/printing is done by :meth:`~.download_post` and :meth:`~.send_tweet`
+
         """
         profile = self.profile
         profile.validate()
