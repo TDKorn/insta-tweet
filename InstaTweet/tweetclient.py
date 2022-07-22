@@ -95,14 +95,15 @@ class TweetClient:
             filename=post.filepath,
             media_category='TWEET_VIDEO' if post.is_video else 'TWEET_IMAGE',
             wait_for_async_finalize=True,
-            chunked=True
-        )
-        if media.processing_info['state'] != 'succeeded':
-            print(f'Failed to upload media to Twitter for {post}')
-            return False
-        else:
-            print(f'Successfully uploaded media to Twitter for {post}')
-            return media
+            chunked=True)
+
+        if hasattr(media,'processing_info'):
+            if media.processing_info['state'] != 'succeeded':
+                print(f'Failed to upload media to Twitter for {post}')
+                return False
+
+        print(f'Successfully uploaded media to Twitter for {post}')
+        return media
 
     def build_tweet(self, post: InstaPost, hashtags: Optional[list[str]] = None) -> str:
         """Uses an :class:`~.InstaPost` to build the body text of a tweet

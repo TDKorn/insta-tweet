@@ -32,7 +32,7 @@ class InstaPost:
     @property
     def filetype(self) -> str:
         """Filetype of the post, based on the value of :attr:`~is_video`"""
-        return 'mp4' if self.is_video else 'jpg'
+        return '.mp4' if self.is_video else '.jpg'
 
     @property
     def is_downloaded(self) -> bool:
