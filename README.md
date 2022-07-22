@@ -16,11 +16,11 @@ With InstaTweet, you can rest easy knowing that, although nobody will click the 
 <br>
 
 ## What's InstaTweet?
-InstaTweet is a tool to automatically repost content from Instagram to Twitter. 
+InstaTweet is a tool that automatically reposts content from Instagram to Twitter. 
 
-Simply create a ```Profile```, configure the necessary Instagram/Twitter settings, and populate the ```user_map``` with 
-Instagram users to scrape. InstaTweet will then periodically check their accounts for new posts, and any new content 
-will be automatically downloaded, uploaded to Twitter, and tweeted.
+Simply create a ```Profile```, configure the necessary settings, and add the Instagram users you'd like repost from. 
+InstaTweet will then periodically scrape their accounts and, if new posts are detected, they'll be automatically
+downloaded and posted to Twitter.
 
 <br>
 
@@ -37,7 +37,7 @@ insta_tweet.start()
 
 The [scheduler](scheduler.py) can also be used (remotely and locally) to InstaTweet your profile(s)
 
-https://github.com/TDKorn/insta-tweet/blob/1851a2e19aeed750cad1390ffbc00f2619f4673d/scheduler.py#L1-L19
+https://github.com/TDKorn/insta-tweet/blob/1d862bf0c7d04109f5b9e1fe0cb39ac78ed4b114/scheduler.py#L1-L19
 
 <br>
 
@@ -47,22 +47,23 @@ InstaTweet has two main use cases:
 1. To automatically share your own Instagram posts to Twitter
 2. To automatically tweet new content from other Instagram users
 
-Regardless of your intention, InstaTweet will detect new posts from the users you specify, download them, and repost them to Twitter.<br>
+Regardless of your intention, InstaTweet will detect new posts from the users you specify, download them, and repost
+them to Twitter.
 
 <br>
 
 ## Documentation
 
-Documentation can be found on [Read the Docs](https://my-magento.readthedocs.io) or [pdoc]()
+Documentation can be found on [Read the Docs](https://instatweet.readthedocs.io)
 
 <br>
 
 ## Installation
 
-To clone and install this repository with pip:
+Install InstaTweet using pip:
 
 ```bash
-pip install https://github.com/TDKorn/insta-tweet.git#db-and-profiles
+pip install insta-tweet
 ```
 
 <br>
