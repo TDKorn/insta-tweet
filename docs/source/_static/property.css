@@ -1,10 +1,28 @@
+/* Make properties not stack */
 dl.py.property {
     display: block !important;
 }
-.rst-content .humiliating .admonition-title {
-   background: #c70044
+/* Set color of inline ``variables`` */
+code.literal {
+    color: #d90429 !important;
+}
+/* Top header thing */
+.wy-side-nav-search {
+    background-color:#006db4
+}
+/* Whitish background for custom msgs */
+.rst-content .admonition {
+   background: #edf2f4;
+}
+/* Dark msg title background as like, the default msg theme idk */
+.rst-content .instatweet .admonition-title {
+   background: #2b2d42;
+}
+/* Red msg title background for the important af stuff */
+.important-af .admonition-title {
+    background: #c71427 !important
 }
 
-.rst-content .humiliating {
-   background: #c70044
+.rst-content .viewcode-back, .rst-content .viewcode-link {
+    color: #006db4
 }
