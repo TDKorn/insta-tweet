@@ -1,12 +1,12 @@
 from __future__ import annotations
+
 import os
 import random
-import tweepy
 import InstaTweet
 
-from . import InstaPost
+from tweepy import OAuth1UserHandler, API, Media, TweepyException
 from typing import Union, Optional
-from tweepy.errors import TweepyException
+from . import InstaPost
 
 
 class TweetClient:
@@ -31,17 +31,17 @@ class TweetClient:
         self.proxies = proxies
         self.api = self.get_api()
 
-    def get_api(self) -> tweepy.API:
-        """Initializes a :class:`tweepy.API` object using the API keys of the loaded :class:`~.Profile`"""
-        return tweepy.API(
+    def get_api(self) -> API:
+        """Initializes a :class:`~.tweepy.API` object using the API keys of the loaded :class:`~.Profile`"""
+        return API(
             auth=self.get_oauth(self.profile.twitter_keys),
             user_agent=self.profile.user_agent,
             proxy=self.proxies
         )
 
     @staticmethod
-    def get_oauth(api_keys: dict) -> tweepy.OAuth1UserHandler:
-        """Initializes and returns an ``OAuth1UserHandler`` object from tweepy using the specified API keys
+    def get_oauth(api_keys: dict) -> OAuth1UserHandler:
+        """Initializes and returns an :class:`~.OAuth1UserHandler` object from tweepy using the specified API keys
 
         :param api_keys: Twitter developer API keys with v1.1 endpoint access
         """
@@ -53,7 +53,7 @@ class TweetClient:
             raise ValueError(
                 f"Invalid values for the following Twitter keys: {bad_keys}"
             )
-        return tweepy.OAuth1UserHandler(
+        return OAuth1UserHandler(
             consumer_key=api_keys['Consumer Key'],
             consumer_secret=api_keys['Consumer Secret'],
             access_token=api_keys['Access Token'],
@@ -85,7 +85,7 @@ class TweetClient:
             print('Failed to send tweet for {}:\nResponse: {}'.format(post, e))
             return False
 
-    def upload_media(self, post: InstaPost) -> Union[tweepy.Media, bool]:
+    def upload_media(self, post: InstaPost) -> Union[Media, bool]:
         """Uploads the media from an already-downloaded Instagram post to Twitter
 
         :param post: the Instagram post to use as the media source
@@ -134,7 +134,8 @@ class TweetClient:
             >>> TweetClient.pick_hashtags(['cat','dog','woof'])
             "#woof #cat\\n"
 
-        :Note: A newline is added to help with formatting & character counting in :meth:`~.build_tweet`
+        .. note:: A newline is added to help with formatting & character counting in :meth:`~.build_tweet`
+
         """
         if not hashtags:
             return ''

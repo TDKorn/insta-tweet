@@ -13,15 +13,15 @@ class Profile:
 
     """A :class:`Profile` contains a ``user_map`` and all API access settings associated with it
 
-    ...
+    .. admonition:: About the User Map
+        :class: instatweet
 
-    The ``user_map`` is a dictionary which maps added Instagram usernames to their :attr:`USER_MAPPING`
+        The ``user_map`` is a dictionary which maps added Instagram usernames to their :attr:`USER_MAPPING`
 
-    * The mapping includes a list of hashtags, scraped posts, and sent tweets
-    * Methods exist to access and modify these lists for a particular user
-    * Mainly used to help compose tweets and detect when posts are new
+        * The mapping includes a list of hashtags, scraped posts, and sent tweets
+        * Methods exist to access and modify these lists for a particular user
+        * Main use is to help compose tweets and detect when posts are new
 
-    ...
     """
 
     USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}  #: Template for an entry in the ``user_map``
@@ -30,18 +30,14 @@ class Profile:
     def __init__(self, name: str = 'default', local: bool = True, **kwargs):
         """Initialize a new local or remote :class:`Profile`
 
-        ...
-
-        **Profile Creation Tips**
-
-        * All attributes can be set at the time of initialization or after the :class:`Profile` is created
-        * Property setters validate data for attributes that must be set to run ``InstaTweet``
-        * The :class:`~Profile` as a whole is validated by :meth:`~validate` when :meth:`~.start` is called
-
-        ...
-
         :param name: unique profile name
         :param local: indicates if profile is being saved locally or on a remote database
+
+        .. admonition:: Important ⚠🤮
+           :class: important-af
+
+           The ``DATABASE_URL`` environment variable must be configured to load/save profiles remotely
+
         :param kwargs: see below
 
         :Keyword Arguments:
@@ -57,8 +53,13 @@ class Profile:
             * *user_map* (``dict``) -- Optional
                 A dict of Instagram users and their associated :attr:`~USER_MAPPING`
 
-        :Note:
-            A name is not necessary to create and *InstaTweet* a profile, but it's required to :meth:`~.save` it
+        .. admonition:: **Profile Creation Tips**
+           :class: instatweet
+
+           * All attributes can be set at the time of initialization or after the :class:`Profile` is created
+           * Property setters validate data for attributes that must be set to run ``InstaTweet``
+           * The :class:`~Profile` as a whole is validated by :meth:`~validate` when :meth:`~.start` is called
+           * A name is not necessary to create and *InstaTweet* a profile, but it's required to :meth:`~.save` it
 
         """
         self.local = local
@@ -77,8 +78,7 @@ class Profile:
         :param name: the name of the :class:`Profile` to load
         :param local: whether the profile is saved locally (default, ``True``) or remotely on a database
 
-        :Note:
-            The ``DATABASE_URL`` environment variable must be configured to load/save profiles remotely
+
         """
         if not cls.profile_exists(name, local):
             raise LookupError(
