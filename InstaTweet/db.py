@@ -34,12 +34,12 @@ class DBConnection:
 
     Uses ``SQLAlchemy`` to connect and interact with the database specified by :attr:`DATABASE_URL` environment variable
 
-    **Sample Usage**
+    **Sample Usage**::
 
-    >>> def poop_check():
-    >>>     with DBConnection() as db:
-    >>>         if db.query_profile(name="POOP").first():
-    >>>             raise FileExistsError('DELETE THIS NEPHEW......')
+        def poop_check():
+            with DBConnection() as db:
+                if db.query_profile(name="POOP").first():
+                    raise FileExistsError('DELETE THIS NEPHEW......')
     """
 
     SESSION = None
