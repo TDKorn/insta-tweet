@@ -23,7 +23,7 @@ copyright = '2022, Adam Korn'
 author = 'Adam Korn'
 
 # The full version, including alpha/beta/rc tags
-release = '2.0.0b0'
+release = '2.0.0b12'
 
 # -- General configuration ---------------------------------------------------
 
