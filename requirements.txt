@@ -1,4 +1,4 @@
 tweepy>=4.10.0
 requests>=2.27.1
-SQLAlchemy>=1.4.36
+sqlalchemy>=1.4.36
 psycopg2>=2.9.3

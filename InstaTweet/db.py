@@ -9,20 +9,20 @@ from sqlalchemy.ext.declarative import declarative_base
 
 
 DATABASE_URL = os.getenv('DATABASE_URL', '').replace('postgres://', 'postgresql://', 1)
+"""The Database URL to use, obtained from the ``DATABASE_URL`` environment variable"""
+
 Base = declarative_base()
+"""Base for creating tables"""
 
 
 class Profiles(Base):
-    """Database table used to store :class:`~.Profile` settings
+    """Database table used for storing :class:`~.Profile` settings
 
-    When a :class:`~.Profile` calls :meth:`~.Profile.save` and has :attr:`~.Profile.local` ``= False``, its
-    :attr:`~.Profile.name` will be used as the primary key to either insert or update a table row
-
-    * Currently the table only has fields for the :attr:`~.Profile.name` and pickle bytes (from :meth:`~.to_pickle`)
+    The table currently has only 2 fields, for the :attr:`~.Profile.name` and pickle bytes of the profile
     """
     __tablename__ = 'profiles'
-    name = Column(String, primary_key=True)
-    config = Column(LargeBinary)
+    name = Column(String, primary_key=True)  #: The :class:`~.Profile` name
+    config = Column(LargeBinary)  #: The pickle bytes from :meth:`.Profile.to_pickle()`
 
     def __repr__(self):
         return "<Profiles(name='{}')>".format(self.name)
@@ -32,7 +32,7 @@ class DBConnection:
 
     """Database Connection class with context management ooh wow
 
-    Uses ``SQLAlchemy`` to connect and interact with the database specified in the ``DATABASE_URL`` environment variable
+    Uses ``SQLAlchemy`` to connect and interact with the database specified by :attr:`DATABASE_URL` environment variable
 
     **Sample Usage**
 
@@ -40,12 +40,19 @@ class DBConnection:
     >>>     with DBConnection() as db:
     >>>         if db.query_profile(name="POOP").first():
     >>>             raise FileExistsError('DELETE THIS NEPHEW......')
-    >>>         else:
-    >>>             print("Congrats, you're normal")
     """
 
     SESSION = None
+    """The currently active session; closed on object exit
+    
+    :type: :class:`~.sqlalchemy.orm.scoping.scoped_session`
+    """
+
     ENGINE = None
+    """The engine for the currently set :attr:`DATABASE_URL`; reused after first connection
+    
+    :type: :class:`~.sqlalchemy.engine.base.Engine`
+    """
 
     def __enter__(self):
         if not DATABASE_URL:
@@ -66,7 +73,7 @@ class DBConnection:
 
     @staticmethod
     def connect() -> None:
-        """Creates a database session and assigns it to the :attr:`~SESSION`"""
+        """Creates a :class:`~.sqlalchemy.orm.scoping.scoped_session` and assigns it to :attr:`DBConnection.SESSION`"""
         DBConnection.SESSION = scoped_session(sessionmaker(bind=DBConnection.ENGINE))
 
     def query_profile(self, name: str) -> Query:
