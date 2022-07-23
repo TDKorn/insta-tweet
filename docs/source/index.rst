@@ -10,6 +10,7 @@ Welcome to the documentation for InstaTweet!
    :maxdepth: 2
    :caption: Documentation:
 
+   README
    instatweet_package
 
 
