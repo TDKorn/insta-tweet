@@ -34,7 +34,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.intersphinx',
-    'sphinxcontrib.restbuilder'
+    'myst_parser',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -79,6 +79,10 @@ autodoc_typehints = 'description'
 # this prevents parameters being documented twice for both the class and __init__
 # which was driving me INSANE bc literally for what??? like who.. WHO wants that
 autodoc_typehints_description_target = 'documented_params'
+
+# ---- MyST Parser Settings ------------------------------------------------------
+#
+source_suffix = ['.rst', '.md']
 
 
 # ---- Skip and Setup Method -------------------------------------------------
