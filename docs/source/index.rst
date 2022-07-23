@@ -5,14 +5,18 @@
 
 Welcome to the documentation for InstaTweet!
 ============================================
+.. toctree::
+   :maxdepth: 2
+   :caption: InstaTweet 2.0.0
+
+   README
+
 
 .. toctree::
    :maxdepth: 2
-   :caption: Documentation:
+   :caption: Documentation
 
-   README
-   instatweet_package
-
+   modules
 
 
 Indices and tables
@@ -21,3 +25,7 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+
+.. admonition:: hello
+   :class: important-af
