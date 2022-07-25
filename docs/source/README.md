@@ -46,7 +46,31 @@ insta_tweet.start()
 
 The [scheduler](scheduler.py) can also be used (remotely and locally) to InstaTweet your profile(s)
 
-https://github.com/TDKorn/insta-tweet/blob/1d862bf0c7d04109f5b9e1fe0cb39ac78ed4b114/scheduler.py#L1-L19
+```{eval-rst}
+.. code::
+
+   #scheduler.py
+   from InstaTweet import InstaTweet
+   
+   PROFILES = ['aProfile', 'myProfile']
+   LOCAL = True
+    
+   def run(profile_name: str, local: bool = LOCAL):
+   """Loads and InstaTweets a profile
+
+   :param profile_name: the name of the :class:`~.Profile`
+   :param local: if the profile is saved locally or in a SQLAlchemy supported database
+   """
+   insta_tweet = InstaTweet.load(profile_name, local=local)
+   insta_tweet.start()
+
+   if __name__ == '__main__':
+      for profile in PROFILES:
+         run(profile, local=LOCAL)
+
+```
+
+[//]: # (https://github.com/TDKorn/insta-tweet/blob/1d862bf0c7d04109f5b9e1fe0cb39ac78ed4b114/scheduler.py#L1-L19)
 
 <br>
 
@@ -87,7 +111,14 @@ pip install insta-tweet
 
 **InstaTweet** uses the ```Profile``` class to help manage Twitter accounts, Instagram sessions, and user maps.
 
-https://github.com/TDKorn/insta-tweet/blob/d08a18a8089c0c2f92c0bf387f7561d0487af0d2/InstaTweet/profile.py#L12-L70
+```{eval-rst}
+.. autoclass:: InstaTweet.profile.Profile
+   :show-inheritance:
+```
+
+[//]: # (   :members: __init__)
+
+[//]: # (https://github.com/TDKorn/insta-tweet/blob/d08a18a8089c0c2f92c0bf387f7561d0487af0d2/InstaTweet/profile.py#L12-L70)
 
 <br>
 
