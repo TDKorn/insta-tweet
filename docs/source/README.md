@@ -1,10 +1,15 @@
-# About InstaTweet
+# InstaTweet v2.0.0b13
 
 ## Automatically Repost Content From Instagram to Twitter
 
 Ever tried sharing an Instagram post to Twitter, only to find out that all you tweeted was a link, and not the actual photo/video?<br>
 
 <img src="https://i.imgur.com/4y2gKm2.png" width="75%" height="75%"></img><br>
+
+[//]: # (![image]&#40;https://user-images.githubusercontent.com/96394652/180762012-736d6296-bb13-4b47-afb6-53b5c4a9a408.png&#41;)
+
+
+
 
 ```{eval-rst}
 .. admonition:: ‎ Humiliating 🤮
@@ -14,26 +19,41 @@ Ever tried sharing an Instagram post to Twitter, only to find out that all you t
 
 ```
 
+[//]: # (```{eval-rst}  )
+
+[//]: # (`Load <profile.html#InstaTweet.profile.Profile.load>`_)
+
+[//]: # (```)
+
+[//]: # ({py:meth}`~InstaTweet.profile.Profile.load`)
+
+[//]: # (```)
+
+
 <br>
 
-**InstaTweet shares the *actual* content of the post. Not just a link to it.**<br>
+**{py:class}`~.InstaTweet` shares the *actual* content of the post. Not just a link to it.**<br>
 
 <img src="https://i.imgur.com/C7jc1XS.png" height="50%" width="50%"></img><br>
+
+[//]: # (![image]&#40;https://user-images.githubusercontent.com/96394652/180762389-3b697c8d-d9ba-48bb-9646-7d7ab1912cb0.png&#41;)
 
 With InstaTweet, you can rest easy knowing that, although nobody will click the link, they'll at least see what you posted.
 
 <br>
 
 ## What's InstaTweet?
-InstaTweet is a tool that automatically reposts content from Instagram to Twitter. 
+InstaTweet is a tool that automatically reposts content from Instagram to Twitter.
 
-Simply create a ```Profile```, configure the necessary settings, and add the Instagram users you'd like repost from. 
-InstaTweet will then periodically scrape their accounts and, if new posts are detected, they'll be automatically
-downloaded and posted to Twitter.
+Simply create a ```Profile```, add the Instagram users you'd like reposst from, and configure the required settings. 
+
+Once you've got a {py:class}`~.Profile` set up, load it into {py:class}`~.InstaTweet`  and call {py:meth}`~.start`
+and InstaTweet will scrape their accounts If new posts are detected, they'll be automatically
+downloaded and reposted to Twitter. If you've chosen to {py:meth}`~.save` your Profile, it'll be saved continuously.
 
 <br>
 
-Once you've got a ```Profile``` set up, using InstaTweet is as simple as:
+
 
 ```python
 from InstaTweet import InstaTweet
@@ -112,9 +132,9 @@ pip install insta-tweet
 **InstaTweet** uses the ```Profile``` class to help manage Twitter accounts, Instagram sessions, and user maps.
 
 ```{eval-rst}
-.. autoclass:: InstaTweet.profile.Profile
-   :show-inheritance:
-```
+.. autodata:: InstaTweet.profile.Profile()
+   :annotation:
+``` 
 
 [//]: # (   :members: __init__)
 
