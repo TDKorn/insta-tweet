@@ -2,27 +2,44 @@
 dl.py.property {
     display: block !important;
 }
+
 /* Set color of inline ``variables`` */
 code.literal {
     color: #d90429 !important;
 }
-/* Top header thing */
+
+/* Change nav header thing to a less nauseating blue */
 .wy-side-nav-search {
     background-color:#006db4
 }
-/* Whitish background for custom msgs */
+.wy-nav-top {
+    background:#006db4
+}
+
+/* Change "[source]" link colour to blue */
+.rst-content .viewcode-back, .rst-content .viewcode-link {
+    color: #006db4
+}
+
+/* Whitish background for custom admonitions */
 .rst-content .admonition {
    background: #edf2f4;
 }
+
 /* Dark msg title background as like, the default msg theme idk */
 .rst-content .instatweet .admonition-title {
    background: #2b2d42;
 }
+
 /* Red msg title background for the important af stuff */
-.important-af .admonition-title {
+.rst-content .important-af .admonition-title {
     background: #c71427 !important
 }
 
-.rst-content .viewcode-back, .rst-content .viewcode-link {
-    color: #006db4
+/* Green title and white background for "Example" admonition, colour taken from tip:: */
+.rst-content .example {
+    background: #ffffff
+}
+.rst-content .example .admonition-title {
+    background: #1abc9c;
 }
