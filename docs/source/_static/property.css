@@ -36,10 +36,14 @@ code.literal {
     background: #c71427 !important
 }
 
-/* Green title and white background for "Example" admonition, colour taken from tip:: */
+/* Green title and white background for "Example" admonition, colour taken from `.. tip::` */
 .rst-content .example {
     background: #ffffff
 }
 .rst-content .example .admonition-title {
     background: #1abc9c;
+}
+/* Custom admonition icon for "Example admonition: 📝 */
+.rst-content .example .admonition-title::before {
+    content: "📝";
 }
