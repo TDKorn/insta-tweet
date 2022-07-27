@@ -14,8 +14,8 @@ import os
 import sys
 import pkg_resources
 
-sys.path.insert(0, os.path.abspath('../../'))
-sys.path.append(os.path.abspath('exts'))
+# sys.path.insert(0, os.path.abspath('../../'))
+# sys.path.append(os.path.abspath('exts'))
 
 # -- Project information -----------------------------------------------------
 
@@ -132,12 +132,18 @@ import inspect
 # except subprocess.CalledProcessError:
 #     pass
 
-linkcode_revision = '44fb8792d9d98b9380ccb83053e3d2be1cb718eb'
 
 
 linkcode_revision = 'docs'
 linkcode_url = "https://github.com/tdkorn/insta-tweet/blob/" \
                + linkcode_revision + "/{filepath}#L{linestart}-L{linestop}"
+
+# print(m := pkg_resources.require('insta-tweet')[0].location)
+# x = InstaTweet.TweetClient.upload_media
+# print(filepath := os.path.relpath(inspect.getsourcefile(x), m))
+
+# modpath = pkg_resources.require(topmodulename)[0].location
+modpath = pkg_resources.require('insta-tweet')[0].location  # Since InstaTweet is pkg name not folder name? idk...
 
 
 def linkcode_resolve(domain, info):
@@ -145,11 +151,11 @@ def linkcode_resolve(domain, info):
         return None
 
     modname = info['module']
-    topmodulename = modname.split('.')[0]
     fullname = info['fullname']
 
     submod = sys.modules.get(modname)
     if submod is None:
+        print("submod is none")
         return None
 
     obj = submod
@@ -162,7 +168,6 @@ def linkcode_resolve(domain, info):
             return None
 
     try:
-        modpath = pkg_resources.require(topmodulename)[0].location
         filepath = os.path.relpath(inspect.getsourcefile(obj), modpath)
         if filepath is None:
             print(f'No Filepath? modpath = {modpath}')
