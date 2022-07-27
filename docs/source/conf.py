@@ -14,8 +14,7 @@ import os
 import sys
 import pkg_resources
 
-# sys.path.insert(0, os.path.abspath('../../'))
-# sys.path.append(os.path.abspath('exts'))
+sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
 
@@ -24,8 +23,8 @@ copyright = '2022, Adam Korn'
 author = 'Adam Korn'
 
 # The full version, including alpha/beta/rc tags
-# release = pkg_resources.require("insta-tweet")[0].version
-release = "2.0.0b12"
+version = pkg_resources.require("insta-tweet")[0].version
+release = version
 
 # -- General configuration ---------------------------------------------------
 
@@ -105,13 +104,10 @@ source_suffix = ['.rst', '.md']
 
 # ---- Linkcode Extension Settings ---------------------------------------------------
 #
-
 import subprocess
 import inspect
-
-
+#
 # linkcode_revision = "master"
-
 # try:
 #     # lock to commit number
 #     cmd = "git log -n1 --pretty=%H"
@@ -138,11 +134,6 @@ linkcode_revision = 'docs'
 linkcode_url = "https://github.com/tdkorn/insta-tweet/blob/" \
                + linkcode_revision + "/{filepath}#L{linestart}-L{linestop}"
 
-# print(m := pkg_resources.require('insta-tweet')[0].location)
-# x = InstaTweet.TweetClient.upload_media
-# print(filepath := os.path.relpath(inspect.getsourcefile(x), m))
-
-# modpath = pkg_resources.require(topmodulename)[0].location
 modpath = pkg_resources.require('insta-tweet')[0].location  # Since InstaTweet is pkg name not folder name? idk...
 
 
@@ -155,7 +146,7 @@ def linkcode_resolve(domain, info):
 
     submod = sys.modules.get(modname)
     if submod is None:
-        print("submod is none")
+        print(f'No submodule found for {fullname}')
         return None
 
     obj = submod
@@ -170,11 +161,13 @@ def linkcode_resolve(domain, info):
     try:
         filepath = os.path.relpath(inspect.getsourcefile(obj), modpath)
         if filepath is None:
-            print(f'No Filepath? modpath = {modpath}')
+            print(f'No filepath found for {obj} in module {modpath}...?')
             return
-    except Exception:
-        print(f'No filepath?? obj -> {obj} modpath -> {modpath}')
-        return None
+    except Exception as e:
+        return print(   # ie. None
+            f'Exception raised while trying to retrieve module path for {obj}:',
+            e, sep='\n'
+        )
 
     try:
         source, lineno = inspect.getsourcelines(obj)
