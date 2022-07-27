@@ -11,16 +11,36 @@ from . import utils, TweetClient, DBConnection
 
 class Profile:
 
-    """A :class:`Profile` contains a ``user_map`` and all API access settings associated with it
+    """A :class:`Profile` is a configuration class. Ityt'  to keep associated settings together  associated  of API access settings comprised of API access used to initialize all other
+
+    A :class:`Profile` is comprised of a :attr:`~user_map` and all API access settings associated with it
+
+    ...
 
     .. admonition:: About the User Map
         :class: instatweet
 
-        The ``user_map`` is a dictionary which maps added Instagram usernames to their :attr:`USER_MAPPING`
+        The :attr:`~user_map` contains information about users that have been added to the :class:`Profile`
 
-        * The mapping includes a list of hashtags, scraped posts, and sent tweets
+        * It maintains a list of hashtags, scraped posts, and sent tweets for each user
         * Methods exist to access and modify these lists for a particular user
-        * Main use is to help compose tweets and detect when posts are new
+        * Mainly used to help compose tweets and detect when posts are new
+        * Updates when you :meth:`add_users`, :meth:`add_hashtags`, and :meth:`~.send_tweet`
+
+    ...
+
+    A :class:`Profile` can optionally be assigned a unique, identifying :attr:`~name`, which can then be used to
+    :meth:`~save` and :meth:`~load` the Profile either locally or remotely
+
+    ...
+
+    .. admonition:: Important ⚠
+       :class: important-af
+
+       To save/load a Profile remotely, you must configure the ``DATABASE_URL`` environment variable
+
+          * Any SQLAlchemy supported database is compatible
+          * See the :mod:`~.InstaTweet.db` module for full details
 
     """
 
@@ -28,16 +48,22 @@ class Profile:
     LOCAL_DIR = os.path.abspath('profiles')  #: Directory where local profiles are saved
 
     def __init__(self, name: str = 'default', local: bool = True, **kwargs):
-        """Initialize a new local or remote :class:`Profile`
+        """Create a new :class:`Profile`
+
+        :class:`Profile` creation is mandatory, as it is needed to initialize an :class:`~.InstaTweet` object.
+
+        ...
+
+        .. autodata:: InstaTweet.instatweet.InstaTweet()
+
+        ...
+
+
+        However
+
 
         :param name: unique profile name
         :param local: indicates if profile is being saved locally or on a remote database
-
-        .. admonition:: Important ⚠🤮
-           :class: important-af
-
-           The ``DATABASE_URL`` environment variable must be configured to load/save profiles remotely
-
         :param kwargs: see below
 
         :Keyword Arguments:
@@ -50,8 +76,9 @@ class Profile:
                 The user agent to use for requests; scrapes the newest Chrome agent if not provided
             * *proxy_key* (``str``) -- Optional
                 Environment variable to retrieve proxies from
-            * *user_map* (``dict``) -- Optional
-                A dict of Instagram users and their associated :attr:`~USER_MAPPING`
+            * .. autoattribute:: user_map
+                 :annotation:
+                 :noindex:
 
         .. admonition:: **Profile Creation Tips**
            :class: instatweet
@@ -69,7 +96,7 @@ class Profile:
         self.twitter_keys = kwargs.get('twitter_keys', TweetClient.DEFAULT_KEYS)
         self.user_agent = kwargs.get('user_agent', utils.get_agent())
         self.proxy_key = kwargs.get('proxy_key', None)
-        self.user_map = kwargs.get('user_map', {})
+        self.user_map = kwargs.get('user_map', {})  #: ``dict``: Mapping of added Instagram users and their :attr:`~USER_MAPPING`
 
     @classmethod
     def load(cls, name: str, local: bool = True) -> Profile:

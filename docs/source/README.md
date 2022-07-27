@@ -45,16 +45,15 @@ With InstaTweet, you can rest easy knowing that, although nobody will click the 
 ## What's InstaTweet?
 InstaTweet is a tool that automatically reposts content from Instagram to Twitter.
 
-Simply create a ```Profile```, add the Instagram users you'd like reposst from, and configure the required settings. 
+Simply create a {py:class}`~.InstaTweet.Profile`, configure the required attributes,
+and {py:meth}`~.add_users` to repost from.
 
-Once you've got a {py:class}`~.Profile` set up, load it into {py:class}`~.InstaTweet`  and call {py:meth}`~.start`
-and InstaTweet will scrape their accounts If new posts are detected, they'll be automatically
-downloaded and reposted to Twitter. If you've chosen to {py:meth}`~.save` your Profile, it'll be saved continuously.
+Once you {py:meth}`~.validate` the profile settings, you can {py:meth}`~.InstaTweet.load` it into an 
+{py:class}`~.InstaTweet` object and call {py:meth}`~.start` -- InstaTweet will scrape the users you added, and
+if new posts are detected, the content will be automatically downloaded and reposted to Twitter.
 
 <br>
-
-
-
+https://www.onlinewebfonts.com/icon/119089
 ```python
 from InstaTweet import InstaTweet
 
@@ -64,31 +63,19 @@ insta_tweet.start()
 
 <br>
 
-The [scheduler](scheduler.py) can also be used (remotely and locally) to InstaTweet your profile(s)
+Alternatively, you can use the provided `scheduler < scheduler.py >`_) script to 
+run InstaTweet on remote or local profiles
+
+Use the provided 
 
 ```{eval-rst}
-.. code::
-
-   #scheduler.py
-   from InstaTweet import InstaTweet
-   
-   PROFILES = ['aProfile', 'myProfile']
-   LOCAL = True
-    
-   def run(profile_name: str, local: bool = LOCAL):
-   """Loads and InstaTweets a profile
-
-   :param profile_name: the name of the :class:`~.Profile`
-   :param local: if the profile is saved locally or in a SQLAlchemy supported database
-   """
-   insta_tweet = InstaTweet.load(profile_name, local=local)
-   insta_tweet.start()
-
-   if __name__ == '__main__':
-      for profile in PROFILES:
-         run(profile, local=LOCAL)
-
+ `scheduler <https://github.com/tdkorn/insta-tweet/blob/2.0.0/scheduler.py>`_
 ```
+for blah
+
+```{literalinclude} ../../scheduler.py
+```
+
 
 [//]: # (https://github.com/TDKorn/insta-tweet/blob/1d862bf0c7d04109f5b9e1fe0cb39ac78ed4b114/scheduler.py#L1-L19)
 
@@ -134,6 +121,7 @@ pip install insta-tweet
 ```{eval-rst}
 .. autodata:: InstaTweet.profile.Profile()
    :annotation:
+   :noindex:
 ``` 
 
 [//]: # (   :members: __init__)

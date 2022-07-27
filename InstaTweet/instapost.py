@@ -29,10 +29,11 @@ class InstaPost:
     def filename(self) -> str:
         """Concatenates :attr:`~id` + :attr:`~filetype` to create the default filename, for use when saving the post
 
-        **Example**::
+        :For Example:::
 
-            >> print(post.filename)
-            "2868062811604347946.mp4"
+           >> print(post.filename)
+           "2868062811604347946.mp4"
+
         """
         return self.id + self.filetype
 

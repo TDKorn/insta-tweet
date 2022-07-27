@@ -1,19 +1,35 @@
 from typing import Optional, List
 from . import utils, TweetClient, InstaClient, InstaPost, Profile
 
+        #
+        # **InstaTweet** (`verb`):
+        #     To scrape an Instagram account -> download & tweet any new content -> update and save the loaded :class:`~.Profile`
+
+    # """
 
 class InstaTweet:
 
     """Uses the settings from a Profile to do the actual InstaTweeting
 
+    .. tip:: hello fuck face
+
     You might be wondering, what's InstaTweeting? According to TDK Dictionary:
 
-        **InstaTweet** (`verb`):
-            To scrape an Instagram account -> download & tweet any new content -> update and save the loaded :class:`~.Profile`
+        .. admonition:: **InstaTweet** (`verb`):
+           :class: instatweet
 
-        **Example Sentence**
-            "Oh, you lost 700 Twitter followers after you shared your IG post? Well maybe if people actually saw the
-            picture and not just the caption your tweet would've been less creepy. You should've InstaTweeted it.
+           To load a :class:`~.Profile` ➜ scrape the Instagram users in its :attr:`~.user_map`
+           ➜ download & tweet any new content ➜ update the appropriate :attr:`~.USER_MAPPING`
+
+              * If a local/remote save file :attr:`~.exists` for the :class:`~.Profile`,
+                InstaTweet will :meth:`~.save` to it multiple time per run
+
+
+            .. admonition:: **Example Sentence**
+               :class: example
+
+               Oh, you lost 700 Twitter followers after you shared your IG post? Well maybe if people actually saw the
+               picture and not just the caption your tweet would've been less creepy. You should've InstaTweeted it.
 
     """
 

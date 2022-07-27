@@ -96,3 +96,12 @@ def skip(app, what, name, obj, would_skip, options):
 def setup(app):
     app.connect('autodoc-skip-member', skip)
     app.add_css_file("property.css")  # To prevent horizontal stacking in RTD
+
+
+def linkcode_resolve(domain, info):
+    if domain != 'py':
+        return None
+    if not info['module']:
+        return None
+    filename = info['module'].replace('.', '/')
+    return "https://github.com/TDKorn/insta-tweet/%s.py" % filename
