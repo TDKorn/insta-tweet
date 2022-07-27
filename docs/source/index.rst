@@ -7,7 +7,7 @@ Welcome to the documentation for InstaTweet!
 ============================================
 .. toctree::
    :maxdepth: 2
-   :caption: InstaTweet 2.0.0
+   :caption: InstaTweet README
 
    README
 

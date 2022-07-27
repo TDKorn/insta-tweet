@@ -12,6 +12,7 @@
 #
 import os
 import sys
+import pkg_resources
 
 sys.path.insert(0, os.path.abspath('../../'))
 sys.path.append(os.path.abspath('exts'))
@@ -23,7 +24,8 @@ copyright = '2022, Adam Korn'
 author = 'Adam Korn'
 
 # The full version, including alpha/beta/rc tags
-release = '2.0.0b12'
+# release = pkg_resources.require("insta-tweet")[0].version
+release = "2.0.0b12"
 
 # -- General configuration ---------------------------------------------------
 
@@ -32,10 +34,14 @@ release = '2.0.0b12'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.viewcode',
+    # 'sphinx.ext.viewcode',
+    'sphinx.ext.linkcode',
     'sphinx.ext.intersphinx',
+    'sphinx.ext.autosectionlabel',
     'myst_parser',
 ]
+# Make sure the target is unique
+autosectionlabel_prefix_document = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -51,11 +57,24 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
+html_theme_options = {
+    'collapse_navigation': False,  # Add the [+] signs to nav
+    'prev_next_buttons_location': 'both',
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+html_context = {
+    'display_github': True,
+    'github_user': 'TDKorn',
+    'github_repo': 'insta-tweet',
+    'github_version': 'docs/docs/source/'
+}
+
+# html_show_sourcelink = True
+
 
 # InterSphinx to add Python and Tweepy references
 intersphinx_mapping = {
@@ -80,9 +99,93 @@ autodoc_typehints = 'description'
 # which was driving me INSANE bc literally for what??? like who.. WHO wants that
 autodoc_typehints_description_target = 'documented_params'
 
-# ---- MyST Parser Settings ------------------------------------------------------
+# ---- MyST Parser Settings ---------------------------------------------------
 #
 source_suffix = ['.rst', '.md']
+
+# ---- Linkcode Extension Settings ---------------------------------------------------
+#
+
+import subprocess
+import inspect
+
+
+# linkcode_revision = "master"
+
+# try:
+#     # lock to commit number
+#     cmd = "git log -n1 --pretty=%H"
+#     head = subprocess.check_output(cmd.split()).strip().decode('utf-8')
+#     linkcode_revision = head
+#
+#     # if we are on master's HEAD, use master as reference
+#     cmd = "git log --first-parent master -n1 --pretty=%H"
+#     master = subprocess.check_output(cmd.split()).strip().decode('utf-8')
+#     if head == master:
+#         linkcode_revision = "master"
+#
+#     # if we have a tag, use tag as reference
+#     cmd = "git describe --exact-match --tags " + head
+#     tag = subprocess.check_output(cmd.split(" ")).strip().decode('utf-8')
+#     linkcode_revision = tag
+#
+# except subprocess.CalledProcessError:
+#     pass
+
+linkcode_revision = '44fb8792d9d98b9380ccb83053e3d2be1cb718eb'
+
+
+linkcode_revision = 'docs'
+linkcode_url = "https://github.com/tdkorn/insta-tweet/blob/" \
+               + linkcode_revision + "/{filepath}#L{linestart}-L{linestop}"
+
+
+def linkcode_resolve(domain, info):
+    if domain != 'py' or not info['module']:
+        return None
+
+    modname = info['module']
+    topmodulename = modname.split('.')[0]
+    fullname = info['fullname']
+
+    submod = sys.modules.get(modname)
+    if submod is None:
+        return None
+
+    obj = submod
+    for part in fullname.split('.'):
+        try:
+            obj = getattr(obj, part)
+            print(obj)
+        except Exception:
+            print(f'error getting part? obj = {obj}, part = {part})')
+            return None
+
+    try:
+        modpath = pkg_resources.require(topmodulename)[0].location
+        filepath = os.path.relpath(inspect.getsourcefile(obj), modpath)
+        if filepath is None:
+            print(f'No Filepath? modpath = {modpath}')
+            return
+    except Exception:
+        print(f'No filepath?? obj -> {obj} modpath -> {modpath}')
+        return None
+
+    try:
+        source, lineno = inspect.getsourcelines(obj)
+    except OSError:
+        print(f'failed to get source lines for {obj}')
+        return None
+    else:
+        linestart, linestop = lineno, lineno + len(source) - 1
+
+    final_link = linkcode_url.format(
+        filepath='/'.join(filepath.split('\\')),
+        linestart=linestart,
+        linestop=linestop
+    )
+    print(f"Final Link for {info['fullname']}:", final_link)
+    return final_link
 
 
 # ---- Skip and Setup Method -------------------------------------------------
@@ -96,12 +199,3 @@ def skip(app, what, name, obj, would_skip, options):
 def setup(app):
     app.connect('autodoc-skip-member', skip)
     app.add_css_file("property.css")  # To prevent horizontal stacking in RTD
-
-
-def linkcode_resolve(domain, info):
-    if domain != 'py':
-        return None
-    if not info['module']:
-        return None
-    filename = info['module'].replace('.', '/')
-    return "https://github.com/TDKorn/insta-tweet/%s.py" % filename

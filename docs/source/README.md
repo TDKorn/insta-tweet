@@ -48,7 +48,7 @@ InstaTweet is a tool that automatically reposts content from Instagram to Twitte
 Simply create a {py:class}`~.InstaTweet.Profile`, configure the required attributes,
 and {py:meth}`~.add_users` to repost from.
 
-Once you {py:meth}`~.validate` the profile settings, you can {py:meth}`~.InstaTweet.load` it into an 
+Once you {py:meth}`~.validate` the profile settings, you can {py:meth}`~.InstaTweet.load` it into an
 {py:class}`~.InstaTweet` object and call {py:meth}`~.start` -- InstaTweet will scrape the users you added, and
 if new posts are detected, the content will be automatically downloaded and reposted to Twitter.
 
@@ -63,20 +63,16 @@ insta_tweet.start()
 
 <br>
 
-Alternatively, you can use the provided `scheduler < scheduler.py >`_) script to 
-run InstaTweet on remote or local profiles
-
-Use the provided 
-
+Alternatively, you can use the provided
 ```{eval-rst}
  `scheduler <https://github.com/tdkorn/insta-tweet/blob/2.0.0/scheduler.py>`_
 ```
-for blah
+script to run InstaTweet on your local/remote profiles
 
 ```{literalinclude} ../../scheduler.py
 ```
 
-
+[//]: # (For normal README)
 [//]: # (https://github.com/TDKorn/insta-tweet/blob/1d862bf0c7d04109f5b9e1fe0cb39ac78ed4b114/scheduler.py#L1-L19)
 
 <br>
@@ -85,7 +81,7 @@ for blah
 .. admonition:: But Why? 🤨
    :class: instatweet
 
-   **InstaTweet has two main use cases:** 
+   **InstaTweet has two main use cases:**
 
    * To automatically share your own Instagram posts to Twitter
    * To automatically tweet new content from other Instagram users
@@ -122,7 +118,7 @@ pip install insta-tweet
 .. autodata:: InstaTweet.profile.Profile()
    :annotation:
    :noindex:
-``` 
+```
 
 [//]: # (   :members: __init__)
 
@@ -144,13 +140,13 @@ Settings can be provided as keyword arguments when initializing a ```Profile```,
 * Mandatory settings will have their data **type** validated by property setters at all times
 * Requirements are not truly enforced until the profile is *InstaTweeted*
 
-
+(mandatory-settings)=
 ### Mandatory Settings
 
 * ```session_id``` — Instagram Sessionid Cookie, obtained by logging in on a desktop browser
 * ```twitter_keys``` — Twitter API Keys with v1.1 endpoint access
 
-### Mandatory Settings with Default Values 
+### Mandatory Settings with Default Values
 
 * ```name="default"``` — Profile name; a unique, non-default name is needed to save the ```Profile```, but not to *InstaTweet* it
 * ```local=True``` — Indicates if the profile should be saved locally (default) or uploaded to a remote database
@@ -160,7 +156,7 @@ Settings can be provided as keyword arguments when initializing a ```Profile```,
 ### Entirely Optional Settings
 
 - ```proxy_key``` — Environment variable to retrieve proxies from when making requests to Instagram/Twitter
-- ```user_map``` — Fully formatted dictionary of IG usernames mapped to their ```USER_MAPPING``` 
+- ```user_map``` — Fully formatted dictionary of IG usernames mapped to their ```USER_MAPPING```
 
 ***
 
@@ -264,7 +260,7 @@ Added Instagram user @names to the user map
 ```shell
 name : myProfile
 local : True
-session_id : 
+session_id :
 twitter_keys : {'Consumer Key': 'string', 'Consumer Secret': 'string', 'Access Token': 'string', 'Token Secret': 'string'}
 user_agent : Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36
 proxy_key : None
@@ -304,14 +300,14 @@ You can use the ```get_hashtags_for()``` method to retrieve the hashtag list of 
 ['wow', 'okay']
 ```
 
-<br> 
+<br>
 
 ## Saving a Profile
 
 The profile can be saved either locally or to a SQLAlchemy supported database -- just set the ```DATABASE_URL```
 environment variable
 
-> **NOTE:** Saving a `Profile` is not mandatory to run InstaTweet, but doing so allows for easy access to associated API 
+> **NOTE:** Saving a `Profile` is not mandatory to run InstaTweet, but doing so allows for easy access to associated API
 settings as well as tracking of previously scraped & tweeted posts (which is used to determine which posts are new)    
 
 [//]: # ()
@@ -334,7 +330,7 @@ https://github.com/TDKorn/insta-tweet/blob/dc904af214596588bfc75b32eccc1ff37d0c2
 
 <br>
 
-#### Example: 
+#### Example:
 ```python
 >>> p = Profile('myProfile')
 >>> p.save()
@@ -365,6 +361,3 @@ You can see if a profile name already exists remotely or locally by calling the 
 https://github.com/TDKorn/insta-tweet/blob/dc904af214596588bfc75b32eccc1ff37d0c271b/InstaTweet/profile.py#L79-L86
 
 <br>
-
-
-
