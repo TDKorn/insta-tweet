@@ -14,7 +14,6 @@ import os
 import sys
 import pkg_resources
 
-sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
 
@@ -104,10 +103,13 @@ source_suffix = ['.rst', '.md']
 
 # ---- Linkcode Extension Settings ---------------------------------------------------
 #
+
 import subprocess
 import inspect
-#
+
+
 # linkcode_revision = "master"
+
 # try:
 #     # lock to commit number
 #     cmd = "git log -n1 --pretty=%H"
@@ -128,14 +130,13 @@ import inspect
 # except subprocess.CalledProcessError:
 #     pass
 
-
-
+# URL thats formatted and returned by linkcode_resolve
 linkcode_revision = 'docs'
 linkcode_url = "https://github.com/tdkorn/insta-tweet/blob/" \
                + linkcode_revision + "/{filepath}#L{linestart}-L{linestop}"
 
-modpath = pkg_resources.require('insta-tweet')[0].location  # Since InstaTweet is pkg name not folder name? idk...
-
+# Hardcoded Top Level Module Path // since InstaTweet isn't PyPi release name :(  but it could be...
+modpath = pkg_resources.require('insta-tweet')[0].location
 
 def linkcode_resolve(domain, info):
     if domain != 'py' or not info['module']:
