@@ -8,47 +8,55 @@ import pickle
 from typing import Iterable
 from . import utils, TweetClient, DBConnection
 
-# :ref: `mandatory-settings`
-# :ref:`configure the necessary settings <mandatory-settings>`
-
 
 class Profile:
 
-    """A collection of associated settings used extensively within the package
+    """The :class:`Profile` is a configuration class used extensively throughout the package
 
-    The :class:`Profile` contains a :attr:`~user_map` and the API access/web scraping settings associated with it
+    It consists of a :attr:`~user_map` and an associated collection of API/web scraping :ref:`settings <settings>`
 
     ...
 
     .. admonition:: About the User Map
         :class: instatweet
 
-        The :attr:`~user_map` is a dict containing info about the IG users in a :class:`Profile`
+        The :attr:`~user_map` is a dict containing info about the users added to a :class:`Profile`
 
-        * Entries are created when you :meth:`add_users`, mapping the username to a :attr:`~USER_MAPPING`
-        * The :attr:`~USER_MAPPING` contains lists of a user's hashtags, scraped posts, and sent tweets
-        * The lists are updated when you :meth:`add_hashtags` and successfully :meth:`~.send_tweet`
-        * Used to detect when posts are new and to help compose tweets
+        * Entries are created when you :meth:`add_users`, which map the user to a :attr:`~USER_MAPPING`
+        * The :attr:`~USER_MAPPING` maintains lists of hashtags, scraped posts, and sent tweets
+        * The mapping is updated when you :meth:`add_hashtags` and successfully :meth:`~.send_tweet`
+        * It's used to help detect new posts and compose tweets on a per-user basis
 
-        A few methods help provide easy access to :attr:`~user_map` entries and lists
+        You can access entries in the :attr:`~user_map` as follows:
 
-        * :meth:`~get_user` allows you to retrieve an entry by username
-        * :meth:`~get_hashtags_for`, :meth:`get_scraped_from`, :meth:`get_tweets_for` provide access to the lists
-
-    ...
-
-    A :class:`Profile` can optionally be assigned a unique, identifying :attr:`~name`, which can then be used to
-    :meth:`~save` and :meth:`~load` the Profile either locally or remotely
+        * :meth:`~get_user` allows you to retrieve a full entry by username
+        * :meth:`~get_hashtags_for`, :meth:`get_scraped_from`, :meth:`get_tweets_for` provide access
+          to lists
 
     ...
 
-    .. admonition:: Important ⚠
+    **[Optional]**
+
+    A unique, identifying :attr:`~name` can be assigned to the profile, which may then be used
+    to :meth:`~save` and, in turn, :meth:`~load` its settings
+
+    * This makes it extremely easy to switch between settings and create template profiles
+    * Not required to :meth:`~.start` InstaTweet -- it's just for convenience
+
+    ...
+
+    .. admonition:: Important
        :class: important-af
 
-       To save/load a Profile remotely, you must configure the ``DATABASE_URL`` environment variable
+       If you do :meth:`~save` your profile, the save location is determined by the value of :attr:`Profile.local`
 
-          * Any SQLAlchemy supported database is compatible
-          * See the :mod:`~.InstaTweet.db` module for full details
+       * Local saves are made to the :attr:`~LOCAL_DIR`, as pickle files
+       * Remote saves are made to a database (via the :mod:`~.db` module) as pickle bytes
+
+       **You MUST configure the** :attr:`~InstaTweet.db.DATABASE_URL` **environment variable to save/load remotely**
+
+       * InstaTweet uses ``SQLAlchemy`` for database interaction -- any db it supports is compatible
+       * See the :mod:`~.db` module for more information
 
     """
 
@@ -58,10 +66,11 @@ class Profile:
     def __init__(self, name: str = 'default', local: bool = True, **kwargs):
         """Create a new :class:`Profile`
 
-        :class:`Profile` creation is mandatory
+        .. note:: :class:`Profile` creation is mandatory to use the ``InstaTweet`` package
 
-        * It is the sole parameter needed to initialize an :class:`~.InstaTweet` object
-        * The :class:`~.InstaClient` and :class:`~.TweetClient` are initialized from certain settings
+           * Required to initialize an :class:`~.InstaTweet` object
+           * Settings also used to initialize an :class:`~.InstaClient` and :class:`~.TweetClient`
+           * Naming and saving it is entirely optional; creation is non-negotiable
 
         :param name: unique profile name
         :param local: indicates if profile is being saved locally or on a remote database
@@ -84,10 +93,10 @@ class Profile:
         .. admonition:: **Profile Creation Tips**
            :class: instatweet
 
-           * All attributes can be set at the time of initialization or after the :class:`Profile` is created
-           * Property setters validate data for attributes that must be set to run ``InstaTweet``
-           * The :class:`~Profile` as a whole is validated by :meth:`~validate` when :meth:`~.start` is called
-           * A name is not necessary to create and *InstaTweet* a profile, but it's required to :meth:`~.save` it
+           * All attributes can be passed as arguments at initialization or set directly afterwards
+           * Property setters validate data types for the :ref:`mandatory-settings`
+           * The :class:`~Profile` as a whole is validated by :meth:`~validate`
+
 
         """
         self.local = local

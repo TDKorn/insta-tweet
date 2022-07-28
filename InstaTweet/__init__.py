@@ -1,5 +1,5 @@
 # Helpers
-from . import utils
+from . import utils, db
 from .db import DBConnection
 # API Interaction/Wrapper Classes
 from .instapost import InstaPost

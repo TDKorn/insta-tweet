@@ -11,8 +11,6 @@ class InstaTweet:
 
     """Uses the settings from a Profile to do the actual InstaTweeting
 
-    .. tip:: hello fuck face
-
     You might be wondering, what's InstaTweeting? According to TDK Dictionary:
 
         .. admonition:: **InstaTweet** (`verb`):

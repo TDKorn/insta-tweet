@@ -23,6 +23,10 @@ be queried
   - It will create/destroy a session when saving, loading, and InstaTweeting a :class:`~.Profile`
   - If desired, a persistent connection can be created and used instead
 
+
+.. automodule:: InstaTweet.db
+   :exclude-members: DATABASE_URL, Profiles, DBConnection
+
 ...
 
 .. autodata:: InstaTweet.db.DATABASE_URL
