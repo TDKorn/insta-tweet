@@ -33,12 +33,16 @@ code.literal {
 
 /* Red msg title background for the important af stuff */
 .rst-content .important-af .admonition-title {
-    background: #c71427 !important
+    background: #c71427 !important;
+}
+/* Custom admonition icon for "Important" admonition: ⚠ */
+.rst-content .important-af .admonition-title::before {
+    content: "⚠" !important;
 }
 
 /* Green title and white background for "Example" admonition, colour taken from `.. tip::` */
 .rst-content .example {
-    background: #ffffff
+    background: #ffffff;
 }
 .rst-content .example .admonition-title {
     background: #1abc9c;
