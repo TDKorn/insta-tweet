@@ -49,5 +49,14 @@ code.literal {
 }
 /* Custom admonition icon for "Example admonition: 📝 */
 .rst-content .example .admonition-title::before {
-    content: "📝";
+    content: "📝" !important;
 }
+/* Custom admonition icon for when it's like "shut up already":  */
+.rst-content .shut-up .admonition-title::before {
+    content: "🙄";
+}
+/* Custom admonition icon for InstaTweet:  */
+.rst-content .instatweet .admonition-title::before {
+    content: "🐤";
+}
+

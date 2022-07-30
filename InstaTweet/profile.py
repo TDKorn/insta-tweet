@@ -55,7 +55,7 @@ class Profile:
 
        **You MUST configure the** :attr:`~InstaTweet.db.DATABASE_URL` **environment variable to save/load remotely**
 
-       * InstaTweet uses ``SQLAlchemy`` for database interaction -- any db it supports is compatible
+       * InstaTweet uses ``SQLAlchemy`` to create a :class:`~.DBConnection` -- any db it supports is compatible
        * See the :mod:`~.db` module for more information
 
     """
@@ -70,7 +70,7 @@ class Profile:
 
            * Required to initialize an :class:`~.InstaTweet` object
            * Settings also used to initialize an :class:`~.InstaClient` and :class:`~.TweetClient`
-           * Naming and saving it is entirely optional; creation is non-negotiable
+           * Naming and saving it is entirely optional! You just gotta create it though 🤷‍♂️
 
         :param name: unique profile name
         :param local: indicates if profile is being saved locally or on a remote database
