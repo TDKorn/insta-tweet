@@ -40,7 +40,7 @@ Ever tried sharing an Instagram post to Twitter, only to find out that all you t
 
 [//]: # (![image]&#40;https://user-images.githubusercontent.com/96394652/180762389-3b697c8d-d9ba-48bb-9646-7d7ab1912cb0.png&#41;)
 
-With InstaTweet, you can rest easy knowing that, although nobody will click the link, they'll at least see what you posted.
+With `InstaTweet`, you can rest easy knowing that, although nobody will click the link, they'll at least see what you posted.
 
 <br>
 
@@ -50,28 +50,18 @@ With InstaTweet, you can rest easy knowing that, although nobody will click the 
 
 Simply create a {py:class}`~.InstaTweet.Profile`, configure the 
 {ref}`required settings <mandatory-settings>`, and {py:meth}`~.add_users` to repost from.
-Once you {py:meth}`~.validate` the profile, you can {py:meth}`~.InstaTweet.load` it 
-into an {py:class}`~.InstaTweet` object and call {py:meth}`~.start`
+Then {py:meth}`~.InstaTweet.load` it into an {py:class}`~.InstaTweet` object and call {py:meth}`~.start`
 
 ```python
 from InstaTweet import InstaTweet
 
+# Load and InstaTweet a locally saved Profile
 insta_tweet = InstaTweet.load('myProfile')
 insta_tweet.start()
 ```
 
-`InstaTweet` will then scrape the users you added and when new posts are detected, they'll be automatically
-downloaded and reposted to Twitter.
-
-You can also use the provided [scheduler.py](https://github.com/tdkorn/insta-tweet/blob/2.0.0/scheduler.py) 
-file to InstaTweet your local/remote profiles:
-
-```{literalinclude} ../../scheduler.py
-```
-
-<br>
-
-[//]: # (https://github.com/TDKorn/insta-tweet/blob/1d862bf0c7d04109f5b9e1fe0cb39ac78ed4b114/scheduler.py#L1-L19)
+`InstaTweet` will scrape the added users most recent Instagram {py:attr}`~.posts`, and if any are new,
+they'll be automatically downloaded and reposted to Twitter.
 
 
 ```{eval-rst}
@@ -88,6 +78,17 @@ file to InstaTweet your local/remote profiles:
 ```
 
 <br>
+
+You can easily schedule InstaTweet using the provided [scheduler](https://github.com/tdkorn/insta-tweet/blob/2.0.0/scheduler.py) 
+script
+
+```{literalinclude} ../../scheduler.py
+```
+https://github.com/TDKorn/insta-tweet/blob/1d862bf0c7d04109f5b9e1fe0cb39ac78ed4b114/scheduler.py#L1-L19
+
+<br>
+
+
 
 ## Documentation
 
