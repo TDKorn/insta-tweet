@@ -67,19 +67,18 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
     'sphinx.ext.autosectionlabel',
+    'sphinx.ext.viewcode',
     'myst_parser',
 ]
 
 if on_rtd:
     # Building on RTD -> use linkcode so that the [source] links to GitHub
-    extensions.append('sphinx.ext.linkcode')
+    extensions.append('_ext.linkcode')
     # Also hide the link from viewcode (would have two links otherwise)
     html_show_sourcelink = False
 
-else:
-    # Building locally -> use viewcode since commits wouldn't be pushed yet
-    # GitHub links would have inaccurate lines if anything is changed... so no point
-    extensions.append('sphinx.ext.viewcode')
+
+# Building locally -> just use viewcode since commits wouldn't be pushed yet anyways
 
 
 # ====================== Extra Settings for Extensions ========================
