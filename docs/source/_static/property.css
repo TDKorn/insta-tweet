@@ -60,3 +60,10 @@ code.literal {
     content: "🐤";
 }
 
+/* Hide header text for the "But Why?" section;
+Allows it to remain in the TOC and makes it
+seem like its linking to the admonition instead*/
+#okay-but-why h2 {
+   color: transparent;
+   font-size: 0.1px;
+}
