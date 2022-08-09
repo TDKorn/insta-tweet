@@ -12,7 +12,7 @@ def get_description():
 setup(
     name='insta-tweet',
     packages=['InstaTweet'],
-    version='2.0.0b1',
+    version='2.0.0b13',
     license='MIT',
     description='Automatically Repost Content From Instagram to Twitter',
     long_description=get_description(),
@@ -20,7 +20,7 @@ setup(
     author='Adam Korn',
     author_email='hello@dailykitten.net',
     url='https://www.github.com/TDKorn/insta-tweet/',
-    download_url="https://github.com/TDKorn/insta-tweet/tarball/2.0.0-beta/",
+    download_url="https://github.com/TDKorn/insta-tweet/tarball/2.0.0/",
     keywords=['instagram', 'twitter', 'repost', 'reposter', 'instascrape', 'instagram-repost'],
     install_requires=["requests", "tweepy", "psycopg2", "sqlalchemy"],
 )
