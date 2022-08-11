@@ -59,7 +59,7 @@ def doctree_read(app: Sphinx, doctree: Node) -> None:
                 continue
             uris.add(uri)
 
-            inline = nodes.inline('', _('💻 View on GitHub'), classes=['viewcode-link'])
+            inline = nodes.inline('', _('View on GitHub'), classes=['linkcode-link'])
             onlynode = addnodes.only(expr='html')
             onlynode += nodes.reference('', '', inline, internal=False, refuri=uri)
             signode += onlynode

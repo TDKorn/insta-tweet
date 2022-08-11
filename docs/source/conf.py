@@ -31,6 +31,9 @@ if not on_rtd:
 sys.path.append(os.path.abspath('.'))
 pygments_style = 'tdk_style.TDKStyle'
 
+# on_rtd = True  # Uncomment for testing RTD builds locally
+
+
 # ============================ Project information ============================
 
 project = 'InstaTweet'
@@ -38,6 +41,7 @@ copyright = '2022, Adam Korn'
 author = 'Adam Korn'
 
 # The full version, including alpha/beta/rc tags
+# Simplify things by using the version from setup.py
 version = pkg_resources.require("insta-tweet")[0].version
 release = version
 
@@ -72,13 +76,10 @@ extensions = [
 ]
 
 if on_rtd:
-    # Building on RTD -> use linkcode so that the [source] links to GitHub
+    # Building on RTD -> Add linkcode links (in addition to viewcode links)
+    # This links to the class/method/function on GitHub (with lines highlighted)
+    # as another option for viewing source code
     extensions.append('_ext.linkcode')
-    # Also hide the link from viewcode (would have two links otherwise)
-    html_show_sourcelink = False
-
-
-# Building locally -> just use viewcode since commits wouldn't be pushed yet anyways
 
 
 # ====================== Extra Settings for Extensions ========================
@@ -105,8 +106,7 @@ autodoc_typehints = 'description'
 #
 # Only add typehints for documented parameters (and all return types)
 #  ->  Prevents parameters being documented twice for both the class and __init__
-#  which was driving me INSANE bc literally for what??? like WHO wants that
-#  ->  It does mean everything with a typehint actually needs a docstring tho :(
+#  ->  It does mean everything with a typehint actually needs a docstring tho :/
 autodoc_typehints_description_target = 'documented_params'
 
 
@@ -118,7 +118,8 @@ source_suffix = ['.rst', '.md']
 # ============================ HTML Output Settings ============================
 
 # HTML Context
-html_context = {    # Add the "Edit on GitHub" link at the top
+# Add the "Edit on GitHub" link at the top
+html_context = {
     'display_github': True,
     'github_user': 'TDKorn',
     'github_repo': 'insta-tweet',
@@ -129,20 +130,24 @@ html_context = {    # Add the "Edit on GitHub" link at the top
 html_theme = 'sphinx_rtd_theme'
 
 # Theme Options
-# (See https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html#theme-options)
+# https://sphinx-rtd-theme.readthedocs.io/en/stable/configuring.html#theme-options
+#
 html_theme_options = {
-    'collapse_navigation': False,  # Add the [+] signs to nav
-    'prev_next_buttons_location': 'both',   # Prev/Next buttons also placed at the top bc it'd cruel not to
+    # Add the [+] signs to nav
+    'collapse_navigation': False,
+    # Prev/Next buttons also placed at the top bc it'd be cruel not to
+    'prev_next_buttons_location': 'both',
 }
 
 
 # ============================ Linkcode Extension Settings ============================
 #
-#                     Adapted from https://github.com/nlgranger (ily)
-#
 # Keeping linkcode separate from other extension settings since it's only for RTD builds (and long af)
+# To be clear: if on_rtd == False, this whole section is skipped and only viewcode is used
 #
-# To be clear: if locally building, this whole section is skipped
+#
+#                  Adapted from https://github.com/nlgranger/SeqTools (ily)
+#
 #
 if on_rtd:
     # Get the blob to link to on GitHub
@@ -176,7 +181,10 @@ if on_rtd:
     modpath = pkg_resources.require('insta-tweet')[0].location
 
     def linkcode_resolve(domain, info):
-        """Returns a link to the source code on GitHub, with appropriate lines highlighted"""
+        """Returns a link to the source code on GitHub, with appropriate lines highlighted
+
+        Adapted from https://github.com/nlgranger (ily)
+        """
         if domain != 'py' or not info['module']:
             return None
 
