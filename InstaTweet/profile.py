@@ -155,10 +155,14 @@ class Profile:
     def add_users(self, users: Iterable, send_tweet: bool = False):
         """Add Instagram user(s) to the :attr:`~.user_map` for subsequent monitoring
 
-        By default, newly added users will not have their posts tweeted the first time they are scraped -
-        the IDs of their recent posts are stored, and any new posts from that point forward will be tweeted
+        .. note:: By default, newly added users won't have their posts tweeted the first time they're scraped
 
-        You can override this by setting ``send_tweet=True``, which will immediately scrape AND tweet the recent posts
+           * The IDs of the ~12 most recent posts are stored in the ``scraped`` list
+           * Any new posts from that point forward will be tweeted
+
+           You can override this by setting ``send_tweet=True``
+
+           * This causes their ~12 most recent posts to be scraped AND tweeted
 
         :param users: Instagram username(s) to automatically scrape and tweet content from
         :param send_tweet: choose if tweets should be sent on the first scrape, or only for new posts going forward
