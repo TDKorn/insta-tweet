@@ -16,29 +16,52 @@ Ever tried sharing an Instagram post to Twitter, only to find out that all you t
 
 <img src="https://i.imgur.com/C7jc1XS.png" height="50%" width=auto></img><br>
 
-With `InstaTweet`, you can rest easy knowing that, although nobody will click the link, they'll at least see what you posted.
+With `InstaTweet`, you can rest easy knowing that,
+although nobody will click the link, they'll at least see what you posted.
 
 <br>
 
 ## What's InstaTweet?
 
-`InstaTweet` is a tool that automatically reposts content from Instagram to Twitter.
+`InstaTweet` is a customizable tool to automatically repost content from Instagram to Twitter.
 
-Simply create a {py:class}`~.InstaTweet.Profile`, configure the 
+Simply create a {py:class}`~.Profile`, configure the 
 {ref}`required settings <mandatory-settings>`, and {py:meth}`~.add_users` to repost from.
-Then {py:meth}`~.InstaTweet.load` it into an {py:class}`~.InstaTweet` object
-and call {py:meth}`~.start`
+Then initialize an {py:class}`~.InstaTweet` object and call {py:meth}`~.start`
 
 ```python
-from InstaTweet import InstaTweet
+from InstaTweet import InstaTweet, Profile
 
-# Load and InstaTweet a locally saved Profile
+fake_api_keys = {
+  'Consumer Key': 'BgHyLeXAtiNpYVeAcEHpBfKCJ',
+  'Consumer Secret': 'RCYWdmTGVfkTBFJGZotxQdfUKbKinXMUmZGfKJGmOSCNNKwGMQ',
+  'Access Token': '6529716844519798902-JHfRlKwXLgohVpbrtGWQZyNqSDVNEP',
+  'Token Secret': 'KShqwycdhKyKyiIbwwzuHQxTYEYAYZgcyIXMolzmpVHJD'
+}
+
+# Create and configure a new Profile
+p = Profile(
+  local=True,
+  name='myProfile',
+  session_id='6011991A',
+  twitter_keys=fake_api_keys
+)
+p.add_users('the.dailykitten')
+
+# Initialize and run InstaTweet using the Profile directly
+insta_tweet = InstaTweet(profile=p)
+insta_tweet.start()
+
+# Or save the Profile locally/remotely and load it into InstaTweet by name
+p.save()
+
+>>> Saved Local Profile myProfile
+
 insta_tweet = InstaTweet.load('myProfile')
 insta_tweet.start()
 ```
 
-`InstaTweet` will scrape the most recent Instagram {py:attr}`~.posts` from
-the added users, and if any are new, they'll be 
+{py:class}`~.InstaTweet` will scrape their profiles and, when new {py:attr}`~.posts` are detected, they'll be 
 automatically downloaded and reposted to Twitter.
 
 
@@ -190,65 +213,113 @@ USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}
 
 The mapping gets updated each time {py:class}`~.InstaTweet` successfully scrapes and tweets a post from the user
 
-```{note} 
-The `Profile` has several methods related to {py:attr}`~.user_map` access
 
-* {py:meth}`~.get_user` provides access to a particular user's {py:attr}`~.USER_MAPPING`
-* {py:meth}`~.get_scraped_from` returns the list of posts scraped from a specified user  
-* {py:meth}`~.get_hashtags_for` returns the list of hashtags to use in tweets for the specified user
-* {py:meth}`~.get_tweets_for` returns a list of tweets that use the specified user's scraped content
-```
 
 <br>
 
-### Adding Users and Hashtags
+### Adding Users
 
 Use the {py:meth}`~.add_users` method to add one or more Instagram users
 to a {py:class}`~.Profile`'s {py:attr}`~.user_map` 
 
-```{eval-rst}
-.. autodata:: InstaTweet.profile.Profile.add_users(users, send_tweet=False)
-   :annotation:
-   :noindex:
-```
-
-You can also {py:meth}`~.add_hashtags` for each user, which will be chosen from at random
-when one of their {py:attr}`~.posts` is tweeted.
-
-* The docs have more info on how {py:class}`~.InstaTweet` will
-  {py:meth}`~.pick_hashtags`, {py:meth}`~.build_tweet`, and {py:meth}`~.send_tweet` 
-
-
 ```python
-from InstaTweet import Profile, TweetClient
+from InstaTweet import Profile
 
-p = Profile("myProfile")
+# Add one user at a time
+p = Profile('myProfile')
+p.add_users('the.dailykitten', send_tweet=True)
+
+>>> Added Instagram user @the.dailykitten to the user map
 
 # Add multiple users at once
-users = ["dailykittenig", "the.daily.kitten.ig"]
-p.add_users(users) 
-# Or one at at time
-p.add_users("the.dailykitten", send_tweet=True) 
+usernames = ['dailykittenig','the.daily.kitten.ig']
+p.add_users(usernames)
 
-# Add hashtags for each user individually
-for user in users:
-    p.add_hashtags(user, ['catlover','thedailykitten', 'kittycat'])
+>>> Added Instagram user @dailykittenig to the user map
+>>> Added Instagram user @the.daily.kitten.ig to the user map
 
-# Access individual USER_MAPPING or lists within it
-print("user map entry for @the.daily.kitten.ig: ", p.get_user("the.daily.kitten.ig"))
-print("scraped posts from @the.dailykitten: ", p.get_scraped_from("the.dailykitten"))
 ```
 
+The {py:meth}`~.Profile.get_user` method can be used to retrieve the full {py:attr}`~.USER_MAPPING` of an added user
+
+```python
+print(p.get_user('the.dailykitten'))
+
+>>> {'hashtags': [], 'scraped': [-1], 'tweets': []}
+```
+
+<br>
+
+### Adding Hashtags
+
+You can {py:meth}`~.add_hashtags` for each user in the {py:attr}`~.user_map`
+
+* They'll be chosen from at random when composing tweets based on one of their {py:attr}`~.posts`
+* For more info, see {py:meth}`~.pick_hashtags`, {py:meth}`~.build_tweet` and {py:meth}`~.send_tweet` 
+
+```python
+# Add a single hashtag for a specific user
+p.add_hashtags(user='dailykittenig', hashtags='cats')
+
+>>> Added hashtags for @dailykittenig
+
+# Add multiple hashtags at once
+users = ['the.dailykitten','the.daily.kitten.ig']
+hashtags = ['kittygram', 'kittycat']
+
+for user in users:
+    p.add_hashtags(user, hashtags)
+
+>>> Added hashtags for @the.dailykitten
+>>> Added hashtags for @the.daily.kitten.ig
+
+p.view_config()
+```
 Output:
 ```shell
-Added Instagram user @dailykittenig to the user map
-Added Instagram user @the.daily.kitten.ig to the user map
-Added Instagram user @the.dailykitten to the user map
-Added hashtags for @dailykittenig
-Added hashtags for @the.daily.kitten.ig
-user map entry for @the.daily.kitten.ig:  {'hashtags': ['catlover', 'kittycat', 'thedailykitten'], 'scraped': [], 'tweets': []}
-scraped posts from @the.dailykitten:  [-1]
+name : myProfile
+local : True
+session_id : 6011991A
+twitter_keys : {'Consumer Key': 'string', 'Consumer Secret': 'string', 'Access Token': 'string', 'Token Secret': 'string'}
+user_agent : Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36
+proxy_key : None
+user_map : {'the.dailykitten': {'hashtags': ['kittygram', 'kittycat'], 'scraped': [-1], 'tweets': []}, 'dailykittenig': {'hashtags': ['cats'], 'scraped': [], 'tweets': []}, 'the.daily.kitten.ig': {'hashtags': ['kittygram', 'kittycat'], 'scraped': [], 'tweets': []}}
 ```
+
+You can use the {py:meth}`~.get_hashtags_for` method to retrieve the `hashtags` list of a specific username
+
+```python
+print(p.get_hashtags_for('the.daily.kitten.ig'))
+
+>>> ['kittygram', 'kittycat']
+```
+
+<br>
+
+### Methods Related to User Map Access
+
+```{eval-rst}
+.. admonition:: User Map Access Methods
+    :class: instatweet
+
+    The `Profile` has several methods that allow for easy access to the {py:attr}`~.user_map`
+
+    * :meth:`~.Profile.get_user` provides access to a particular user's {py:attr}`~.USER_MAPPING`
+    * :meth:`~.get_scraped_from` returns the list of posts scraped from a specified user  
+    * :meth:`~.get_hashtags_for` returns the list of hashtags to use in tweets for the specified user
+    * :meth:`~.get_tweets_for` returns a list of tweets that use the specified user's scraped content
+
+    All lists returned by the :attr:`~.user_map` access methods can be modified in place. For example:
+
+    .. code::
+    
+      p.get_hashtags_for('the.daily.kitten.ig').append('kittypoop')
+      print(p.get_hashtags_for('the.daily.kitten.ig'))
+      
+      >>> ['kittygram', 'kittycat', 'kittypoop']
+```
+
+<br>
 
 ## Saving a Profile
 
@@ -325,69 +396,4 @@ script
 
 FROM COMMIT d287295
 
-
-### Adding Users
-
-Use the ```add_users()``` method to add users to a Profile's user map
-
-```python
-from InstaTweet import Profile
-
->>> p = Profile('myProfile')
->>> p.add_users('username')
-
-Added Instagram user @username to the user map
-
->>> usernames = ['user','names']
->>> p.add_users(usernames)
-
-Added Instagram user @user to the user map
-Added Instagram user @names to the user map
-
->>> p.view_config()
-```
-```shell
-name : myProfile
-local : True
-session_id : 
-twitter_keys : {'Consumer Key': 'string', 'Consumer Secret': 'string', 'Access Token': 'string', 'Token Secret': 'string'}
-user_agent : Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36
-proxy_key : None
-user_map : {'username': {'hashtags': [], 'scraped': [], 'tweets': []}, 'user': {'hashtags': [], 'scraped': [], 'tweets': []}, 'names': {'hashtags': [], 'scraped': [], 'tweets': []}}
-```
-
-You can use the ```get_user()``` method to retrieve the mapping of a particular user
-```python
->>> print(p.get_user('names'))
-
-{'hashtags': [], 'scraped': [], 'tweets': []}
-```
-***
-
-### Adding Hashtags
-Use the ```add_hashtags()``` method to add hashtags to a specific user in the Profile's user map
-
-```python
->>> p.add_hashtags(user='username', hashtags='cool')
-
-Added hashtags for @username
-
->>> hashtags = ['wow', 'okay']
->>> p.add_hashtags('user', hashtags)
-
-Added hashtags for @user
-
->>> print(p.user_map)
-{'username': {'hashtags': ['cool'], 'scraped': [], 'tweets': []}, 'user': {'hashtags': ['wow', 'okay'], 'scraped': [], 'tweets': []}, 'names': {'hashtags': [], 'scraped': [], 'tweets': []}}
-```
-
-You can use the ```get_hashtags_for()``` method to retrieve the hashtag list of a specific username
-
-```python
->>> print(p.get_hashtags_for('user'))
-
-['wow', 'okay']
-```
-
-<br> 
 
