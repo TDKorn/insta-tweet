@@ -22,10 +22,10 @@ class Profile:
 
         The :attr:`~user_map` is a dict containing info about the users added to a :class:`Profile`
 
+        * It's used to help detect new posts and compose tweets on a per-user basis
         * Entries are created when you :meth:`add_users`, which map the user to a :attr:`~USER_MAPPING`
         * The :attr:`~USER_MAPPING` maintains lists of hashtags, scraped posts, and sent tweets
         * The mapping is updated when you :meth:`add_hashtags` and successfully :meth:`~.send_tweet`
-        * It's used to help detect new posts and compose tweets on a per-user basis
 
         You can access entries in the :attr:`~user_map` as follows:
 
