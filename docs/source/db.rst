@@ -1,27 +1,50 @@
 The ``db`` module
 -----------------------------------
 
-The :mod:`~.db` module contains the :class:`~.DBConnection` class as well as the :class:`~.Profiles` database table
+The :mod:`~.db` module contains the :class:`~.DBConnection` class and the :class:`~.Profiles` database table
 
-* Each row of the database will correspond to a unique :class:`~.Profile`
-* The :attr:`.Profile.name` will be used as the primary key for lookups/insertions
+.. admonition:: The Database Table
+    :class: example
+
+    In the :class:`~.Profiles` database table each row corresponds to a unique :class:`~.Profile`
+
+    The table only has two fields per row:
+        * :attr:`~.Profiles.name`: primary key for lookups/insertions
+        * :attr:`~.Profiles.config`: stores the Profile as pickle bytes via :meth:`~.to_pickle`
 
 
-When a :class:`~.Profile` calls :meth:`~.Profile.save` and has :attr:`~.Profile.local` ``= False``, the database will
-be queried
+.. admonition:: How is profile data saved to the database?
+    :class: instatweet
 
-* If an existing database row is found for the  :attr:`~.Profile.name`, the save data will be updated
-* Otherwise, a new row will be inserted and the settings will be saved there
+    When a :class:`~.Profile` calls :meth:`~.Profile.save` and has :attr:`~.Profile.local` ``= False``, it will
+    :meth:`~.connect` to the database specified by the :attr:`~.DABATASE_URL` environment variable and use it
+    to :meth:`~.query_profile` settings
 
-...
+    * If the :meth:`~.profile_exists` in the database already, its :attr:`~.Profiles.config` data will be updated
+    * Otherwise, the :class:`DBConnection` will :meth:`~.save_profile` data in a new table row
 
-**Please Note**
+.. admonition:: Important!!
+    :class: important-af
 
-* ``InstaTweet`` is compatible with any database that can be connected to using ``SQLAlchemy``
-* The :class:`~.DBConnection` is meant to be used as a context manager
+    **You MUST configure the** :attr:`~InstaTweet.db.DATABASE_URL` **environment variable to save/load remotely**
 
-  - It will create/destroy a session when saving, loading, and InstaTweeting a :class:`~.Profile`
-  - If desired, a persistent connection can be created and used instead
+    * InstaTweet uses ``SQLAlchemy`` to create a :class:`~.DBConnection` -- any db it supports is compatible
+    * See the :mod:`~.db` module for more information
+
+
+.. admonition:: One Last Thing!
+    :class: shut-up
+
+    The :class:`~.DBConnection` is meant to be used as a context manager
+
+    .. code-block:: python
+
+        with DBConnection() as db:
+            # Do Something
+
+    - A :attr:`~SESSION` is created/destroyed when saving, loading, and InstaTweeting a :class:`~.Profile`
+    - If desired, a persistent connection can be created and used instead (instructions to come)
+
 
 
 .. automodule:: InstaTweet.db
