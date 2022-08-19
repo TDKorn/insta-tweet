@@ -59,11 +59,8 @@ Saved Local Profile myProfile
 >>> insta_tweet = InstaTweet.load('myProfile')
 ```
 
-Then call {py:meth}`~.start` -- 
-{py:class}`~.InstaTweet` will scrape Instagram,
-{py:meth}`~.get_new_posts` from all added users,
-then download and repost the content to Twitter
-
+{py:class}`~.InstaTweet` will scrape the added Instagram users to {py:meth}`~.get_new_posts`,
+the download and repost the content to Twitter
 
 ```python
 # Run InstaTweet by calling start()
@@ -334,67 +331,82 @@ You can use the {py:meth}`~.get_hashtags_for` method to retrieve the `hashtags` 
 
 ## Saving a Profile
 
-The profile can be saved either locally or to a SQLAlchemy supported database -- just set the ```DATABASE_URL```
-environment variable
+```{eval-rst}
+.. admonition:: Saving a Profile
+    :class: instatweet
 
-> **NOTE:** Saving a `Profile` is not mandatory to run InstaTweet, but doing so allows for easy access to associated API 
-settings as well as tracking of previously scraped & tweeted posts (which is used to determine which posts are new)    
+    When you :meth:`~save` your :class:`~.Profile`, the save location 
+    is determined by the value of :attr:`~.local`
+    
+    .. autodata:: :attr:`~.InstaTweet.Profile.local`
+        :annotation:
+        :no-index:
 
-[//]: # ()
-[//]: # (To run InstaTweet, it is mandatory to create and use a ```Profile```. It doesn't need to be saved, but doing)
+    * Local saves are made to the :attr:`~LOCAL_DIR`, as pickle files
+    * Remote saves are made to a database (via the :mod:`~.db` module) as pickle bytes
 
-[//]: # (so will allow you to easily keep track of which posts have been scraped and tweeted already, and, by extension,)
+    **You MUST configure the** :attr:`~InstaTweet.db.DATABASE_URL` **environment variable to save/load remotely**
 
-[//]: # (which ones are new. )
+    * InstaTweet uses ``SQLAlchemy`` to create a :class:`~.DBConnection` -- any db it supports is compatible
+    * See the :mod:`~.db` module for more information
+```
 
-Call {py:meth}`~.save` on a {py:class}`~.Profile` to save it using the current or specified {py:attr}`~.Profile.name`
 
-The value of {py:attr}`~.local` determines the location and save format:
+```{note} 
+Saving a `Profile` is not mandatory to {py:meth}`~.start` InstaTweet,
+but doing so allows you to group API settings together and
+keep track of previously scraped & tweeted posts 
 
-* If ```local=True```, the profile will be saved as a pickle file in the ```Profile.LOCAL_DIR```
-
-* Otherwise, the profile will be saved to the database specified by the ```DATABASE_URL``` environment variable
-  - The {py:class}`~.Profiles` database table stores the {py:class}`~.Profile` as pickle bytes (via {py:meth}`~.to_pickle`)
-
+- These lists are used to determine which posts are new, so it's highly suggested to save
+    
+```
 
 <br>
 
-https://github.com/TDKorn/insta-tweet/blob/dc904af214596588bfc75b32eccc1ff37d0c271b/InstaTweet/profile.py#L142-L147
+#### Example:
 
-<br>
-
-#### Example: 
 ```python
+from InstaTweet import Profile
+
 >>> p = Profile('myProfile')
 >>> p.save()
 
 Saved Local Profile myProfile
 ```
 
+https://github.com/TDKorn/insta-tweet/blob/dc904af214596588bfc75b32eccc1ff37d0c271b/InstaTweet/profile.py#L142-L147
+
+
 <br>
 
-Note that you can specify a new name for the profile at the time of saving, but it still must be unique
+```{tip} 
+You can specify a new name for the profile in the call to {py:meth}`~.save`, but it still must be unique
+
+To see if a profile already exists with a given name, use the {py:meth}`~.profile_exists` static method:
+```
+
 
 ```python
+from InstaTweet import Profile
+
 >>> q = Profile()
 >>> q.save('aProfile')
 
 Saved Local Profile aProfile
 
+# Try to save under a name that's already used...
 >>> q.save('myProfile')
 
 FileExistsError: Local save file already exists for profile named "myProfile"
 Please choose another name, load the profile, or delete the file.
+
+>>> Profile.profile_exists("aProfile")
+True
 ```
-
-<br>
-
-You can see if a profile name already exists remotely or locally by calling the ```profile_exists()``` static method:
 
 https://github.com/TDKorn/insta-tweet/blob/dc904af214596588bfc75b32eccc1ff37d0c271b/InstaTweet/profile.py#L79-L86
 
 <br>
-
 
 
 ## Schedule InstaTweet
