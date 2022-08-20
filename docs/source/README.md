@@ -43,8 +43,9 @@ from InstaTweet import Profile
 >>> profile.add_users('the.dailykitten')
 ```
 
-Once configured, use the {py:class}`~.Profile` to initialize an {py:class}`~.InstaTweet` object, 
-then call {py:meth}`~.start`
+Once configured, the {py:class}`~.Profile` can be used to initialize and 
+{py:meth}`~.start` an {py:class}`~.InstaTweet` object
+ 
 
 ```python
 from InstaTweet import InstaTweet
@@ -57,21 +58,30 @@ from InstaTweet import InstaTweet
 Saved Local Profile myProfile
 
 >>> insta_tweet = InstaTweet.load('myProfile')
-```
 
-{py:class}`~.InstaTweet` will scrape the added Instagram users to {py:meth}`~.get_new_posts`,
-the download and repost the content to Twitter
-
-```python
 # Run InstaTweet by calling start()
 >>> insta_tweet.start()
+```
 
+[//]: # (When you're ready, call {py:meth}`~.start` )
+
+[//]: # (- {py:class}`~.InstaTweet` will {py:meth}`~.get_new_posts` from the added Instagram users,)
+
+[//]: # (  then download and repost the content to Twitter)
+
+```{eval-rst}
+.. autofunction:: InstaTweet.instatweet.InstaTweet.start()
+    :noindex:   
+``` 
+
+```python
 Starting InstaTweet for Profile: myProfile
 Checking posts from @the.dailykitten
 ...
 Finished insta-tweeting for @the.dailykitten
 All users have been insta-tweeted
 ```
+
 
 ## Okay... But Why? 😟
 

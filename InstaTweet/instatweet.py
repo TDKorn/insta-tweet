@@ -76,12 +76,11 @@ class InstaTweet:
         Each user's IG page will be scraped and compared to the ``scraped`` list in their :attr:`~.USER_MAPPING`.
         Posts that weren't previously scraped will be downloaded and tweeted
 
-        .. note::
+        .. note:: The :class:`~.Profile` is only saved upon successfully downloading and tweeting a post
 
-           The :class:`~.Profile` is only saved upon successfully downloading and tweeting a post
-             * This allows any failed attempts to be retried in the next call to :meth:`~start`
+           * This allows any failed attempts to be retried in the next call to :meth:`~start`
+
            Error handling/printing is done by :meth:`~.download_post` and :meth:`~.send_tweet`
-
         """
         profile = self.profile
         profile.validate()
