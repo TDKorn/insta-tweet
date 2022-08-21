@@ -43,9 +43,10 @@ The :mod:`~.db` module contains the :class:`~.DBConnection` class and the :class
             # Do Something
 
     - A :attr:`~SESSION` is created/destroyed when saving, loading, and InstaTweeting a :class:`~.Profile`
-    - If desired, a persistent connection can be created and used instead (instructions to come)
 
+    If you don't want that, here's instructions on :ref:`Persist DBConnection`
 
+...
 
 .. automodule:: InstaTweet.db
    :exclude-members: DATABASE_URL, Profiles, DBConnection
