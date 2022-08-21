@@ -73,9 +73,8 @@ class Profile:
 
         .. note:: :class:`Profile` creation is mandatory to use the ``InstaTweet`` package
 
-           * Required to initialize an :class:`~.InstaTweet` object
-           * Settings also used to initialize an :class:`~.InstaClient` and :class:`~.TweetClient`
-           * Naming and saving it is entirely optional! You just gotta create it though 🤷‍♂️
+           * Required as a parameter to initialize an :class:`~.InstaTweet` object
+           * Naming and saving it is ideal, but not necessary to :meth:`~.start` InstaTweet
 
         :param name: unique profile name
         :param local: indicates if profile is being saved locally or on a remote database
@@ -119,7 +118,6 @@ class Profile:
 
         :param name: the name of the :class:`Profile` to load
         :param local: whether the profile is saved locally (default, ``True``) or remotely on a database
-
 
         """
         if not cls.profile_exists(name, local):
@@ -311,7 +309,10 @@ class Profile:
 
     @property
     def local(self) -> bool:
-        """Indicates if profile is being saved locally (``True``) or on a remote database (``False``)"""
+        """Indicates if saves should be made locally (``True``) or on a remote database (``False``)
+
+         :rtype: bool
+         """
         return self._local
 
     @local.setter

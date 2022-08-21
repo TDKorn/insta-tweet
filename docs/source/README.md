@@ -63,16 +63,14 @@ Saved Local Profile myProfile
 >>> insta_tweet.start()
 ```
 
-[//]: # (When you're ready, call {py:meth}`~.start` )
-
-[//]: # (- {py:class}`~.InstaTweet` will {py:meth}`~.get_new_posts` from the added Instagram users,)
-
-[//]: # (  then download and repost the content to Twitter)
-
 ```{eval-rst}
-.. autofunction:: InstaTweet.instatweet.InstaTweet.start()
-    :noindex:   
+.. admonition:: From the Docs...
+    :class: docs
+
+    .. automethod:: InstaTweet.instatweet.InstaTweet.start
+        :noindex:
 ``` 
+
 
 ```python
 Starting InstaTweet for Profile: myProfile
@@ -141,6 +139,40 @@ All settings can be configured in two ways:
 2. By setting them directly as object attributes after the {py:class}`~.Profile` object is created
 
 <br>
+All settings can be accessed via the {py:attr}`~.Profile.config` dict. 
+If you just want to look, call {py:meth}`~.view_config`
+
+```python
+# View and compare configuration settings
+q.view_config()
+print(f'Same Config: {p.config==q.config}')
+```
+
+Output:
+
+```bash
+name : myProfile
+local : True
+session_id : 6011991A
+twitter_keys : {'Consumer Key': 'string', 'Consumer Secret': 'string', 'Access Token': 'string', 'Token Secret': 'string'}
+user_agent : Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36
+proxy_key : None
+user_map : {}
+Same Config: True
+```
+
+<br>
+
+```{eval-rst}
+.. admonition:: Validating Profile Settings
+   :class: instatweet:
+
+   * Property setters validate data types for the mandatory settings
+   * Requirements aren't strictly enforced until :meth:`~.InstaTweet.start` is called, 
+     which will first :meth:`~.Profile.validate` the profile settings
+
+```
+
 
 (mandatory-settings)=
 ### Mandatory Settings
@@ -175,39 +207,6 @@ p = Profile(
 q = Profile()
 q.name = 'myProfile'
 q.session_id = '6011991A'
-```
-All settings can be accessed via the {py:attr}`~.Profile.config` dict. 
-If you just want to look, call {py:meth}`~.view_config`
-
-```python
-# View and compare configuration settings
-q.view_config()
-print(f'Same Config: {p.config==q.config}')
-```
-
-Output:
-
-```bash
-name : myProfile
-local : True
-session_id : 6011991A
-twitter_keys : {'Consumer Key': 'string', 'Consumer Secret': 'string', 'Access Token': 'string', 'Token Secret': 'string'}
-user_agent : Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36
-proxy_key : None
-user_map : {}
-Same Config: True
-```
-
-<br>
-
-```{eval-rst}
-.. admonition:: Validating Profile Settings
-   :class: instatweet:
-
-   * Property setters validate data types for the mandatory settings
-   * Requirements aren't strictly enforced until :meth:`~.InstaTweet.start` is called, 
-     which will first :meth:`~.Profile.validate` the profile settings
-
 ```
 
 ## Populating the User Map
@@ -342,38 +341,25 @@ You can use the {py:meth}`~.get_hashtags_for` method to retrieve the `hashtags` 
 ## Saving a Profile
 
 ```{eval-rst}
-.. admonition:: Saving a Profile
-    :class: instatweet
 
-    When you :meth:`~save` your :class:`~.Profile`, the save location 
-    is determined by the value of :attr:`~.local`
-    
-    .. autodata:: :attr:`~.InstaTweet.Profile.local`
-        :annotation:
-        :no-index:
+.. include:: _snippets/save-profile.rst
+    :start-line: 3
 
-    * Local saves are made to the :attr:`~LOCAL_DIR`, as pickle files
-    * Remote saves are made to a database (via the :mod:`~.db` module) as pickle bytes
-
-    **You MUST configure the** :attr:`~InstaTweet.db.DATABASE_URL` **environment variable to save/load remotely**
-
-    * InstaTweet uses ``SQLAlchemy`` to create a :class:`~.DBConnection` -- any db it supports is compatible
-    * See the :mod:`~.db` module for more information
 ```
 
+Although you don't _need_ to {py:meth}`~.save` the Profile to {py:meth}`~.start` InstaTweet,
+it's highly suggested since:
+
+ * It's an easy way to group API settings together
+ * It keeps track of previously scraped & tweeted posts, which is used to detect new posts    
+
+
+### Example: Save a Profile
 
 ```{note} 
-Saving a `Profile` is not mandatory to {py:meth}`~.start` InstaTweet,
-but doing so allows you to group API settings together and
-keep track of previously scraped & tweeted posts 
-
-- These lists are used to determine which posts are new, so it's highly suggested to save
-    
+You can specify a new {py:attr}`~.Profile.name` for the profile in the call to {py:meth}`~.save`
 ```
 
-<br>
-
-#### Example:
 
 ```python
 from InstaTweet import Profile
@@ -382,22 +368,6 @@ from InstaTweet import Profile
 >>> p.save()
 
 Saved Local Profile myProfile
-```
-
-https://github.com/TDKorn/insta-tweet/blob/dc904af214596588bfc75b32eccc1ff37d0c271b/InstaTweet/profile.py#L142-L147
-
-
-<br>
-
-```{tip} 
-You can specify a new name for the profile in the call to {py:meth}`~.save`, but it still must be unique
-
-To see if a profile already exists with a given name, use the {py:meth}`~.profile_exists` static method:
-```
-
-
-```python
-from InstaTweet import Profile
 
 >>> q = Profile()
 >>> q.save('aProfile')
@@ -412,6 +382,20 @@ Please choose another name, load the profile, or delete the file.
 
 >>> Profile.profile_exists("aProfile")
 True
+
+```
+
+https://github.com/TDKorn/insta-tweet/blob/dc904af214596588bfc75b32eccc1ff37d0c271b/InstaTweet/profile.py#L142-L147
+
+
+<br>
+
+
+
+```python
+from InstaTweet import Profile
+
+
 ```
 
 https://github.com/TDKorn/insta-tweet/blob/dc904af214596588bfc75b32eccc1ff37d0c271b/InstaTweet/profile.py#L79-L86
