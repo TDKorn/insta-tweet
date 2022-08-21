@@ -31,6 +31,9 @@ if not on_rtd:
 sys.path.append(os.path.abspath('.'))
 pygments_style = 'tdk_style.TDKStyle'
 
+# Add path for snippets folder
+sys.path.append(os.path.abspath('_snippets'))
+
 # on_rtd = True  # Uncomment for testing RTD builds locally
 
 
@@ -44,6 +47,7 @@ author = 'Adam Korn'
 # Simplify things by using the version from setup.py
 version = pkg_resources.require("insta-tweet")[0].version
 release = version
+
 
 # ======================== General configuration ============================
 

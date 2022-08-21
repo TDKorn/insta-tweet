@@ -11,12 +11,18 @@ Welcome to the documentation for InstaTweet!
 
    README
 
-
 .. toctree::
    :maxdepth: 2
    :caption: Documentation
 
    modules
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Snippets
+
+   snippets
 
 
 Indices and tables
