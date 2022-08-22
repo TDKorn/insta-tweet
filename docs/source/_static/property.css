@@ -29,47 +29,93 @@ code.literal {
     content: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 24 22"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>');
     margin-left: 4px;
 }
-/* Whitish background for custom admonitions */
-.rst-content .admonition {
-   background: #edf2f4;
-}
-/* Custom Admonitions
-*/
-/* Dark msg title background as like, the default custom admonition for InstaTweet */
-.rst-content .instatweet .admonition-title {
-   background: #2b2d42;
-}
-/* Red msg title background for the important af stuff */
-.rst-content .important-af .admonition-title {
-    background: #c71427 !important;
-}
-/* Custom admonition icon for "Important" admonition: ⚠ */
-.rst-content .important-af .admonition-title::before {
-    content: "⚠" !important;
-}
-/* Green title and white background for "Example" admonition, colour taken from `.. tip::` */
-/* Custom admonition icon for "Example admonition: 📝 */
-.rst-content .example {
-    background: #ffffff;
-}
-.rst-content .example .admonition-title {
-    background: #1abc9c;
-}
-.rst-content .example .admonition-title::before {
-    content: "📝" !important;
-}
-/* Custom admonition icon for when it's like "shut up already":  */
-.rst-content .shut-up .admonition-title::before {
-    content: "🙄";
-}
-/* Custom admonition icon for InstaTweet:  */
-.rst-content .instatweet .admonition-title::before {
-    content: "🐥";
-}
+
+
 /* Hide header text for the "But Why?" section;
 Allows it to remain in the TOC and makes it
 seem like its linking to the admonition instead*/
 #okay-but-why h2 {
    color: transparent;
    font-size: 0.1px;
+}
+
+
+/*                      !!! Custom Admonitions !!!
+
+Custom Admonition Class Hierarchy/Order to follow (for nested admonitions):
+
+instatweet
+    docs
+        note
+            example
+                important-af
+
+Since styles are applied with bottom-up priority, styles more likely to be nested
+(or more important to have properly styled) should be defined after styles that are
+more likely to be applied to top-level admonitions
+ - Ex. note within an instatweet block -> instatweet applied to both, then note applied only to note
+
+*/
+
+/*       Admonition Background      */
+/* Whitish background for all admonitions */
+.rst-content .admonition {
+   background: #edf2f4;
+}
+/* Pure White background for example and docs classes */
+.rst-content .docs {
+    background: #ffffff;
+}
+.rst-content .example {
+    background: #ffffff;
+}
+
+/*      Admonition Titles       */
+
+/* Dark msg title background as like, the default custom admonition for InstaTweet */
+.rst-content .instatweet .admonition-title {
+   background: #2b2d42;
+}
+/* Same blue as nav for docs */
+.rst-content .docs .admonition-title {
+    background: #006db4;
+}
+/* Light Blue title for "Note" admonition, colour taken from `.. note::` */
+.rst-content .note .admonition-title {
+    background: #6ab0de;
+}
+/* Green title "Example" admonition, colour taken from `.. tip::` */
+.rst-content .example .admonition-title {
+    background: #1abc9c;
+}
+/* Red msg title background for the important af stuff */
+.rst-content .important-af .admonition-title {
+    background: #c71427 ;
+}
+
+/*       Admonition Icons       */
+
+/* Custom admonition icon for InstaTweet:  */
+.rst-content .instatweet .admonition-title::before {
+    content: "🐥";
+}
+/* Custom admonition icon for Autodoc Snippets:  📖 📚*/
+.rst-content .docs .admonition-title::before {
+    content: "📚";
+}
+/* Default exclamation point for note */
+.rst-content .note .admonition-title::before {
+    content: "" !important;
+}
+/* Custom admonition icon for "Example admonition: 📝 */
+.rst-content .example .admonition-title::before {
+    content: "📝";
+}
+/* Custom admonition icon for when it's like "shut up already":  */
+.rst-content .shut-up .admonition-title::before {
+    content: "🙄";
+}
+/* Custom admonition icon for "Important" admonition: ⚠ */
+.rst-content .important-af .admonition-title::before {
+    content: "⚠" !important;
 }
