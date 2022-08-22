@@ -41,12 +41,13 @@ class Profile:
     may then be used to :meth:`~save` and, in turn, :meth:`~load` its settings
 
     * This makes it extremely easy to switch between Profiles and create templates
-    * Saving isn't a requirement to :meth:`~.start` InstaTweet, but...
 
-     - To :meth:`~.get_new_posts`, InstaTweet makes comparisons
-       with the ``scraped`` list in the :attr:`~.user_map`
-     - Saving this list ensures you don't :meth:`~.send_tweet`
-       for a post more than once
+    Saving isn't a requirement to :meth:`~.start` InstaTweet, but...
+
+    * To :meth:`~.get_new_posts`, InstaTweet makes comparisons
+      with the ``scraped`` list in the :attr:`~.user_map`
+    * Saving this list ensures you don't :meth:`~.send_tweet`
+      for a post more than once
 
     ...
 

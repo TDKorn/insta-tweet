@@ -4,11 +4,14 @@ Saving a Profile
 .. admonition:: Saving a Profile
     :class: instatweet
 
-    When you :meth:`~.save` your :class:`~.Profile`, the current :attr:`~.Profile.name`
+    When you :meth:`~.save` your :class:`~.Profile`, the current or specified :attr:`~.Profile.name`
     will be used to create or update a save file in the location specified by :attr:`~.local`
 
     .. admonition:: From the Docs...
         :class: docs
+
+        .. automethod:: InstaTweet.profile.Profile.save
+            :noindex:
 
         .. autodata:: InstaTweet.profile.Profile.local
             :annotation: =True

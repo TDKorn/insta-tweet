@@ -71,6 +71,7 @@ Saved Local Profile myProfile
         :noindex:
 ``` 
 
+As ``InstaTweet`` runs, its progress will be logged to console:
 
 ```python
 Starting InstaTweet for Profile: myProfile
@@ -114,8 +115,6 @@ To install using pip:
 pip install insta-tweet
 ```
 
-***
-
 Please note that ``InstaTweet`` requires ``Python >= 3.8``
 
 <br>
@@ -127,18 +126,54 @@ Please note that ``InstaTweet`` requires ``Python >= 3.8``
 **InstaTweet** uses the {py:class}`~.Profile` class to help manage Twitter accounts, Instagram sessions, and user maps.
 
 ```{eval-rst}
-.. autodata:: InstaTweet.profile.Profile()
-   :annotation:
+.. autodata:: InstaTweet.profile.Profile
    :noindex:
+   :annotation:   
 ```
 
 (settings)=
 ## Profile Settings
-All settings can be configured in two ways: 
+
+All settings can be configured in two ways:
 1. By passing them as keyword arguments when initializing a {py:class}`~.Profile`  
 2. By setting them directly as object attributes after the {py:class}`~.Profile` object is created
 
-<br>
+
+(mandatory-settings)=
+### Mandatory Settings
+
+* ```session_id``` — Instagram Sessionid Cookie, obtained by logging in on a desktop browser
+* ```twitter_keys``` — Twitter API Keys with v1.1 endpoint access
+
+### Mandatory Settings with Default Values
+
+* ```name="default"``` — profile name; if non-default, it must be unique
+* ```local=True``` — Indicates if the profile should be saved locally (default) or on a remote database
+* ```user_agent=USER_AGENT``` — User agent to use when making requests to Instagram
+
+
+### Entirely Optional Settings
+
+- ```proxy_key``` — Environment variable to retrieve proxies from when making requests to Instagram/Twitter
+- ```user_map``` — Fully formatted dictionary of IG usernames mapped to their ```USER_MAPPING```
+
+## Creating a Profile
+
+```python
+from InstaTweet import Profile
+
+# Initialize a profile with arguments
+p = Profile(
+    name='myProfile', 
+    session_id='6011991A'
+)
+
+# Initialize a profile with no arguments
+q = Profile()
+q.name = 'myProfile'
+q.session_id = '6011991A'
+```
+
 All settings can be accessed via the {py:attr}`~.Profile.config` dict. 
 If you just want to look, call {py:meth}`~.view_config`
 
@@ -167,46 +202,10 @@ Same Config: True
 .. admonition:: Validating Profile Settings
    :class: instatweet:
 
-   * Property setters validate data types for the mandatory settings
+   * Property setters validate data types for the :ref:`mandatory-settings`
    * Requirements aren't strictly enforced until :meth:`~.InstaTweet.start` is called, 
      which will first :meth:`~.Profile.validate` the profile settings
 
-```
-
-
-(mandatory-settings)=
-### Mandatory Settings
-
-* ```session_id``` — Instagram Sessionid Cookie, obtained by logging in on a desktop browser
-* ```twitter_keys``` — Twitter API Keys with v1.1 endpoint access
-
-### Mandatory Settings with Default Values
-
-* ```name="default"``` — profile name; a unique, non-default name is needed to save the {py:class}`~.InstaTweet.Profile`, but not to *InstaTweet* it
-* ```local=True``` — Indicates if the profile should be saved locally (default) or on a remote database
-* ```user_agent=USER_AGENT``` — User agent to use when making requests to Instagram
-
-
-### Entirely Optional Settings
-
-- ```proxy_key``` — Environment variable to retrieve proxies from when making requests to Instagram/Twitter
-- ```user_map``` — Fully formatted dictionary of IG usernames mapped to their ```USER_MAPPING```
-
-## Creating a New Profile
-
-```python
-from InstaTweet import Profile
-
-# Initialize a profile with arguments
-p = Profile(
-    name='myProfile', 
-    session_id='6011991A'
-)
-
-# Initialize a profile with no arguments
-q = Profile()
-q.name = 'myProfile'
-q.session_id = '6011991A'
 ```
 
 ## Populating the User Map
