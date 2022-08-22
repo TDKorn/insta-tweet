@@ -40,9 +40,9 @@ seem like its linking to the admonition instead*/
 }
 
 
-/*                      !!! Custom Admonitions !!!
-
-Custom Admonition Class Hierarchy/Order to follow (for nested admonitions):
+/*  !!! Custom Admonitions !!!
+/*
+The Custom Admonition Class Hierarchy/Order I'm following (for styling nested admonitions):
 
 instatweet
     docs
@@ -50,14 +50,12 @@ instatweet
             example
                 important-af
 
-Since styles are applied with bottom-up priority, styles more likely to be nested
-(or more important to have properly styled) should be defined after styles that are
-more likely to be applied to top-level admonitions
- - Ex. note within an instatweet block -> instatweet applied to both, then note applied only to note
-
+Since styles are applied with bottom-up priority,
+styles more likely to be nested (or more important to have properly styled)
+should be defined after styles that are more likely to be applied to top-level admonitions
 */
-
-/*       Admonition Background      */
+/*
+/* Admonition Background */
 /* Whitish background for all admonitions */
 .rst-content .admonition {
    background: #edf2f4;
@@ -65,13 +63,15 @@ more likely to be applied to top-level admonitions
 /* Pure White background for example and docs classes */
 .rst-content .docs {
     background: #ffffff;
+    /* Also change spacing to accomodate autodoc */
+    margin-bottom: 12px;
+    padding-bottom: 6px;
 }
 .rst-content .example {
     background: #ffffff;
 }
-
-/*      Admonition Titles       */
-
+/*
+/* Admonition Titles */
 /* Dark msg title background as like, the default custom admonition for InstaTweet */
 .rst-content .instatweet .admonition-title {
    background: #2b2d42;
@@ -92,9 +92,8 @@ more likely to be applied to top-level admonitions
 .rst-content .important-af .admonition-title {
     background: #c71427 ;
 }
-
-/*       Admonition Icons       */
-
+/*
+/* Admonition Icons */
 /* Custom admonition icon for InstaTweet:  */
 .rst-content .instatweet .admonition-title::before {
     content: "🐥";
