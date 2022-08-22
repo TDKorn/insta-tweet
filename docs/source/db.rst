@@ -1,6 +1,13 @@
 The ``db`` module
 -----------------------------------
 
+.. automodule:: InstaTweet.db
+   :exclude-members: DATABASE_URL, Profiles, DBConnection
+
+..
+   Automodule above allows for :mod: references to db module and places link target at the top
+
+
 The :mod:`~.db` module contains the :class:`~.DBConnection` class and the :class:`~.Profiles` database table
 
 .. admonition:: The Database Table
@@ -45,11 +52,6 @@ The :mod:`~.db` module contains the :class:`~.DBConnection` class and the :class
     - A :attr:`~SESSION` is created/destroyed when saving, loading, and InstaTweeting a :class:`~.Profile`
 
     If you don't want that, here's instructions on :ref:`Persist DBConnection`
-
-...
-
-.. automodule:: InstaTweet.db
-   :exclude-members: DATABASE_URL, Profiles, DBConnection
 
 ...
 
