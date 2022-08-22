@@ -20,9 +20,10 @@ class TweetClient:
     }
 
     def __init__(self, profile: InstaTweet.Profile, proxies: dict = None):
-        """Initialize TweetClient using a profile
+        """Initialize TweetClient using a :class:`~.Profile`
 
-        Basically just a wrapper for tweepy. It uses the settings of a profile to initialize the API and send tweets
+        Basically just a wrapper for tweepy.
+        It uses the settings of a profile to initialize the API and send tweets
 
         :param profile: the profile to use when initializing a :class:`tweepy.API` object
         :param proxies: optional proxies to use when making API requests
@@ -142,8 +143,13 @@ class TweetClient:
         :param hashtags: a list of hashtags to randomly choose from
 
         :Example:
-            >>> TweetClient.pick_hashtags(['cat','dog','woof'])
-            "#woof #cat\\n"
+
+            ::
+
+               from InstaTweet import TweetClient
+
+               >> TweetClient.pick_hashtags(['cat','dog','woof'])
+               "#woof #cat\\n"
 
         .. note:: A newline is added to help with formatting & character counting in :meth:`~.build_tweet`
 

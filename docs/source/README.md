@@ -32,32 +32,33 @@ and {py:meth}`~.add_users` to repost from
 ```python
 from InstaTweet import Profile
 
-# Create a new local Profile
+# Create a new (local) Profile
 >>> profile = Profile('myProfile')
 
-# Configure the required settings
+# Configure the required settings (at minimum)
+>>> profile.twitter_keys = twitter_api_keys
 >>> profile.session_id = '6011991A'
->>> profile.twitter_keys = twitter_api_keys # with v1.1 endpoint access
 
-# Add Instagram accounts to repost from
+# Add at least one Instagram account to repost from
 >>> profile.add_users('the.dailykitten')
 ```
 
 Once configured, the {py:class}`~.Profile` can be used to initialize and 
 {py:meth}`~.start` an {py:class}`~.InstaTweet` object
- 
 
 ```python
 from InstaTweet import InstaTweet
 
-# Initialize with a Profile directly
->>> insta_tweet = InstaTweet(profile=profile)
+# Directly initialize with the Profile from above
+>> insta_tweet = InstaTweet(profile)
 
-# Or, save the Profile and use InstaTweet.load() to initialize by name 
->>> profile.save()
+# Or, save the Profile...
+>> profile.save()
+
 Saved Local Profile myProfile
 
->>> insta_tweet = InstaTweet.load('myProfile')
+# ...then InstaTweet.load() the settings in (by Profile name)
+>> insta_tweet = InstaTweet.load(profile_name="myProfile")
 
 # Run InstaTweet by calling start()
 >>> insta_tweet.start()
@@ -69,6 +70,7 @@ Saved Local Profile myProfile
 
     .. automethod:: InstaTweet.instatweet.InstaTweet.start
         :noindex:
+
 ``` 
 
 As ``InstaTweet`` runs, its progress will be logged to console:
@@ -302,17 +304,8 @@ proxy_key : None
 user_map : {'the.dailykitten': {'hashtags': ['kittygram', 'kittycat'], 'scraped': [-1], 'tweets': []}, 'dailykittenig': {'hashtags': ['cats'], 'scraped': [], 'tweets': []}, 'the.daily.kitten.ig': {'hashtags': ['kittygram', 'kittycat'], 'scraped': [], 'tweets': []}}
 ```
 
-You can use the {py:meth}`~.get_hashtags_for` method to retrieve the `hashtags` list of a specific username
 
-```python
->>> print(p.get_hashtags_for('the.daily.kitten.ig'))
-
-['kittygram', 'kittycat']
-```
-
-<br>
-
-### Methods Related to User Map Access
+### User Map Access Methods
 
 ```{eval-rst}
 .. admonition:: User Map Access Methods
@@ -324,18 +317,22 @@ You can use the {py:meth}`~.get_hashtags_for` method to retrieve the `hashtags` 
     * :meth:`~.get_scraped_from` returns the list of posts scraped from a specified user  
     * :meth:`~.get_hashtags_for` returns the list of hashtags to use in tweets for the specified user
     * :meth:`~.get_tweets_for` returns a list of tweets that use the specified user's scraped content
-
-    All lists returned by these methods can be modified in place. For example:
-
-    .. code::
-    
-      p.get_hashtags_for('the.daily.kitten.ig').append('kittypoop')
-      print(p.get_hashtags_for('the.daily.kitten.ig'))
-      
-      >>> ['kittygram', 'kittycat', 'kittypoop']
 ```
 
-<br>
+All lists returned by these methods can be modified in place. For example:
+
+```python
+# View the list of hashtags by username
+>> print(p.get_hashtags_for('the.daily.kitten.ig'))
+
+['kittygram', 'kittycat']
+
+# Retrieve and modify the list
+>> p.get_hashtags_for('the.daily.kitten.ig').append('kittypoop')
+>> print(p.get_hashtags_for('the.daily.kitten.ig'))
+
+['kittygram', 'kittycat', 'kittypoop']
+```
 
 ## Saving a Profile
 

@@ -144,7 +144,15 @@ class Profile:
 
     @staticmethod
     def profile_exists(name: str, local: bool = True) -> bool:
-        """Check if a profile with the given name and location (local/remote) already exists"""
+        """Checks locally/remotely to see if a :class:`~Profile` with the specified name has an existing save file
+
+        Whenever the :attr:`~name` is changed, its property setter calls this method to ensure
+        you don't accidentally overwrite a save that already :attr:`~exists`
+
+        :param name: the name of the :class:`Profile` to check for
+        :param local: the location (local/remote) to check for an existing save
+
+        """
         if local:
             return os.path.exists(Profile.get_local_path(name))
         else:
@@ -326,7 +334,26 @@ class Profile:
 
     @property
     def name(self) -> str:
-        """The profile name"""
+        """A name for the Profile
+
+        .. admonition:: Profile Names Must Be Unique
+            :class: instatweet
+
+            The :attr:`~Profile.name` is used differently depending on the value of :attr:`~.local`
+
+            * ``local==True``: the name determines the :attr:`~.profile_path` (path where it would save to)
+            * ``local==False``: the name is used as the primary key in the :class:`~.Profiles` database table
+
+        When you set or change the :attr:`~.name`, a property setter will make sure no
+        :meth:`~profile_exists` with that name before actually updating it
+
+        * This ensures that you don't accidentally overwrite a different Profile's save data
+
+        ...
+
+        :raises FileExistsError: if :attr:`~local` ``==True`` and a save is found in the :attr:`~LOCAL_DIR`
+        :raises ResourceWarning: if :attr:`~local` ``==False`` and a database row is found by :meth:`~.db.query_profile`
+        """
         return self._name
 
     @name.setter
