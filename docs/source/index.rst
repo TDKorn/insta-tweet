@@ -5,15 +5,19 @@
 
 Welcome to the documentation for InstaTweet!
 ============================================
+
 .. toctree::
-   :maxdepth: 1
-   :caption: InstaTweet README
+   :maxdepth: 2
+   :caption: README
+   :glob:
 
    README
+
 
 .. toctree::
    :maxdepth: 2
    :caption: Documentation
+   :glob:
 
    modules
 
@@ -21,8 +25,10 @@ Welcome to the documentation for InstaTweet!
 .. toctree::
    :maxdepth: 2
    :caption: Snippets
+   :glob:
 
    snippets
+
 
 
 Indices and tables
