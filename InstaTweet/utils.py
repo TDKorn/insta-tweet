@@ -8,7 +8,10 @@ AGENTS = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, 
 
 
 def get_agents() -> list:
-    """Scrapes a list of user agents. Returns a default list if the scrape fails."""
+    """Scrapes a list of user agents. Returns a default list if the scrape fails.
+
+    ..  note:: Deprecated since 2.0.0b13, but might be useful when new endpoint gets patched
+    """
     if (response := requests.get('https://www.whatismybrowser.com/guides/the-latest-user-agent/chrome')).ok:
         section = response.text.split('<h2>Latest Chrome on Windows 10 User Agents</h2>')[1]
         raw_agents = section.split('code\">')[1:]
@@ -21,7 +24,10 @@ def get_agents() -> list:
 
 
 def get_agent(index: int = 0) -> str:
-    """Returns a single user agent string from the specified index of the AGENTS list"""
+    """Returns a single user agent string from the specified index of the AGENTS list
+
+    ..  note:: Deprecated since 2.0.0b13, but might be useful when new endpoint gets patched
+    """
     return get_agents()[index]  # Specify index only if you hardcode more than 1
 
 
