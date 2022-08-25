@@ -5,9 +5,9 @@ InstaTweet Profiles
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **InstaTweet** uses the :class:`~.Profile` class to help manage Twitter accounts, Instagram sessions, and user maps.
 
-.. autodata:: InstaTweet.profile.Profile
+.. autoclass:: InstaTweet.profile.Profile
+   :no-members:
    :noindex:
-   :annotation:
 
 
 .. _settings:

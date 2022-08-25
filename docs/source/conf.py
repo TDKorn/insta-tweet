@@ -110,11 +110,15 @@ autodoc_typehints_description_target = 'documented_params'
 # Add narkdown as source -> to include README.md instead of making a README.rst
 source_suffix = ['.rst', '.md']
 
-
-# ~~~~ My Own Extension Thing (replace_autodoc_refs_with_linkcode) ~~~~
+# ~~~~~~~~ My Own Thing (replace_autodoc_refs_with_linkcode) ~~~~~~~~~
 #
-# Temp build directory
-rst_build_dir = os.path.abspath('../build/rst')
+# Directory to save temp .rst file to while docs building
+#
+if on_rtd:
+    rst_build_dir = os.path.abspath('../_build/')
+else:
+    rst_build_dir = os.path.abspath('../build/')
+#
 #
 # Source file to convert for GitHub README/PyPi description
 #
@@ -122,7 +126,7 @@ rst_src = os.path.abspath('_readme/about-instatweet.rst')
 #
 # File to save the final converted output to
 #
-rst_out = os.path.abspath('../../README.rst')
+rst_out = os.path.abspath('../../README.rst')  # Root of the repository
 #
 # [Optional] dict of {'ref': 'external_link'} to replace relative links
 # like :ref:`ref` with an `ref <external_link>`_ (ex. for PyPi)
@@ -246,9 +250,19 @@ def linkcode_resolve(domain, info):
     else:
         linestart, linestop = lineno, lineno + len(source) - 1
 
+    # Format link using the filepath of the source file plus the line numbers
+    if on_rtd:
+        # Ex. InstaTweet\instatweet.py --> InstaTweet/instatweet.py
+        filepath = '/'.join(filepath.split('\\'))
+
+    else:
+        # For local builds, I must be doing something wrong because the
+        # paths are always like "..\..\..\InstaTweet\module.py"
+        filepath = '/'.join(filepath.lstrip('..\\').split('\\'))
+
+    # Example of final link: https://github.com/tdkorn/insta-tweet/blob/docs/InstaTweet/instatweet.py#L73-L117
     final_link = linkcode_url.format(
-        # filepath='/'.join(filepath.split('..\\')[-1].split('\\')),
-        filepath='/'.join(filepath.split('\\')),  # above is for local
+        filepath=filepath,
         linestart=linestart,
         linestop=linestop
     )
@@ -355,15 +369,36 @@ def read(file):
         return f.read()
 
 
-def replace_rst_refs(src, refs):
-    rst = read(src)
+def replace_rst_refs(rst: str, refs: dict) -> str:
+    """Post-processes the generated rst, replacing :ref: with external links (ex. for PyPi)
+
+    :param rst: the text of the .rst file
+    :param refs: dict of {'reference': 'external_link'}
+    :return: the processed rst text
+    """
     for ref, external_link in refs.items():
         rst = re.sub(
-            rf":ref:`{ref}`",
-            f"`{ref} <{external_link}>`_",
-            rst
+            pattern=rf":ref:`{ref}`",
+            repl=f"`{ref} <{external_link}>`_",
+            string=rst
         )
     return rst
+
+
+def replace_rst_images(rst: str) -> str:
+    """Post-processes the generated rst, replacing relative image paths with external RTD links
+
+    Probably temporary until I write a proper function that adjusts the paths when moving to ``rst_out``
+
+    :param rst: the text of the .rst file
+    :return: the processed rst text
+    """
+    return re.sub(
+        # .. image:: {..}/_static/(filename.ext)
+        pattern=r".. image:: \S+_static/(\w+\.\w{3,4})",
+        repl=r".. image:: https://instatweet.readthedocs.io/en/latest/_images/\1",
+        string=rst
+    )
 
 
 def move_generated_rst_file(app, exception):
@@ -372,14 +407,18 @@ def move_generated_rst_file(app, exception):
         rst_build_dir, os.path.basename(rst_src)
     )
     if os.path.exists(built_rst):
+        rst = replace_rst_images(
+            rst=read(built_rst)
+        )
         if rst_replace_refs:
-            rst = replace_rst_refs(src=built_rst, refs=rst_replace_refs)
-            with open(rst_out, 'w') as f:
-                f.write(rst)
-        else:
-            shutil.move(built_rst, rst_out)
+            rst = replace_rst_refs(
+                rst, refs=rst_replace_refs
+            )
+        with open(rst_out, 'w') as f:
+            f.write(rst)
+
         return print(
-            'Moved generated .rst file from ', built_rst, 'to', rst_out
+            f'Moved generated .rst file from {built_rst} to {rst_out}'
         )
     if exception:
         return print(
