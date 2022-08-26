@@ -1,3 +1,5 @@
+.. _schedule-insta-tweet:
+
 Schedule InstaTweet
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

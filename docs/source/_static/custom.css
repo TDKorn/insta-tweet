@@ -1,3 +1,6 @@
+a.icon.icon-home::before {
+    content: "🐥"
+}
 /* Make properties not stack */
 dl.py.property {
     display: block !important;

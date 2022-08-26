@@ -1,9 +1,14 @@
+.. _about-insta-tweet:
+
 InstaTweet - Automatically Repost Content From Instagram to Twitter
 ---------------------------------------------------------------------------
 
+.. image:: https://img.shields.io/readthedocs/instatweet
+   :alt: Read the Docs
+
 Ever tried sharing an Instagram post to Twitter, only to find out that all you tweeted was a link, and not the actual photo/video?
 
-.. image:: ../_static/share_with_instagram.png
+.. image:: /_static/share_with_instagram.png
     :alt: Sharing an Instagram post to Twitter directly from the Instagram app. Only a link appears.
         It could be literally anything, nobody will click it.
 
@@ -19,7 +24,7 @@ Ever tried sharing an Instagram post to Twitter, only to find out that all you t
 
 
 
-.. image:: ../_static/share_with_instatweet.png
+.. image:: /_static/share_with_instatweet.png
     :alt: Sharing an Instagram post to Twitter using InstaTweet. The actual photo or video appears in the tweet.
         It's a thicc cat, very handsome. Nobody will click the link, but they'll definitely see this bad boy.
 
@@ -112,11 +117,11 @@ Documentation
 ~~~~~~~~~~~~~~~~~
 
 The rest of this `README <https://instatweet.readthedocs.io/en/latest/_readme/about-instatweet.html>`_,
-extensive `API documentation <https://instatweet.readthedocs.io/en/latest/modules.html>`_, and
+the `API documentation <https://instatweet.readthedocs.io/en/latest/modules.html>`_, and
 `snippets <https://instatweet.readthedocs.io/en/latest/snippets.html>`_
 can all be found on `Read the Docs <https://instatweet.readthedocs.io/en/latest/index.html>`_
 
-I put a lot of time into creating and (excessively) customizing the documentation for this package,
+I put a lot of time into creating the documentation for this package, it was a struggle,
 so it'd mean a lot to me if you could please continue reading there! 🥰
 
 

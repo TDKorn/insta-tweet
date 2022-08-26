@@ -1,5 +1,10 @@
+.. _about-insta-tweet:
+
 InstaTweet - Automatically Repost Content From Instagram to Twitter
 ---------------------------------------------------------------------------
+
+.. image:: https://img.shields.io/readthedocs/instatweet
+   :alt: Read the Docs
 
 Ever tried sharing an Instagram post to Twitter, only to find out that all you tweeted was a link, and not the actual photo/video?
 
@@ -78,7 +83,8 @@ Once configured, the `Profile <https://github.com/tdkorn/insta-tweet/blob/docs/I
 .. admonition:: From the Docs...
     :class: docs
 
-    https://github.com/TDKorn/insta-tweet/blob/38016309bdce0fcfb8d91a0d3ea5a69af88faa3b/InstaTweet/instatweet.py#L73-L117
+    .. automethod:: InstaTweet.instatweet.InstaTweet.start
+        :noindex:
 
 
 As ``InstaTweet`` runs, its progress will be logged to console:
@@ -111,11 +117,11 @@ Documentation
 ~~~~~~~~~~~~~~~~~
 
 The rest of this `README <https://instatweet.readthedocs.io/en/latest/_readme/about-instatweet.html>`_,
-extensive `API documentation <https://instatweet.readthedocs.io/en/latest/modules.html>`_, and
+the `API documentation <https://instatweet.readthedocs.io/en/latest/modules.html>`_, and
 `snippets <https://instatweet.readthedocs.io/en/latest/snippets.html>`_
 can all be found on `Read the Docs <https://instatweet.readthedocs.io/en/latest/index.html>`_
 
-I put a lot of time into creating and (excessively) customizing the documentation for this package,
+I put a lot of time into creating the documentation for this package, it was a struggle,
 so it'd mean a lot to me if you could please continue reading there! 🥰
 
 
