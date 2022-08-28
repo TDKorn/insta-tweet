@@ -25,12 +25,12 @@ Ever tried sharing an Instagram post to Twitter, only to find out that all you t
         It could be literally anything, nobody will click it.
 
 
-.. admonition:: ‎ Humiliating 🤮
+.. admonition:: **Humiliating 🤮**
    :class: important-af
 
    That could be literally anything. Nobody will click it.
 
-
+|
 
 `InstaTweet <https://github.com/tdkorn/insta-tweet/blob/docs/InstaTweet/instatweet.py#L5-L142>`_ **shares the** *actual* **content of the post. Not just a link to it.**
 
@@ -94,9 +94,8 @@ Once configured, the `Profile <https://github.com/tdkorn/insta-tweet/blob/docs/I
 
 .. admonition:: From the Docs...
     :class: docs
-
-    .. automethod:: InstaTweet.instatweet.InstaTweet.start
-        :noindex:
+    
+    https://github.com/TDKorn/insta-tweet/blob/64b6eef0e2c74e55ee99ef99f53026c2fb734fdb/InstaTweet/instatweet.py#L73-L117
 
 
 As ``InstaTweet`` runs, its progress will be logged to console:
