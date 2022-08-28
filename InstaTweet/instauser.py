@@ -13,7 +13,7 @@ class InstaUser:
 
     @property
     def user_data(self):
-        return self.json.get('graphql', {}).get('user')
+        return self.json.get('data', {}).get('user', {})
 
     @property
     def media_data(self):

@@ -6,7 +6,7 @@ import json
 import pickle
 
 from typing import Iterable
-from . import utils, TweetClient, DBConnection
+from . import TweetClient, DBConnection, USER_AGENT
 
 
 class Profile:
@@ -88,7 +88,7 @@ class Profile:
                 Twitter API Keys with v1.1 endpoint access
                 (see :attr:`~.TweetClient.DEFAULT_KEYS` for a template)
             * *user_agent* (``str``) -- Optional
-                The user agent to use for requests; scrapes the newest Chrome agent if not provided
+                The user agent to use for requests; uses a currently working hardcoded agent if not provided
             * *proxy_key* (``str``) -- Optional
                 Environment variable to retrieve proxies from
             * .. autoattribute:: user_map
@@ -109,7 +109,7 @@ class Profile:
 
         self.session_id = kwargs.get('session_id', '')
         self.twitter_keys = kwargs.get('twitter_keys', TweetClient.DEFAULT_KEYS)
-        self.user_agent = kwargs.get('user_agent', utils.get_agent())
+        self.user_agent = kwargs.get('user_agent', USER_AGENT)
         self.proxy_key = kwargs.get('proxy_key', None)
         self.user_map = kwargs.get('user_map', {})  #: ``dict``: Mapping of added Instagram users and their :attr:`~USER_MAPPING`
 
