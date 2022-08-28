@@ -365,8 +365,8 @@ def replace_autodoc_refs_with_linkcode(info: dict, link: str, rst_src: str):
 # ---- Methods for "build-finished" Core Event ----------------------
 
 def read(file):
-    with open(os.path.abspath(file), 'r') as f:
-        return f.read()
+    with open(file, 'r', encoding='utf-8') as f:
+        return u'{}'.format(f.read())
 
 
 def replace_rst_refs(rst: str, refs: dict) -> str:
