@@ -355,7 +355,7 @@ def replace_autodoc_refs_with_linkcode(info: dict, link: str, rst_src: str):
     subbed_rst = re.sub(pattern, rst_link, rst)
 
     # Save to the temp build rst file
-    with open(rst_temp, 'w') as f:
+    with open(rst_temp, 'w', encoding='utf-8') as f:
         f.write(subbed_rst)
 
     print(f'Added reST links for {ref_name}: {rst_link}')
@@ -365,8 +365,8 @@ def replace_autodoc_refs_with_linkcode(info: dict, link: str, rst_src: str):
 # ---- Methods for "build-finished" Core Event ----------------------
 
 def read(file):
-    with open(os.path.abspath(file), 'r') as f:
-        return f.read()
+    with open(file, 'r', encoding='utf-8') as f:
+        return u'{}'.format(f.read())
 
 
 def replace_rst_refs(rst: str, refs: dict) -> str:
@@ -414,7 +414,7 @@ def move_generated_rst_file(app, exception):
             rst = replace_rst_refs(
                 rst, refs=rst_replace_refs
             )
-        with open(rst_out, 'w') as f:
+        with open(rst_out, 'w', encoding='utf-8') as f:
             f.write(rst)
 
         return print(

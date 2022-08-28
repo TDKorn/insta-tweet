@@ -1,10 +1,21 @@
 .. _about-insta-tweet:
 
-InstaTweet - Automatically Repost Content From Instagram to Twitter
----------------------------------------------------------------------------
 
-.. image:: https://img.shields.io/readthedocs/instatweet
-   :alt: Read the Docs
+✨🐥 InstaTweet 🐤✨ - Automatically Repost Content From Instagram to Twitter
+------------------------------------------------------------------------------
+
+.. raw:: html
+
+   <p align="left">
+      <a href="https://pypi.org/project/insta-tweet/", alt="Version">
+         <img src="https://img.shields.io/pypi/v/insta-tweet.svg"></a>
+      <a href="https://instatweet.readthedocs.io", alt="Read the Docs">
+         <img src="https://img.shields.io/readthedocs/instatweet""></a>
+      <a href="https://github.com/tdkorn/insta-tweet/pulse" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/tdkorn/insta-tweet" /></a>
+      </p>
+
+|
 
 Ever tried sharing an Instagram post to Twitter, only to find out that all you tweeted was a link, and not the actual photo/video?
 
