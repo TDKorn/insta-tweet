@@ -8,24 +8,31 @@ class InstaTweet:
 
     You might be wondering, what's InstaTweeting? According to TDK Dictionary:
 
-        **InstaTweet** (`verb`):
-            To scrape an Instagram account -> download & tweet any new content -> update and save the loaded :class:`~.Profile`
+        .. admonition:: **InstaTweet** (`verb`):
+           :class: instatweet
 
-        **Example Sentence**
-            "Oh, you lost 700 Twitter followers after you shared your IG post? Well maybe if people actually saw the
-            picture and not just the caption your tweet would've been less creepy. You should've InstaTweeted it.
+           To load a :class:`~.Profile` 🠖 scrape :attr:`~.posts` from its Instagram users
+           🠖 :meth:`~.download_post` & :meth:`~.send_tweet` for any new content
+           🠖 update the :attr:`~.user_map`
+           🠖 :meth:`~.save` the profile if it :attr:`~.exists`
+
+            .. admonition:: **Example Sentence**
+               :class: example
+
+               Oh, you lost 700 Twitter followers after you shared your IG post? Well maybe if people actually saw the
+               picture and not just the caption your tweet would've been less creepy. You should've InstaTweeted it.
 
     """
 
     def __init__(self, profile: Profile):
         """Initializes InstaTweet using a fully configured :class:`~.Profile`
 
-        The :class:`Profile` will be used to initialize an :class:`~.InstaClient` and :class:`~.TweetClient`
+        The :class:`~.Profile` will be used to initialize an :class:`~.InstaClient` and :class:`~.TweetClient`
 
         :Note:
             Profile settings will only be validated when calling :meth:`~.start`
 
-        :param profile: the profile to use for InstaTweeting
+        :param profile: the :class:`~.Profile` to use for InstaTweeting
         """
         self.profile = profile
         self.proxies = self.get_proxies()
@@ -36,14 +43,14 @@ class InstaTweet:
     def load(cls, profile_name: str, local: bool = True) -> "InstaTweet":
         """Loads a profile by name
 
-        :param profile_name: profile name
-        :param local: whether the profile is saved locally (True) or remotely on a SQLAlchemy-supported database
+        :param profile_name: name of the Profile to load
+        :param local: whether the profile is saved locally (default) or remotely on a database
 
         """
         return cls(profile=Profile.load(name=profile_name, local=local))
 
     def get_proxies(self) -> Optional[dict]:
-        """Retrieve proxies using the loaded :class:`~.Profile` settings"""
+        """Retrieve proxies using the loaded Profile's :attr:`~Profile.proxy_key`"""
         return utils.get_proxies(
             env_key=self.profile.proxy_key
         )
@@ -64,15 +71,18 @@ class InstaTweet:
         )
 
     def start(self) -> None:
-        """InstaTweets all users in the :class:`~.Profile`'s user map
+        """InstaTweets all users that have been added to the loaded :class:`~.Profile`
 
-        Each user will have their profile scraped, and their posts will be compared to their "scraped" list to determine
-        if any are new. If there's new posts, the content from them will be downloaded and tweeted
+        Each user's IG page will be scraped and compared to the ``scraped`` list in their :attr:`~.USER_MAPPING`.
+        Posts that weren't previously scraped will be downloaded and tweeted
 
-        **Notes**
-            * The :class:`~.Profile` is only saved upon successfully downloading and tweeting a post
-                - This allows any failed attempts to be retried in the next call to :meth:`~start`
-            * Error handling/printing is done by :meth:`~.download_post` and :meth:`~.send_tweet`
+        .. note:: If ``InstaTweet`` fails to :meth:`~.download_post` or :meth:`~.send_tweet`,
+           the :attr:`~.USER_MAPPING` won't be updated
+
+           * This ensures that failed repost attempts are retried in the next call to :meth:`~start`
+
+           If a save file for the Profile already :attr:`~.exists`, successful reposts
+           will trigger a call to :meth:`~.save`
         """
         profile = self.profile
         profile.validate()

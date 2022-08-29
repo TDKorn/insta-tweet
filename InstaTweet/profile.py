@@ -6,48 +6,102 @@ import json
 import pickle
 
 from typing import Iterable
-from . import utils, TweetClient, DBConnection, USER_AGENT
+from . import TweetClient, DBConnection, USER_AGENT
 
 
 class Profile:
 
-    USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}
-    LOCAL_DIR = os.path.join(utils.get_root(), 'profiles')
+    """The :class:`Profile` is a configuration class used extensively throughout the package
+
+    It consists of a :attr:`~user_map` and an associated collection of API/web scraping :ref:`settings <settings>`
+
+    ...
+
+    .. admonition:: About the User Map
+        :class: instatweet
+
+        The :attr:`~user_map` is a dict containing info about the users added to a :class:`Profile`
+
+        * It's used to help detect new posts and compose tweets on a per-user basis
+        * Entries are created when you :meth:`add_users`, which map the user to a :attr:`~USER_MAPPING`
+        * The :attr:`~USER_MAPPING` maintains lists of hashtags, scraped posts, and sent tweets
+        * The mapping is updated when you :meth:`add_hashtags` and successfully :meth:`~.send_tweet`
+
+        You can access entries in the :attr:`~user_map` as follows:
+
+        * :meth:`~get_user` allows you to retrieve a full entry by username
+        * :meth:`~get_hashtags_for`, :meth:`get_scraped_from`, :meth:`get_tweets_for` provide access
+          to lists
+
+    ...
+
+    **[Optional]**
+
+    A unique, identifying :attr:`~name` can be assigned to the Profile, which
+    may then be used to :meth:`~save` and, in turn, :meth:`~load` its settings
+
+    * This makes it extremely easy to switch between Profiles and create templates
+
+    Saving isn't a requirement to :meth:`~.start` InstaTweet, but...
+
+    * To :meth:`~.get_new_posts`, InstaTweet makes comparisons
+      with the ``scraped`` list in the :attr:`~.user_map`
+    * Saving this list ensures you don't :meth:`~.send_tweet`
+      for a post more than once
+
+    ...
+
+    .. admonition:: Important
+       :class: important-af
+
+       If you do :meth:`~save` your profile, the save location is determined by the value of :attr:`Profile.local`
+
+       * Local saves are made to the :attr:`~LOCAL_DIR`, as pickle files
+       * Remote saves are made to a database (via the :mod:`~.db` module) as pickle bytes
+
+       **You MUST configure the** :attr:`~InstaTweet.db.DATABASE_URL` **environment variable to save/load remotely**
+
+       * InstaTweet uses ``SQLAlchemy`` to create a :class:`~.DBConnection` -- any db it supports is compatible
+       * See the :mod:`~.db` module for more information
+
+    """
+
+    USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}  #: Template for an entry in the ``user_map``
+    LOCAL_DIR = os.path.abspath('profiles')  #: Directory where local profiles are saved
 
     def __init__(self, name: str = 'default', local: bool = True, **kwargs):
         """Create a new :class:`Profile`
 
-        A :class:`Profile` contains a ``user_map`` and all API access settings associated with it
+        .. note:: :class:`Profile` creation is mandatory to use the ``InstaTweet`` package
 
-        ...
-
-        The ``user_map`` is a mapping of added Instagram usernames to their associated :attr:`USER_MAPPING`
-
-        * The mapping includes a list of hashtags, scraped posts, and sent tweets
-        * Methods exist to access and modify these lists for a particular user
-        * Mainly used to help compose tweets and detect when posts are new
-
-        ...
+           * Required as a parameter to initialize an :class:`~.InstaTweet` object
+           * Naming and saving it is ideal, but not necessary to :meth:`~.start` InstaTweet
 
         :param name: unique profile name
         :param local: indicates if profile is being saved locally or on a remote database
         :param kwargs: see below
 
         :Keyword Arguments:
-            * *session_id* (``str``) --
+            * *session_id* (``str``)
                 Instagram ``sessionid`` cookie, obtained by logging in through browser
-            * *twitter_keys* (``dict``) --
+            * *twitter_keys* (``dict``)
                 Twitter API Keys with v1.1 endpoint access
-                * See :attr:`~InstaTweet.tweetclient.TweetClient.DEFAULT_KEYS` for a template
+                (see :attr:`~.TweetClient.DEFAULT_KEYS` for a template)
             * *user_agent* (``str``) -- Optional
                 The user agent to use for requests; uses a currently working hardcoded agent if not provided
             * *proxy_key* (``str``) -- Optional
-                Name of environment variable to retrieve proxies from
-            * *user_map* (``dict``) -- Optional
-                A dict of Instagram users and their associated :attr:`~.USER_MAPPING`
+                Environment variable to retrieve proxies from
+            * .. autoattribute:: user_map
+                 :annotation:
+                 :noindex:
 
-        :Note:
-            A name is not necessary to create and *InstaTweet* a profile, but it's required to :meth:`~.save` it
+        .. admonition:: **Profile Creation Tips**
+           :class: instatweet
+
+           * All attributes can be passed as arguments at initialization or set directly afterwards
+           * Property setters validate data types for the :ref:`mandatory-settings`
+           * The :class:`~Profile` as a whole is validated by :meth:`~validate`
+
 
         """
         self.local = local
@@ -57,15 +111,15 @@ class Profile:
         self.twitter_keys = kwargs.get('twitter_keys', TweetClient.DEFAULT_KEYS)
         self.user_agent = kwargs.get('user_agent', USER_AGENT)
         self.proxy_key = kwargs.get('proxy_key', None)
-        self.user_map = kwargs.get('user_map', {})
+        self.user_map = kwargs.get('user_map', {})  #: ``dict``: Mapping of added Instagram users and their :attr:`~USER_MAPPING`
 
     @classmethod
     def load(cls, name: str, local: bool = True) -> Profile:
-        """Loads an existing profile from a locally saved pickle file or remotely stored pickle byte string
+        """Loads an existing profile from a locally saved pickle file or remotely stored pickle bytes
 
         :param name: the name of the :class:`Profile` to load
         :param local: whether the profile is saved locally (default, ``True``) or remotely on a database
-            If saved remotely, the ``DATABASE_URL`` environment variable must be configured
+
         """
         if not cls.profile_exists(name, local):
             raise LookupError(
@@ -90,7 +144,15 @@ class Profile:
 
     @staticmethod
     def profile_exists(name: str, local: bool = True) -> bool:
-        """Check if a profile with the given name and location (local/remote) already exists"""
+        """Checks locally/remotely to see if a :class:`~Profile` with the specified name has an existing save file
+
+        Whenever the :attr:`~name` is changed, its property setter calls this method to ensure
+        you don't accidentally overwrite a save that already :attr:`~exists`
+
+        :param name: the name of the :class:`Profile` to check for
+        :param local: the location (local/remote) to check for an existing save
+
+        """
         if local:
             return os.path.exists(Profile.get_local_path(name))
         else:
@@ -105,10 +167,14 @@ class Profile:
     def add_users(self, users: Iterable, send_tweet: bool = False):
         """Add Instagram user(s) to the :attr:`~.user_map` for subsequent monitoring
 
-        By default, newly added users will not have their posts tweeted the first time they are scraped -
-        the IDs of their recent posts are stored, and any new posts from that point forward will be tweeted
+        .. note:: By default, newly added users won't have their posts tweeted the first time they're scraped
 
-        You can override this by setting ``send_tweet=True``, which will immediately scrape AND tweet the recent posts
+           * The IDs of the ~12 most recent posts are stored in the ``scraped`` list
+           * Any new posts from that point forward will be tweeted
+
+           You can override this by setting ``send_tweet=True``
+
+           * This causes their ~12 most recent posts to be scraped AND tweeted
 
         :param users: Instagram username(s) to automatically scrape and tweet content from
         :param send_tweet: choose if tweets should be sent on the first scrape, or only for new posts going forward
@@ -252,7 +318,10 @@ class Profile:
 
     @property
     def local(self) -> bool:
-        """Indicates if profile is being saved locally (``True``) or on a remote database (``False``)"""
+        """Indicates if saves should be made locally (``True``) or on a remote database (``False``)
+
+         :rtype: bool
+         """
         return self._local
 
     @local.setter
@@ -265,7 +334,26 @@ class Profile:
 
     @property
     def name(self) -> str:
-        """The profile name"""
+        """A name for the Profile
+
+        .. admonition:: Profile Names Must Be Unique
+            :class: instatweet
+
+            The :attr:`~Profile.name` is used differently depending on the value of :attr:`~.local`
+
+            * ``local==True``: the name determines the :attr:`~.profile_path` (path where it would save to)
+            * ``local==False``: the name is used as the primary key in the :class:`~.Profiles` database table
+
+        When you set or change the :attr:`~.name`, a property setter will make sure no
+        :meth:`~profile_exists` with that name before actually updating it
+
+        * This ensures that you don't accidentally overwrite a different Profile's save data
+
+        ...
+
+        :raises FileExistsError: if :attr:`~local` ``==True`` and a save is found in the :attr:`~LOCAL_DIR`
+        :raises ResourceWarning: if :attr:`~local` ``==False`` and a database row is found by :meth:`~.db.query_profile`
+        """
         return self._name
 
     @name.setter
