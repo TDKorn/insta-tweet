@@ -1,19 +1,20 @@
 .. _about-insta-tweet:
 
-
 ✨🐥 InstaTweet 🐤✨
 -----------------------
 
-.. raw:: html
+.. image:: https://img.shields.io/pypi/v/insta-tweet
+   :target: https://pypi.org/project/insta-tweet/
+   :alt: PyPI Version
 
-   <p align="left">
-      <a href="https://pypi.org/project/insta-tweet/", alt="Version">
-         <img src="https://img.shields.io/pypi/v/insta-tweet.svg"></a>
-      <a href="https://instatweet.readthedocs.io", alt="Read the Docs">
-         <img src="https://img.shields.io/readthedocs/instatweet""></a>
-      <a href="https://github.com/tdkorn/insta-tweet/pulse" alt="Activity">
-        <img src="https://img.shields.io/github/commit-activity/m/tdkorn/insta-tweet" /></a>
-      </p>
+.. image:: https://readthedocs.org/projects/instatweet/badge/?version=latest
+    :target: https://instatweet.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
+.. image:: https://img.shields.io/github/commit-activity/m/tdkorn/insta-tweet
+    :target: https://github.com/tdkorn/insta-tweet/pulse
+    :alt: Activity
+
 
 Automatically Repost Content From Instagram to Twitter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
