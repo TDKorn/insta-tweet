@@ -13,7 +13,7 @@ def read(file):
 setup(
     name='insta-tweet',
     packages=['InstaTweet'],
-    version='2.0.0b13',
+    version='2.0.0b3',
     license='MIT',
     description='Automatically Repost Content From Instagram to Twitter',
     long_description=read(LONG_DESCRIPTION_SRC),
