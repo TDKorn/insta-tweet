@@ -431,9 +431,10 @@ def move_generated_rst_file(app, exception):
 # ---- Skip and Setup Method -------------------------------------------------
 
 def skip(app, what, name, obj, would_skip, options):
-    """Include __init__ as a documented method"""
+    """Include __init__ as a documented method but allow InstaClient to override it"""
     if name in ('__init__',):
-        return False
+        if not obj.__qualname__.startswith("InstaClient"):
+            return False
     return would_skip
 
 
