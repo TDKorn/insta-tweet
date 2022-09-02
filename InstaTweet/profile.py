@@ -336,18 +336,20 @@ class Profile:
     def name(self) -> str:
         """A name for the Profile
 
+        The :attr:`~Profile.name` is used differently depending on the value of :attr:`~.local`
+
+        * ``local==True``: the name determines the :attr:`~.profile_path` (path where it would save to)
+        * ``local==False``: the name is used as the primary key in the :class:`~.Profiles` database table
+
+        ...
+
         .. admonition:: Profile Names Must Be Unique
             :class: instatweet
 
-            The :attr:`~Profile.name` is used differently depending on the value of :attr:`~.local`
+            When you set or change the :attr:`~.name`, a property setter will make sure no
+            :meth:`~profile_exists` with that name before actually updating it
 
-            * ``local==True``: the name determines the :attr:`~.profile_path` (path where it would save to)
-            * ``local==False``: the name is used as the primary key in the :class:`~.Profiles` database table
-
-        When you set or change the :attr:`~.name`, a property setter will make sure no
-        :meth:`~profile_exists` with that name before actually updating it
-
-        * This ensures that you don't accidentally overwrite a different Profile's save data
+            * This ensures that you don't accidentally overwrite a different Profile's save data
 
         ...
 
