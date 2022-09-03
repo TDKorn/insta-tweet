@@ -40,8 +40,7 @@ class InstaClient:
         :param url: the Instagram URL to send the request to
         """
         return requests.get(
-            url,
-            headers=self.headers,
+            url, headers=self.headers,
             cookies=self.cookies,
             proxies=self.proxies
         )
@@ -52,13 +51,14 @@ class InstaClient:
         :param username: the username of the IG user to scrape (without the @)
         :return: an :class:`~.InstaUser` object, which wraps the response data
         """
-        response = self.request(f"https://i.instagram.com/api/v1/users/web_profile_info/?username={username}")
+        endpoint = f"https://i.instagram.com/api/v1/users/web_profile_info/?username={username}"
+        response = self.request(endpoint)
+
         if response.ok:
             try:
                 return InstaUser(response.json())
             except JSONDecodeError as e:
-                msg = f'Unable to scrape Instagram user @{username} - endpoint potentially deprecated?'
-                raise RuntimeError(msg) from e
+                raise RuntimeError(f'Unable to scrape Instagram user @{username}') from e
         else:
             try:
                 error = response.json()

@@ -25,12 +25,11 @@ class InstaTweet:
     """
 
     def __init__(self, profile: Profile):
-        """Initializes InstaTweet using a fully configured :class:`~.Profile`
+        """Initializes :class:`~.InstaTweet` using a fully configured :class:`~.Profile`
 
         The :class:`~.Profile` will be used to initialize an :class:`~.InstaClient` and :class:`~.TweetClient`
 
-        :Note:
-            Profile settings will only be validated when calling :meth:`~.start`
+        .. note:: InstaTweet won't :meth:`~.validate` the Profile settings until you call :meth:`~.start`
 
         :param profile: the :class:`~.Profile` to use for InstaTweeting
         """
