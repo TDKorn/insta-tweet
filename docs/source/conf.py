@@ -144,7 +144,7 @@ html_context = {
     'display_github': True,
     'github_user': 'TDKorn',
     'github_repo': 'insta-tweet',
-    'github_version': 'docs/docs/source/'
+    'github_version': 'master/docs/source/'
 }
 
 # The theme to use for HTML and HTML Help pages.
@@ -170,32 +170,29 @@ html_theme_options = {
 #                  Adapted from https://github.com/nlgranger/SeqTools (ily)
 #
 #
-if not on_rtd:
-    linkcode_revision = 'docs'
 
-else:
-    # Get the blob to link to on GitHub
-    linkcode_revision = "master"
+# Get the blob to link to on GitHub
+linkcode_revision = "master"
 
-    try:
-        # lock to commit number
-        cmd = "git log -n1 --pretty=%H"
-        head = subprocess.check_output(cmd.split()).strip().decode('utf-8')
-        linkcode_revision = head
+try:
+    # lock to commit number
+    cmd = "git log -n1 --pretty=%H"
+    head = subprocess.check_output(cmd.split()).strip().decode('utf-8')
+    linkcode_revision = head
 
-        # if we are on master's HEAD, use master as reference
-        cmd = "git log --first-parent master -n1 --pretty=%H"
-        master = subprocess.check_output(cmd.split()).strip().decode('utf-8')
-        if head == master:
-            linkcode_revision = "master"
+    # if we are on master's HEAD, use master as reference
+    cmd = "git log --first-parent master -n1 --pretty=%H"
+    master = subprocess.check_output(cmd.split()).strip().decode('utf-8')
+    if head == master:
+        linkcode_revision = "master"
 
-        # if we have a tag, use tag as reference
-        cmd = "git describe --exact-match --tags " + head
-        tag = subprocess.check_output(cmd.split(" ")).strip().decode('utf-8')
-        linkcode_revision = tag
+    # if we have a tag, use tag as reference
+    cmd = "git describe --exact-match --tags " + head
+    tag = subprocess.check_output(cmd.split(" ")).strip().decode('utf-8')
+    linkcode_revision = tag
 
-    except subprocess.CalledProcessError:
-        pass
+except subprocess.CalledProcessError:
+    pass
 
 
 # Source URL template; formatted + returned by linkcode_resolve

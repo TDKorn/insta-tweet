@@ -33,7 +33,8 @@ Ever tried sharing an Instagram post to Twitter, only to find out that all you t
 
 |
 
-`InstaTweet <https://github.com/tdkorn/insta-tweet/blob/docs/InstaTweet/instatweet.py#L5-L142>`_ **shares the** *actual* **content of the post. Not just a link to it.**
+
+`InstaTweet <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L5-L142>`_ **shares the** *actual* **content of the post. Not just a link to it.**
 
 
 
@@ -50,11 +51,11 @@ although nobody will click the link, they'll at least see what you posted.
 What's InstaTweet?
 ~~~~~~~~~~~~~~~~~~~~~
 
-`InstaTweet <https://github.com/tdkorn/insta-tweet/blob/docs/InstaTweet/instatweet.py#L5-L142>`_ is a customizable tool to automatically repost content from Instagram to Twitter.
+`InstaTweet <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L5-L142>`_ is a customizable tool to automatically repost content from Instagram to Twitter.
 
-Simply create a `Profile <https://github.com/tdkorn/insta-tweet/blob/docs/InstaTweet/profile.py#L12-L414>`_,
+Simply create a `Profile <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/profile.py#L12-L416>`_,
 configure the `mandatory-settings <https://instatweet.readthedocs.io/en/latest/_readme/getting-started.html#mandatory-settings>`_,
-and `add_users() <https://github.com/tdkorn/insta-tweet/blob/docs/InstaTweet/profile.py#L167-L197>`_ to repost from
+and `add_users() <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/profile.py#L167-L197>`_ to repost from
 
 .. code-block:: python
 
@@ -71,8 +72,8 @@ and `add_users() <https://github.com/tdkorn/insta-tweet/blob/docs/InstaTweet/pro
     >>> profile.add_users('the.dailykitten')
 
 
-Once configured, the `Profile <https://github.com/tdkorn/insta-tweet/blob/docs/InstaTweet/profile.py#L12-L414>`_ can be used to initialize and
-`start() <https://github.com/tdkorn/insta-tweet/blob/docs/InstaTweet/instatweet.py#L73-L117>`_ an `InstaTweet <https://github.com/tdkorn/insta-tweet/blob/docs/InstaTweet/instatweet.py#L5-L142>`_ object
+Once configured, the `Profile <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/profile.py#L12-L416>`_ can be used to initialize and
+`start() <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L73-L117>`_ an `InstaTweet <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L5-L142>`_ object
 
 .. code-block:: python
 
