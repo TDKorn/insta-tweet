@@ -144,13 +144,12 @@ class TweetClient:
         :param hashtags: a list of hashtags to randomly choose from
 
         :Example:
+         ::
 
-            ::
+            from InstaTweet import TweetClient
 
-               from InstaTweet import TweetClient
-
-               >> TweetClient.pick_hashtags(['cat','dog','woof'])
-               "#woof #cat\\n"
+            >> TweetClient.pick_hashtags(['cat','dog','woof'])
+            "#woof #cat\\n"
 
         .. note:: A newline is added to help with formatting & character counting in :meth:`~.build_tweet`
 
