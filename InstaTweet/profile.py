@@ -266,7 +266,11 @@ class Profile:
         return self.config
 
     def view_config(self):
-        """Prints the :attr:`~.config` dict to make it legible"""
+        """Prints the :attr:`~.config` dict to make it legible
+
+        .. include:: /_snippets/view-config.rst
+           :start-after: config-example:
+        """
         for k, v in self.config.items():
             print(f'{k} : {v}')
 
