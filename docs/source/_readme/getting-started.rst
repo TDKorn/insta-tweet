@@ -28,22 +28,22 @@ All settings can be configured in two ways:
 Mandatory Settings
 ===================
 
-* ``session_id`` — Instagram Sessionid Cookie, obtained by logging in on a desktop browser
-* ``twitter_keys`` — Twitter API Keys with v1.1 endpoint access
+* :attr:`~.session_id` — Instagram sessionid cookie, obtained by logging in on a desktop browser
+* :attr:`~.twitter_keys` — Twitter API keys with v1.1 endpoint access
 
 Mandatory Settings with Default Values
 =========================================
 
-* ``name="default"`` — profile name; if non-default, it must be unique
-* ``local=True`` — Indicates if the profile should be saved locally (default) or on a remote database
-* ``user_agent=USER_AGENT`` — User agent to use when making requests to Instagram
+* :attr:`~.Profile.name` (``="default"``) — the profile name; if non-default, it must be unique
+* :attr:`~.Profile.local` (``=True``) — indicates if the profile should be saved locally (default) or on a remote database
+* ``user_agent=USER_AGENT`` — user agent to use when making requests to Instagram; currently hardcoded
 
 
 Entirely Optional Settings
 =========================================
 
 * ``proxy_key`` — Environment variable to retrieve proxies from when making requests to Instagram/Twitter
-* ``user_map`` — Fully formatted dictionary of IG usernames mapped to their ``USER_MAPPING``
+* :attr:`~.user_map` — Fully formatted dictionary of IG usernames mapped to their ``USER_MAPPING``
 
 
 Creating a Profile
@@ -274,4 +274,3 @@ Example: Save a Profile
 
     >>> Profile.profile_exists("aProfile")
     True
-
