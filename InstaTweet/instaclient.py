@@ -56,7 +56,7 @@ class InstaClient:
 
         if response.ok:
             try:
-                return InstaUser(response.json())
+                return InstaUser(response.json(), self)
             except JSONDecodeError as e:
                 raise RuntimeError(f'Unable to scrape Instagram user @{username}') from e
         else:
