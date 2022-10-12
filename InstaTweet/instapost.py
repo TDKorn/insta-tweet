@@ -28,11 +28,52 @@ class InstaPost:
 
     @property
     def children(self) -> list:
-        """If the post is a carousel, returns a list of child :class:`InstaPost`s"""
+        """If the post is a carousel, returns a list of child :class:`InstaPost`'s"""
         if self.is_carousel and not self._children:
             edges = self.json['edge_sidecar_to_children']['edges']
             self._children = [InstaPost(edge['node']) for edge in edges]
         return self._children
+
+    @property
+    def permalink(self) -> str:
+        return f'https://www.instagram.com/p/{self.shortcode}'
+
+    @property
+    def shortcode(self) -> str:
+        return self.json.get('shortcode', self.json.get('code', ''))
+
+    @property
+    def caption(self) -> str:
+        if caption_edge := self.json.get('edge_media_to_caption', {}).get('edges', []):
+            return caption_edge[0].get('node', {}).get('text', '')
+        return ''
+
+    @property
+    def media_url(self) -> str:
+        """The direct URL to the actual post content
+
+        :returns: the :attr:`~.video_url` if the post is a video, otherwise the :attr:`~.thumbnail_url`
+        """
+        return self.video_url if self.is_video else self.thumbnail_url
+
+    @property
+    def thumbnail_url(self) -> str:
+        return self.json.get('display_url',
+                             self.json.get('thumbnail_src',
+                                           self.json.get('thumbnail_resources',
+                                                         [{}])[-1].get('src', '')))
+
+    @property
+    def is_downloaded(self) -> bool:
+        """Checks the :attr:`~filepath` to see if the post has been downloaded yet"""
+        if self.is_carousel:
+            return all(child.is_downloaded for child in self.children)
+        else:
+            return os.path.exists(self.filepath)
+
+    @property
+    def is_carousel(self) -> bool:
+        return 'edge_sidecar_to_children' in self.json
 
     @property
     def filename(self) -> str:
@@ -52,56 +93,15 @@ class InstaPost:
         return '.mp4' if self.is_video else '.jpg'
 
     @property
-    def is_downloaded(self) -> bool:
-        """Checks the :attr:`~filepath` to see if the post has been downloaded yet"""
-        if self.is_carousel:
-            return all(child.is_downloaded for child in self.children)
-        else:
-            return os.path.exists(self.filepath)
-
-    @property
     def owner(self) -> dict:
         if owner := self.json.get('owner', self.json.get('user', {})):
             return owner
         return dict.fromkeys(['id', 'username'])
 
     @property
-    def is_carousel(self) -> bool:
-        return 'edge_sidecar_to_children' in self.json
-
-    @property
-    def shortcode(self) -> str:
-        return self.json.get('shortcode', self.json.get('code', ''))
-
-    @property
-    def permalink(self) -> str:
-        return f'https://www.instagram.com/p/{self.shortcode}'
-
-    @property
-    def thumbnail_url(self) -> str:
-        return self.json.get('display_url',
-                             self.json.get('thumbnail_src',
-                                           self.json.get('thumbnail_resources',
-                                                         [{}])[-1].get('src', '')))
-
-    @property
     def timestamp(self) -> Union[datetime, str]:
         if timestamp := self.json.get('taken_at_timestamp', self.json.get('taken_at', '')):
             return datetime.utcfromtimestamp(timestamp)
-        return ''
-
-    @property
-    def media_url(self) -> str:
-        """The direct URL to the actual post content
-
-        :returns: the :attr:`~video_url` if the post is a video, otherwise the :attr:`~thumbnail_url`
-        """
-        return self.video_url if self.is_video else self.thumbnail_url
-
-    @property
-    def caption(self) -> str:
-        if caption_edge := self.json.get('edge_media_to_caption', {}).get('edges', []):
-            return caption_edge[0].get('node', {}).get('text', '')
         return ''
 
     def add_tweet_data(self, tweet: Status) -> bool:
