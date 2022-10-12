@@ -28,7 +28,7 @@ def get_pypi_desc(rst_file=LONG_DESCRIPTION_SRC):
 setup(
     name='insta-tweet',
     packages=['InstaTweet'],
-    version='2.0.0',
+    version='2.1.1',
     license='MIT',
     description='Automatically Repost Content From Instagram to Twitter',
     long_description=get_pypi_desc(LONG_DESCRIPTION_SRC),
