@@ -136,16 +136,7 @@ rst_replace_refs = {
 }
 
 
-# ============================ HTML Output Settings ============================
-
-# HTML Context
-# Add the "Edit on GitHub" link at the top
-html_context = {
-    'display_github': True,
-    'github_user': 'TDKorn',
-    'github_repo': 'insta-tweet',
-    'github_version': 'master/docs/source/'
-}
+# ============================ HTML Theme Settings ============================
 
 # The theme to use for HTML and HTML Help pages.
 html_theme = 'sphinx_rtd_theme'
@@ -194,6 +185,14 @@ try:
 except subprocess.CalledProcessError:
     pass
 
+
+# Add the "Edit on GitHub" link at the top
+html_context = {
+    'display_github': True,
+    'github_user': 'TDKorn',
+    'github_repo': 'insta-tweet',
+    'github_version': f'{linkcode_revision}/docs/source/'
+}
 
 # Source URL template; formatted + returned by linkcode_resolve
 linkcode_url = "https://github.com/tdkorn/insta-tweet/blob/" \
