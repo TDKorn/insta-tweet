@@ -76,6 +76,11 @@ class InstaClient:
         :param post: the :class:`~.InstaPost` of the post to download
         :param filepath: the path to save the downloaded media; if ``None``, saves to the :attr:`~DOWNLOAD_DIR`
         """
+        if post.is_carousel:
+            for child in post.children:
+                self.download_post(child)
+            return all(child.is_downloaded for child in post.children)
+
         response = self.request(post.media_url)
         if not response.ok:
             print(f'Failed to download post {post.permalink} by {post.owner["username"]}')

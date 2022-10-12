@@ -79,43 +79,55 @@ class TweetClient:
              - Lastly, the :attr:`InstaPost.permalink` is added to the end
 
         """
-        if not post.filepath or not os.path.exists(post.filepath):
+        if not post.is_downloaded:
             raise FileNotFoundError('Post must be downloaded first')
 
-        if not (uploaded := self.upload_media(post)):
+        media_ids = self.upload_media(post)
+        if not isinstance(media_ids, list):
             return False
 
         try:
             tweet = self.api.update_status(
                 status=self.build_tweet(post, hashtags),
-                media_ids=[str(uploaded.media_id)],
+                media_ids=media_ids,
             )
-            print(f'Sent tweet for {post}')
-            return post.add_tweet_data(tweet)
-
         except TweepyException as e:
             print('Failed to send tweet for {}:\nResponse: {}'.format(post, e))
             return False
 
-    def upload_media(self, post: InstaPost) -> Union[Media, bool]:
+        print(f'Sent tweet for {post}')
+        return post.add_tweet_data(tweet)
+
+    def upload_media(self, post: InstaPost) -> Union[list, bool]:
         """Uploads the media from an already-downloaded Instagram post to Twitter
 
-        :param post: the Instagram post to use as the media source
-        :return: the response from the Twitter API (if upload was successful) or ``False``
-        """
-        media = self.api.media_upload(
-            filename=post.filepath,
-            media_category='TWEET_VIDEO' if post.is_video else 'TWEET_IMAGE',
-            wait_for_async_finalize=True,
-            chunked=True)
+        .. note:: If the post is a carousel, only the first 4 photos/videos will be uploaded
 
-        if hasattr(media,'processing_info'):
-            if media.processing_info['state'] != 'succeeded':
-                print(f'Failed to upload media to Twitter for {post}')
-                return False
+        :param post: the Instagram post to use as the media source
+        :return: the list of uploaded media ids (if API upload was successful) or ``False``
+        """
+        if not post.is_downloaded:
+            raise FileNotFoundError('Post must be downloaded first')
+
+        content = post.children[:4] if post.is_carousel else [post]
+        media_ids = []
+
+        for media in content:
+            media_upload = self.api.media_upload(
+                filename=media.filepath,
+                media_category='TWEET_VIDEO' if media.is_video else 'TWEET_IMAGE',
+                wait_for_async_finalize=True,
+                chunked=True)
+
+            if hasattr(media_upload, 'processing_info'):
+                if media_upload.processing_info['state'] != 'succeeded':
+                    print(f'Failed to upload media to Twitter for {media}')
+                    return False
+
+            media_ids.append(str(media_upload.media_id))
 
         print(f'Successfully uploaded media to Twitter for {post}')
-        return media
+        return media_ids
 
     def build_tweet(self, post: InstaPost, hashtags: Optional[list[str]] = None) -> str:
         """Uses an :class:`~.InstaPost` to build the body text of a tweet

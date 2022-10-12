@@ -20,10 +20,19 @@ class InstaPost:
         self.dimensions = post_data.get('dimensions', {})
         # Attributes set by other classes
         self.filepath = ''      #:``str``: Path of downloaded media, set by :meth:`~.InstaClient.download_post`
-        self.tweet_data = None  #:``dict``: Limited data from a successful tweet based off this post, set by :meth:`~.TweetClient.send_tweet`
+        self.tweet_data = {}    #:``dict``: Limited data from a successful tweet based off this post, set by :meth:`~.TweetClient.send_tweet`
+        self._children = []
 
     def __str__(self):
         return f'Post {self.id} by @{self.owner["username"]} on {self.timestamp}'
+
+    @property
+    def children(self) -> list:
+        """If the post is a carousel, returns a list of child :class:`InstaPost`s"""
+        if self.is_carousel and not self._children:
+            edges = self.json['edge_sidecar_to_children']['edges']
+            self._children = [InstaPost(edge['node']) for edge in edges]
+        return self._children
 
     @property
     def filename(self) -> str:
@@ -45,7 +54,10 @@ class InstaPost:
     @property
     def is_downloaded(self) -> bool:
         """Checks the :attr:`~filepath` to see if the post has been downloaded yet"""
-        return os.path.exists(self.filepath)
+        if self.is_carousel:
+            return all(child.is_downloaded for child in self.children)
+        else:
+            return os.path.exists(self.filepath)
 
     @property
     def owner(self) -> dict:
@@ -55,7 +67,7 @@ class InstaPost:
 
     @property
     def is_carousel(self) -> bool:
-        return self.json.get('media_type') == 8
+        return 'edge_sidecar_to_children' in self.json
 
     @property
     def shortcode(self) -> str:
@@ -98,8 +110,10 @@ class InstaPost:
         :param tweet: a :class:`~tweepy.models.Status` object from a successfully sent tweet
         """
         self.tweet_data = {
-            'link': tweet.entities['urls'][0]['url'],
+            'id': tweet.id_str,
             'created_at': str(tweet.created_at),
+            'link': f'https://twitter.com/{tweet.user.screen_name}/status/{tweet.id}',
+            'entities': tweet.entities,
             'text': tweet.text
         }
         return True
