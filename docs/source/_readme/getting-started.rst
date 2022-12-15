@@ -275,3 +275,5 @@ Example: Save a Profile
     >>> Profile.profile_exists("aProfile")
     True
 
+
+.. include:: /_snippets/run-profile.rst

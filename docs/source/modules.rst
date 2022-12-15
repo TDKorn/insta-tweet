@@ -4,7 +4,7 @@ InstaTweet Package
 Below, you'll find the documentation for each class/module in the  ``InstaTweet`` package.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: InstaTweet Package Contents
 
    instatweet_class

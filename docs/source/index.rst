@@ -1,33 +1,30 @@
 .. InstaTweet documentation master file, created by
    sphinx-quickstart on Sat Jul  9 06:46:42 2022.
-.. index.rst
-   Title comes from this file
+
+.. Title for index.rst comes from about-instatweet.rst
 
 .. include:: _readme/about-instatweet.rst
    :start-line: 2
 
-.. TOC for sidebar (:hidden:)
-   Using :glob: to have the bold caption as a "section title"
-   It's basically like a page with a title and toctree except
-   without the real title, you can avoid the extra level of nesting
+.. TOC for sidebar
+   Using self doesn't include any subheadings :(
+   Using about-instatweet file here had the same page twice in a row tho (bad)
 
 .. toctree::
    :maxdepth: 2
    :caption: README
    :hidden:
-   :glob:
 
-   _readme/about-instatweet
+   self
    _readme/getting-started
    _readme/schedule_instatweet
 
 
+.. Fake table of contents inserted after the "about-instatweet.rst" content
+   Essentially like :maxdepth: 1 or :titlesonly: but without creating the TOC in the sidebar
+
 InstaTweet README
 ~~~~~~~~~~~~~~~~~~~
-
-.. Fake table of contents inserted after the "about-instatweet.rst" content
-   Contains only title names, essentially like :maxdepth: 1 or :titlesonly:
-   But without creating the TOC in the sidebar
 
 * :ref:`about-insta-tweet`
 * :ref:`getting-started`
@@ -39,7 +36,6 @@ InstaTweet README
 .. toctree::
    :maxdepth: 2
    :caption: Documentation
-   :glob:
 
    modules
 
@@ -47,7 +43,6 @@ InstaTweet README
 .. toctree::
    :maxdepth: 2
    :caption: Snippets
-   :glob:
 
    snippets
 
