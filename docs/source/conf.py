@@ -27,9 +27,12 @@ on_rtd = os.environ.get('READTHEDOCS') == 'True'
 if not on_rtd:
     sys.path.insert(0, os.path.abspath('../../'))
 
-# Add path for custom Pygments style
 sys.path.append(os.path.abspath('.'))
-pygments_style = 'tdk_style.TDKStyle'
+# Add custom Pygments style if HTML
+if 'html' in sys.argv:
+    pygments_style = 'tdk_style.TDKStyle'
+else:
+    pygments_style = 'sphinx'
 
 # on_rtd = True  # Uncomment for testing RTD builds locally
 
@@ -38,7 +41,7 @@ pygments_style = 'tdk_style.TDKStyle'
 
 project = 'InstaTweet'
 copyright = '2022, Adam Korn'
-author = u'Adam Korn'
+author = 'Adam Korn'
 
 # The full version, including alpha/beta/rc tags
 # Simplify things by using the version from setup.py
@@ -70,11 +73,14 @@ source_suffix = '.rst'
 # LaTeX settings
 latex_elements = {          # Less yucky looking font
     'preamble': r'''
-        \usepackage[utf8]{inputenc}
-        \usepackage{charter}
-        \usepackage[defaultsans]{lato}
-        \usepackage{inconsolata}
-#     ''',
+\usepackage[utf8]{inputenc}
+\usepackage{charter}
+\usepackage[defaultsans]{lato}
+\usepackage{inconsolata}
+''',  # Change Background of Code Blocks
+   # 'sphinxsetup': """
+# VerbatimColor={RGB}{13,17,23},
+# """,
 }
 
 # ============================ Extensions ====================================

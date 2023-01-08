@@ -12,10 +12,6 @@
 .. include:: _readme/about-instatweet.rst
    :start-line: 134
 
-.. toctree for README
-   Using self doesn't include any subheadings :(
-   Using about-instatweet file here had the same page twice in a row tho (bad)
-
 
 .. only:: html
 
