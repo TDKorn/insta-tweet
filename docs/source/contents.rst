@@ -27,4 +27,8 @@ InstaTweet Documentation
    snippets
 
 
+.. toctree::
+   :maxdepth: 1
+   :hidden:
 
+   self
