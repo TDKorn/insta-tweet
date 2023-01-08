@@ -1,5 +1,5 @@
 The ``InstaTweet`` class
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Not to be confused with the package, the :class:`InstaTweet` class is the main point of interaction for a user of
 the package

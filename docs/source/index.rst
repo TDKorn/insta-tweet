@@ -5,52 +5,42 @@
 
 .. include:: _readme/about-instatweet.rst
    :start-line: 2
+   :end-line: 127
 
-.. TOC for sidebar
+.. Cut out the part about documentation being on RTD
+
+.. include:: _readme/about-instatweet.rst
+   :start-line: 134
+
+.. toctree for README
    Using self doesn't include any subheadings :(
    Using about-instatweet file here had the same page twice in a row tho (bad)
 
-.. toctree::
-   :maxdepth: 2
-   :caption: README
-   :hidden:
 
-   self
-   _readme/getting-started
-   _readme/schedule_instatweet
+.. only:: html
 
+   Documentation
+   ~~~~~~~~~~~~~~~~~~
 
-.. Fake table of contents inserted after the "about-instatweet.rst" content
-   Essentially like :maxdepth: 1 or :titlesonly: but without creating the TOC in the sidebar
+   See the sidebar or below for the rest of the README and package documentation
 
-InstaTweet README
-~~~~~~~~~~~~~~~~~~~
+   * :doc:`_readme/getting-started`
+   * :doc:`_readme/schedule_instatweet`
+   * :doc:`modules`
 
-* :ref:`about-insta-tweet`
-* :ref:`getting-started`
-* :ref:`schedule-insta-tweet`
-
-
-.. The other toctrees are left as is (inserted + sidebar)
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Documentation
-
-   modules
+     - :doc:`instatweet_class`
+     - :doc:`profile`
+     - :doc:`db`
+     - :doc:`tweetclient`
+     - :doc:`instaclient`
+     - :doc:`instauser`
+     - :doc:`instapost`
+     - :doc:`utils`
 
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Snippets
+   Indices and tables
+   ~~~~~~~~~~~~~~~~~~~
 
-   snippets
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   * :ref:`genindex`
+   * :ref:`modindex`
+   * :doc:`Full Table of Contents <contents>`

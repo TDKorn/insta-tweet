@@ -38,7 +38,7 @@ pygments_style = 'tdk_style.TDKStyle'
 
 project = 'InstaTweet'
 copyright = '2022, Adam Korn'
-author = 'Adam Korn'
+author = u'Adam Korn'
 
 # The full version, including alpha/beta/rc tags
 # Simplify things by using the version from setup.py
@@ -49,7 +49,7 @@ release = version
 # ======================== General configuration ============================
 
 # Doc with root toctree
-master_doc = 'index'  # .rst
+master_doc = 'contents'  # .rst
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -64,6 +64,18 @@ templates_path = ['_templates']
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+# Source File type
+source_suffix = '.rst'
+
+# LaTeX settings
+latex_elements = {          # Less yucky looking font
+    'preamble': r'''
+        \usepackage[utf8]{inputenc}
+        \usepackage{charter}
+        \usepackage[defaultsans]{lato}
+        \usepackage{inconsolata}
+#     ''',
+}
 
 # ============================ Extensions ====================================
 
@@ -73,7 +85,6 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.viewcode',
-    'myst_parser',
     '_ext.linkcode',
 ]
 
@@ -105,10 +116,6 @@ autodoc_typehints = 'description'
 #  ->  It does mean everything with a typehint actually needs a docstring tho :/
 autodoc_typehints_description_target = 'documented_params'
 
-
-# ~~~~ MyST Parser ~~~~
-# Add narkdown as source -> to include README.md instead of making a README.rst
-source_suffix = ['.rst', '.md']
 
 # ~~~~~~~~ My Own Thing (replace_autodoc_refs_with_linkcode) ~~~~~~~~~
 #

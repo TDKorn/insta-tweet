@@ -1,5 +1,5 @@
 InstaTweet Package
-====================
+-------------------
 
 Below, you'll find the documentation for each class/module in the  ``InstaTweet`` package.
 

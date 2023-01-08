@@ -354,7 +354,7 @@ class Profile:
         ...
 
         :raises FileExistsError: if :attr:`~local` ``==True`` and a save is found in the :attr:`~LOCAL_DIR`
-        :raises ResourceWarning: if :attr:`~local` ``==False`` and a database row is found by :meth:`~.db.query_profile`
+        :raises ResourceWarning: if :attr:`~local` ``==False`` and a database row is found by :meth:`~.query_profile`
         """
         return self._name
 

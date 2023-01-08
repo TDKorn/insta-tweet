@@ -1,5 +1,5 @@
 The ``db`` module
------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: InstaTweet.db
    :exclude-members: DATABASE_URL, Profiles, DBConnection

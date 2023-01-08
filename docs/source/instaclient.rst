@@ -1,5 +1,5 @@
 The ``InstaClient`` class
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: InstaTweet.instaclient
    :members:

@@ -7,13 +7,12 @@
    :target: https://pypi.org/project/insta-tweet/
    :alt: PyPI Version
 
+.. image:: https://static.pepy.tech/personalized-badge/insta-tweet?period=total&units=none&left_color=grey&right_color=blue&left_text=Downloads
+    :target: https://pepy.tech/project/insta-tweet
+
 .. image:: https://readthedocs.org/projects/instatweet/badge/?version=latest
     :target: https://instatweet.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
-
-.. image:: https://img.shields.io/github/commit-activity/m/tdkorn/insta-tweet
-    :target: https://github.com/tdkorn/insta-tweet/pulse
-    :alt: Activity
 
 
 Automatically Repost Content From Instagram to Twitter
@@ -129,14 +128,10 @@ Okay... But Why? 😟
 Documentation
 ~~~~~~~~~~~~~~~~~
 
-The rest of this `README <https://instatweet.readthedocs.io/en/latest/_readme/about-instatweet.html>`_,
+The rest of this `README <https://instatweet.readthedocs.io/en/latest/_readme/getting-started.html>`_,
 the `API documentation <https://instatweet.readthedocs.io/en/latest/modules.html>`_, and
 `snippets <https://instatweet.readthedocs.io/en/latest/snippets.html>`_
 can all be found on `Read the Docs <https://instatweet.readthedocs.io/en/latest/index.html>`_
-
-I put a lot of time into creating the documentation for this package, it was a struggle,
-so it'd mean a lot to me if you could please continue reading there! 🥰
-
 
 
 Installation

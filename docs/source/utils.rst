@@ -1,5 +1,5 @@
 The ``utils`` module
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 This module contains a few helper functions that are used throughout the package
 

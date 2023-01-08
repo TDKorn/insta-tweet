@@ -1,5 +1,5 @@
 The ``InstaUser`` class
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: InstaTweet.instauser
    :members:

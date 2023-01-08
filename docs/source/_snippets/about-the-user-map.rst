@@ -1,7 +1,7 @@
 .. _About the User Map:
 
 About the User Map
---------------------
+~~~~~~~~~~~~~~~~~~~
 
 .. admonition:: About the User Map
     :class: instatweet

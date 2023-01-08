@@ -1,5 +1,5 @@
 The ``Profile`` class
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. automodule:: InstaTweet.profile
    :members:
