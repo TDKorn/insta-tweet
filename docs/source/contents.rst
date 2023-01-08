@@ -1,5 +1,5 @@
 ########################
-InstaTweet Documentation
+Table of Contents
 ########################
 
 .. toctree::
