@@ -107,7 +107,7 @@ should be defined after styles that are more likely to be applied to top-level a
 }
 /* Default exclamation point for note */
 .rst-content .note .admonition-title::before {
-    content: "" !important;
+    content: "📄" !important;
 }
 /* Custom admonition icon for "Example admonition: 📝 */
 .rst-content .example .admonition-title::before {

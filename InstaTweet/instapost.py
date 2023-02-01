@@ -1,5 +1,6 @@
 import os
-from typing import Union
+from functools import cached_property
+from typing import Union, List
 from datetime import datetime
 from tweepy.models import Status
 
@@ -13,26 +14,28 @@ class InstaPost:
 
         :param post_data: the JSON response data of a single Instagram post, found within the :attr:`~.InstaUser.user_data`
         """
+        #: Source data from API response
         self.json = post_data
-        self.id = post_data['id']  #: The post id
-        self.is_video = post_data.get('is_video', False)  #: Indicates if the post is a video or photo
+        #: The post id
+        self.id = post_data['id']
+        self.dimensions: dict = post_data.get('dimensions', {})
+        self.is_video: bool = post_data.get('is_video', False)
         self.video_url = post_data.get('video_url', '')
-        self.dimensions = post_data.get('dimensions', {})
-        # Attributes set by other classes
-        self.filepath = ''      #:``str``: Path of downloaded media, set by :meth:`~.InstaClient.download_post`
-        self.tweet_data = {}    #:``dict``: Limited data from a successful tweet based off this post, set by :meth:`~.TweetClient.send_tweet`
-        self._children = []
+        #: Path of downloaded media, set by :meth:`~.InstaClient.download_post`
+        self.filepath: str = ''
+        #: Limited data from a successful tweet based off this post, set by :meth:`~.TweetClient.send_tweet`
+        self.tweet_data: dict = {}
 
     def __str__(self):
         return f'Post {self.id} by @{self.owner["username"]} on {self.timestamp}'
 
-    @property
-    def children(self) -> list:
+    @cached_property
+    def children(self) -> List["InstaPost"]:
         """If the post is a carousel, returns a list of child :class:`InstaPost`'s"""
-        if self.is_carousel and not self._children:
+        if self.is_carousel:
             edges = self.json['edge_sidecar_to_children']['edges']
-            self._children = [InstaPost(edge['node']) for edge in edges]
-        return self._children
+            return [InstaPost(edge['node']) for edge in edges]
+        return []
 
     @property
     def permalink(self) -> str:
@@ -79,10 +82,10 @@ class InstaPost:
     def filename(self) -> str:
         """Concatenates :attr:`~id` + :attr:`~filetype` to create the default filename, for use when saving the post
 
-        :For Example:::
+        **For Example**::
 
-           >> print(post.filename)
-           "2868062811604347946.mp4"
+         >> print(post.filename)
+         "2868062811604347946.mp4"
 
         """
         return self.id + self.filetype

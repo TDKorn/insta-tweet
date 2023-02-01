@@ -25,15 +25,14 @@ Ever tried sharing an Instagram post to Twitter, only to find out that all you t
         It could be literally anything, nobody will click it.
 
 
-.. admonition:: **Humiliating 🤮**
+.. admonition:: ‎ Humiliating 🤮
    :class: important-af
 
    That could be literally anything. Nobody will click it.
 
-|
 
 
-`InstaTweet <https://github.com/tdkorn/insta-tweet/blob/v2.1.1/InstaTweet/instatweet.py#L5-L142>`_ **shares the** *actual* **content of the post. Not just a link to it.**
+`InstaTweet <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L5-L142>`_ **shares the** *actual* **content of the post. Not just a link to it.**
 
 
 
@@ -50,11 +49,11 @@ although nobody will click the link, they'll at least see what you posted.
 What's InstaTweet?
 ~~~~~~~~~~~~~~~~~~~~~
 
-`InstaTweet <https://github.com/tdkorn/insta-tweet/blob/v2.1.1/InstaTweet/instatweet.py#L5-L142>`_ is a customizable tool to automatically repost content from Instagram to Twitter.
+`InstaTweet <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L5-L142>`_ is a customizable tool to automatically repost content from Instagram to Twitter.
 
-Simply create a `Profile <https://github.com/tdkorn/insta-tweet/blob/v2.1.1/InstaTweet/profile.py#L12-L416>`_,
+Simply create a `Profile <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/profile.py#L12-L416>`_,
 configure the `mandatory-settings <https://instatweet.readthedocs.io/en/latest/_readme/getting-started.html#mandatory-settings>`_,
-and `add_users() <https://github.com/tdkorn/insta-tweet/blob/v2.1.1/InstaTweet/profile.py#L167-L197>`_ to repost from
+and `add_users() <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/profile.py#L167-L197>`_ to repost from
 
 .. code-block:: python
 
@@ -71,8 +70,8 @@ and `add_users() <https://github.com/tdkorn/insta-tweet/blob/v2.1.1/InstaTweet/p
     >>> profile.add_users('the.dailykitten')
 
 
-Once configured, the `Profile <https://github.com/tdkorn/insta-tweet/blob/v2.1.1/InstaTweet/profile.py#L12-L416>`_ can be used to initialize and
-`start() <https://github.com/tdkorn/insta-tweet/blob/v2.1.1/InstaTweet/instatweet.py#L72-L117>`_ an `InstaTweet <https://github.com/tdkorn/insta-tweet/blob/v2.1.1/InstaTweet/instatweet.py#L5-L142>`_ object
+Once configured, the `Profile <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/profile.py#L12-L416>`_ can be used to initialize and
+`start() <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L72-L117>`_ an `InstaTweet <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L5-L142>`_ object
 
 .. code-block:: python
 
@@ -124,6 +123,34 @@ Okay... But Why? 😟
    Regardless of your intention, InstaTweet will detect new posts from the users you specify, download them, and repost
    them to Twitter.
 
+...
+
+
+Other Use Case: The `InstaClient <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instaclient.py#L14-L108>`_
+======================================================
+
+The package's custom `InstaClient <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instaclient.py#L14-L108>`_ can be used separately to scrape Instagram
+
+.. code-block:: python
+
+   from InstaTweet import InstaClient
+
+   >>> ig = InstaClient(session_id="kjfdn309wredsfl")
+   >>> user = ig.get_user('dailykittenig')
+   >>> print(user)
+
+   <InstaTweet.instauser.InstaUser object at 0x000002B9A1101330>
+
+   >>> print(user.posts)
+
+   [<InstaTweet.instapost.InstaPost object at 0x000002B9A250F5E0>, ...]
+
+   >>> ig.download_post(user.posts[0])
+
+   Downloaded post https://www.instagram.com/p/Clht4NRrqRO by dailykittenig to C:\\path\\to\\insta-tweet\\downloads\\2981866202934977614.mp4
+   True
+
+...
 
 Documentation
 ~~~~~~~~~~~~~~~~~
@@ -131,7 +158,7 @@ Documentation
 The rest of this `README <https://instatweet.readthedocs.io/en/latest/_readme/getting-started.html>`_,
 the `API documentation <https://instatweet.readthedocs.io/en/latest/modules.html>`_, and
 `snippets <https://instatweet.readthedocs.io/en/latest/snippets.html>`_
-can all be found on `Read the Docs <https://instatweet.readthedocs.io/en/latest/index.html>`_ 🐣
+can all be found on `Read the Docs <https://instatweet.readthedocs.io/en/latest/index.html>`_
 
 
 Installation
