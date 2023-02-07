@@ -44,7 +44,7 @@ Ever tried sharing an Instagram post to Twitter, only to find out that all you t
 With ``InstaTweet``, you can rest easy knowing that,
 although nobody will click the link, they'll at least see what you posted.
 
-
+...
 
 What's InstaTweet?
 ~~~~~~~~~~~~~~~~~~~~~
@@ -104,10 +104,11 @@ As ``InstaTweet`` runs, its progress will be logged to console:
 
     Starting InstaTweet for Profile: myProfile
     Checking posts from @the.dailykitten
-    ...
+    
     Finished insta-tweeting for @the.dailykitten
     All users have been insta-tweeted
 
+...
 
 Okay... But Why? 😟
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -125,7 +126,6 @@ Okay... But Why? 😟
 
 ...
 
-
 Other Use Case: The `InstaClient <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instaclient.py#L14-L108>`_
 ======================================================
 
@@ -142,24 +142,12 @@ The package's custom `InstaClient <https://github.com/tdkorn/insta-tweet/blob/ma
    <InstaTweet.instauser.InstaUser object at 0x000002B9A1101330>
 
    >>> print(user.posts)
-
-   [<InstaTweet.instapost.InstaPost object at 0x000002B9A250F5E0>, ...]
-
    >>> ig.download_post(user.posts[0])
 
+   [<InstaTweet.instapost.InstaPost object at 0x000002B9A250F5E0>, ...]
    Downloaded post https://www.instagram.com/p/Clht4NRrqRO by dailykittenig to C:\\path\\to\\insta-tweet\\downloads\\2981866202934977614.mp4
-   True
 
 ...
-
-Documentation
-~~~~~~~~~~~~~~~~~
-
-The rest of this `README <https://instatweet.readthedocs.io/en/latest/_readme/getting-started.html>`_,
-the `API documentation <https://instatweet.readthedocs.io/en/latest/modules.html>`_, and
-`snippets <https://instatweet.readthedocs.io/en/latest/snippets.html>`_
-can all be found on `Read the Docs <https://instatweet.readthedocs.io/en/latest/index.html>`_
-
 
 Installation
 ~~~~~~~~~~~~~~
@@ -172,3 +160,15 @@ To install using pip:
 
 
 Please note that ``InstaTweet`` requires ``Python >= 3.8``
+
+...
+
+Documentation
+~~~~~~~~~~~~~~~~~
+
+The rest of this `README <https://instatweet.readthedocs.io/en/latest/_readme/getting-started.html>`_,
+the `API documentation <https://instatweet.readthedocs.io/en/latest/modules.html>`_, and
+`snippets <https://instatweet.readthedocs.io/en/latest/snippets.html>`_
+can all be found on `Read the Docs <https://instatweet.readthedocs.io/en/latest/index.html>`_
+
+

@@ -5,12 +5,7 @@
 
 .. include:: _readme/about-instatweet.rst
    :start-line: 2
-   :end-line: 155
-
-.. Cut out the part about documentation being on RTD
-
-.. include:: _readme/about-instatweet.rst
-   :start-line: 164
+   :end-line: 144
 
 
 .. only:: html

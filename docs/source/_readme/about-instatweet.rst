@@ -126,40 +126,7 @@ Okay... But Why? 😟
 
 ...
 
-
-Other Use Case: The :class:`~.InstaClient`
-======================================================
-
-The package's custom :class:`~.InstaClient` can be used separately to scrape Instagram
-
-.. code-block:: python
-
-   from InstaTweet import InstaClient
-
-   >>> ig = InstaClient(session_id="kjfdn309wredsfl")
-   >>> user = ig.get_user('dailykittenig')
-   >>> print(user)
-
-   <InstaTweet.instauser.InstaUser object at 0x000002B9A1101330>
-
-   >>> print(user.posts)
-
-   [<InstaTweet.instapost.InstaPost object at 0x000002B9A250F5E0>, ...]
-
-   >>> ig.download_post(user.posts[0])
-
-   Downloaded post https://www.instagram.com/p/Clht4NRrqRO by dailykittenig to C:\\path\\to\\insta-tweet\\downloads\\2981866202934977614.mp4
-   True
-
-...
-
-Documentation
-~~~~~~~~~~~~~~~~~
-
-The rest of this `README <https://instatweet.readthedocs.io/en/latest/_readme/getting-started.html>`_,
-the `API documentation <https://instatweet.readthedocs.io/en/latest/modules.html>`_, and
-`snippets <https://instatweet.readthedocs.io/en/latest/snippets.html>`_
-can all be found on `Read the Docs <https://instatweet.readthedocs.io/en/latest/index.html>`_
+.. include:: _snippets/use-instaclient.rst
 
 
 Installation
@@ -173,3 +140,14 @@ To install using pip:
 
 
 Please note that ``InstaTweet`` requires ``Python >= 3.8``
+
+
+Documentation
+~~~~~~~~~~~~~~~~~
+
+The rest of this `README <https://instatweet.readthedocs.io/en/latest/_readme/getting-started.html>`_,
+the `API documentation <https://instatweet.readthedocs.io/en/latest/modules.html>`_, and
+`snippets <https://instatweet.readthedocs.io/en/latest/snippets.html>`_
+can all be found on `Read the Docs <https://instatweet.readthedocs.io/en/latest/index.html>`_
+
+
