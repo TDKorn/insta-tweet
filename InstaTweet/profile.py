@@ -4,7 +4,7 @@ import os
 import copy
 import json
 import pickle
-
+from pathlib import Path
 from typing import Iterable
 from . import TweetClient, DBConnection, USER_AGENT
 
@@ -67,7 +67,7 @@ class Profile:
     """
 
     USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}  #: Template for an entry in the ``user_map``
-    LOCAL_DIR = os.path.abspath('profiles')  #: Directory where local profiles are saved
+    LOCAL_DIR = Path(__file__).parent.parent.joinpath("profiles") #: Directory where local profiles are saved
 
     def __init__(self, name: str = 'default', local: bool = True, **kwargs):
         """Create a new :class:`Profile`
