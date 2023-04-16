@@ -1,4 +1,5 @@
 .. _use-instaclient:
+
 Other Use Case: The :class:`~.InstaClient`
 ======================================================
 

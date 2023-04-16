@@ -7,6 +7,10 @@
    :target: https://pypi.org/project/insta-tweet/
    :alt: PyPI Version
 
+.. image:: https://img.shields.io/badge/GitHub-insta--tweet-4f1abc
+   :target: https://github.com/tdkorn/insta-tweet
+   :alt: GitHub Repository
+
 .. image:: https://static.pepy.tech/personalized-badge/insta-tweet?period=total&units=none&left_color=grey&right_color=blue&left_text=Downloads
     :target: https://pepy.tech/project/insta-tweet
 
@@ -62,31 +66,31 @@ and :meth:`~.add_users` to repost from
     # Create a new (local) Profile
     >>> profile = Profile('myProfile')
 
-    # Configure the required settings (at minimum)
+    # Configure the mandatory settings (at minimum)
     >>> profile.twitter_keys = twitter_api_keys
     >>> profile.session_id = '6011991A'
 
     # Add at least one Instagram account to repost from
     >>> profile.add_users('the.dailykitten')
 
+     # Save the Profile [optional]
+    >>> profile.save()
+
+    Saved Local Profile myProfile
+
 
 Once configured, the :class:`~.Profile` can be used to initialize and
-:meth:`~.start` an :class:`~.InstaTweet` object
+:meth:`~.start` InstaTweet:
 
 .. code-block:: python
 
     from InstaTweet import InstaTweet
 
-    # Directly initialize with the Profile from above
+    # Directly initialize with a Profile object
     >>> insta_tweet = InstaTweet(profile)
 
-    # Or, save the Profile...
-    >>> profile.save()
-
-    Saved Local Profile myProfile
-
-    # ...then InstaTweet.load() the settings in (by Profile name)
-    >>> insta_tweet = InstaTweet.load(profile_name="myProfile")
+    # Or load a saved Profile by name
+    >>> insta_tweet = InstaTweet.load("myProfile")
 
     # Run InstaTweet by calling start()
     >>> insta_tweet.start()
@@ -121,13 +125,14 @@ Okay... But Why? 😟
    * To automatically share your own Instagram posts to Twitter
    * To automatically tweet new content from other Instagram users
 
-   Regardless of your intention, InstaTweet will detect new posts from the users you specify, download them, and repost
-   them to Twitter.
+   Regardless of your intention, InstaTweet will detect new posts from the users you specify,
+   download them, and repost them to Twitter.
 
 ...
 
-.. include:: _snippets/use-instaclient.rst
+.. include:: /_snippets/use-instaclient.rst
 
+...
 
 Installation
 ~~~~~~~~~~~~~~

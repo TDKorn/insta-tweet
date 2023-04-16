@@ -1,7 +1,7 @@
-.. InstaTweet documentation master file, created by
-   sphinx-quickstart on Sat Jul  9 06:46:42 2022.
+.. meta::
+   :title: InstaTweet - Automatically Repost Content From Instagram to Twitter
+   :description: A Python package to automatically repost content from Instagram to Twitter
 
-.. Title for index.rst comes from about-instatweet.rst
 
 .. include:: _readme/about-instatweet.rst
    :start-line: 2
@@ -19,19 +19,3 @@
    * :doc:`_readme/schedule_instatweet`
    * :doc:`modules`
 
-     - :doc:`instatweet_class`
-     - :doc:`profile`
-     - :doc:`db`
-     - :doc:`tweetclient`
-     - :doc:`instaclient`
-     - :doc:`instauser`
-     - :doc:`instapost`
-     - :doc:`utils`
-
-
-   Indices and tables
-   ~~~~~~~~~~~~~~~~~~~
-
-   * :ref:`genindex`
-   * :ref:`modindex`
-   * :doc:`Full Table of Contents <contents>`

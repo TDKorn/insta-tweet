@@ -1,3 +1,20 @@
+.. meta::
+   :title: InstaTweet - Automatically Repost Content From Instagram to Twitter
+   :description: A Python package to automatically repost content from Instagram to Twitter
+
+.. |.InstaTweet| replace:: ``InstaTweet``
+.. _.InstaTweet: https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L5-L142
+.. |.add_users| replace:: ``add_users()``
+.. _.add_users: https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/profile.py#L167-L197
+.. |.Profile| replace:: ``Profile``
+.. _.Profile: https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/profile.py#L12-L416
+.. |.start| replace:: ``start()``
+.. _.start: https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L72-L117
+.. |.InstaClient| replace:: ``InstaClient``
+.. _.InstaClient: https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instaclient.py#L14-L108
+.. |mandatory-settings| replace:: mandatory settings
+.. _mandatory-settings: https://instatweet.readthedocs.io/en/latest/_readme/getting-started.html#mandatory-settings
+
 .. _about-insta-tweet:
 
 ✨🐥 InstaTweet 🐤✨
@@ -6,6 +23,10 @@
 .. image:: https://img.shields.io/pypi/v/insta-tweet
    :target: https://pypi.org/project/insta-tweet/
    :alt: PyPI Version
+
+.. image:: https://img.shields.io/badge/GitHub-insta--tweet-4f1abc
+   :target: https://github.com/tdkorn/insta-tweet
+   :alt: GitHub Repository
 
 .. image:: https://static.pepy.tech/personalized-badge/insta-tweet?period=total&units=none&left_color=grey&right_color=blue&left_text=Downloads
     :target: https://pepy.tech/project/insta-tweet
@@ -25,35 +46,48 @@ Ever tried sharing an Instagram post to Twitter, only to find out that all you t
         It could be literally anything, nobody will click it.
 
 
-.. admonition:: ‎ Humiliating 🤮
-   :class: important-af
+.. raw:: html
 
-   That could be literally anything. Nobody will click it.
+   <table>
+      <tr align="left">
+         <th>⚠ Humiliating 🤮</th>
+      </tr>
+      <tr>
+         <td>
 
 
+That could be literally anything. Nobody will click it.
 
-`InstaTweet <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L5-L142>`_ **shares the** *actual* **content of the post. Not just a link to it.**
+.. raw:: html
 
+   </td></tr>
+   </table>
 
+|
+
+|.InstaTweet|_ **shares the** *actual* **content of the post. Not just a link to it.**
+
+|
 
 .. image:: https://instatweet.readthedocs.io/en/latest/_images/share_with_instatweet.png
     :alt: Sharing an Instagram post to Twitter using InstaTweet. The actual photo or video appears in the tweet.
         It's a thicc cat, very handsome. Nobody will click the link, but they'll definitely see this bad boy.
 
 
-With ``InstaTweet``, you can rest easy knowing that,
-although nobody will click the link, they'll at least see what you posted.
+With ``InstaTweet``, you can rest easy knowing that, although nobody will click the link,
+they'll at least see what you posted.
 
 ...
 
 What's InstaTweet?
 ~~~~~~~~~~~~~~~~~~~~~
 
-`InstaTweet <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L5-L142>`_ is a customizable tool to automatically repost content from Instagram to Twitter.
+|.InstaTweet|_ is a customizable tool to automatically repost content from Instagram to Twitter.
 
-Simply create a `Profile <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/profile.py#L12-L416>`_,
-configure the `mandatory-settings <https://instatweet.readthedocs.io/en/latest/_readme/getting-started.html#mandatory-settings>`_,
-and `add_users() <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/profile.py#L167-L197>`_ to repost from
+
+
+Simply create a |.Profile|_, configure the |mandatory-settings|_, and |.add_users|_ to repost from
+
 
 .. code-block:: python
 
@@ -62,41 +96,40 @@ and `add_users() <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/p
     # Create a new (local) Profile
     >>> profile = Profile('myProfile')
 
-    # Configure the required settings (at minimum)
+    # Configure the mandatory settings (at minimum)
     >>> profile.twitter_keys = twitter_api_keys
     >>> profile.session_id = '6011991A'
 
     # Add at least one Instagram account to repost from
     >>> profile.add_users('the.dailykitten')
 
+    # Save the Profile [optional]
+    >>> profile.save()
 
-Once configured, the `Profile <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/profile.py#L12-L416>`_ can be used to initialize and
-`start() <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L72-L117>`_ an `InstaTweet <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L5-L142>`_ object
+    Saved Local Profile myProfile
+
+
+Once configured, the |.Profile|_ can be used to initialize and |.start|_ InstaTweet:
 
 .. code-block:: python
 
     from InstaTweet import InstaTweet
 
-    # Directly initialize with the Profile from above
+    # Directly initialize with a Profile object
     >>> insta_tweet = InstaTweet(profile)
 
-    # Or, save the Profile...
-    >>> profile.save()
-
-    Saved Local Profile myProfile
-
-    # ...then InstaTweet.load() the settings in (by Profile name)
-    >>> insta_tweet = InstaTweet.load(profile_name="myProfile")
+    # Or load a saved Profile by name
+    >>> insta_tweet = InstaTweet.load("myProfile")
 
     # Run InstaTweet by calling start()
     >>> insta_tweet.start()
 
 
-.. admonition:: From the Docs...
-    :class: docs
-    
-    https://github.com/TDKorn/insta-tweet/blob/cec73930d28db24e6fd492f5860d3edf0c2afbbe/InstaTweet/instatweet.py#L72-L117
+|
 
+.. image:: https://user-images.githubusercontent.com/96394652/232274766-71e87fb2-f402-466d-9624-f775d8e985ac.png
+
+|
 
 As ``InstaTweet`` runs, its progress will be logged to console:
 
@@ -113,23 +146,36 @@ As ``InstaTweet`` runs, its progress will be logged to console:
 Okay... But Why? 😟
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-.. admonition:: But Why? 🤨
-   :class: instatweet
+.. raw:: html
 
-   **InstaTweet has two main use cases:**
+   <table>
+      <tr align="left">
+         <th>🐥 But Why? 🤨</th>
+      </tr>
+      <tr>
+         <td>
 
-   * To automatically share your own Instagram posts to Twitter
-   * To automatically tweet new content from other Instagram users
+**InstaTweet has two main use cases:**
 
-   Regardless of your intention, InstaTweet will detect new posts from the users you specify, download them, and repost
-   them to Twitter.
+* To automatically share your own Instagram posts to Twitter
+* To automatically tweet new content from other Instagram users
+
+Regardless of your intention, InstaTweet will detect new posts from the users you specify,
+download them, and repost them to Twitter.
+
+.. raw:: html
+
+   </td></tr>
+   </table>
+
 
 ...
 
-Other Use Case: The `InstaClient <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instaclient.py#L14-L108>`_
-======================================================
 
-The package's custom `InstaClient <https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instaclient.py#L14-L108>`_ can be used separately to scrape Instagram
+Other Use Case: The |.InstaClient|_
+======================================
+
+The package's custom |.InstaClient|_ can also be used as a standalone Instagram scraper
 
 .. code-block:: python
 

@@ -28,7 +28,14 @@ Table of Contents
 
 
 .. toctree::
-   :maxdepth: 1
-   :hidden:
+   :caption: Extras
 
    self
+
+
+Indices and tables
+~~~~~~~~~~~~~~~~~~~
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :doc:`Full Table of Contents <contents>`
