@@ -104,7 +104,7 @@ class DBConnection:
         if (db_profile := self.query_profile(profile.name)).first():
             if profile.local:  # Would only happen if saved directly through this class [not recommended]
                 raise ResourceWarning(  # Save through the Profile itself to avoid this
-                    f"Database profile with the name {name} already exists")
+                    f"Database profile with the name {profile.name} already exists")
             db_profile.update({'config': profile.to_pickle()})
         else:
             new_profile = Profiles(name=profile.name, config=profile.to_pickle())
