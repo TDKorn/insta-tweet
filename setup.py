@@ -3,7 +3,7 @@ import re
 from setuptools import setup
 
 
-LONG_DESCRIPTION_SRC = 'README.rst'
+LONG_DESCRIPTION_SRC = 'README_PyPi.rst'
 
 
 def read(file):
@@ -28,7 +28,7 @@ def get_pypi_desc(rst_file=LONG_DESCRIPTION_SRC):
 setup(
     name='insta-tweet',
     packages=['InstaTweet'],
-    version='2.1.1',
+    version='2.1.3',
     license='MIT',
     description='Automatically Repost Content From Instagram to Twitter',
     long_description=get_pypi_desc(LONG_DESCRIPTION_SRC),
@@ -36,12 +36,11 @@ setup(
     author='Adam Korn',
     author_email='hello@dailykitten.net',
     url='https://www.github.com/TDKorn/insta-tweet/',
-    download_url="https://github.com/TDKorn/insta-tweet/tarball/2.0.0/",
-    keywords=['instagram', 'twitter', 'repost', 'reposter', 'instascrape', 'instagram-repost'],
+    download_url=f"https://github.com/TDKorn/insta-tweet/tarball/master/",
+    keywords=['instagram', 'twitter', 'api', 'instagram api', 'twitter api', 'repost', 'instagram repost', 'reposter'],
     install_requires=[
         "requests",
         "tweepy",
-        "psycopg2",
         "sqlalchemy",
     ],
 )
