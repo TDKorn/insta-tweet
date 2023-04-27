@@ -88,6 +88,7 @@ extensions = [
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.viewcode',
     'sphinx_github_style',
+    'sphinx_sitemap',
 ]
 
 
@@ -167,13 +168,25 @@ html_context = {
     'github_repo': repo,
 }
 
+if not on_rtd:
+    site_url = "https://tdkorn.github.io/insta-tweet/"
+
+html_baseurl = "https://instatweet.readthedocs.io/en/latest/"
+
+sitemap_url_scheme = "{link}"
+
+
 # ~~~~ Sphinx GitHub Style ~~~~
 #
 # Top level package name
 top_level = pkg.get_metadata("top_level.txt").strip()
 
 # Blob to use when linking to GitHub source code
-linkcode_blob = 'last_tag'
+if on_rtd:
+    linkcode_blob = 'last_tag'
+else:
+    # For gh-pages use master
+    linkcode_blob = 'master'
 
 # Text to use for the linkcode link
 linkcode_link_text = "View on GitHub"
