@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The InstaPost class &mdash; InstaTweet 2.1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/github_style.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The utils module" href="utils.html" />
+    <link rel="prev" title="The InstaUser class" href="instauser.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+    <a href="index.html" class="icon icon-home"> InstaTweet
+    </a>
+              <div class="version">
+                2.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">InstaTweet README</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">✨🐥 InstaTweet 🐤✨</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#automatically-repost-content-from-instagram-to-twitter">Automatically Repost Content From Instagram to Twitter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#what-s-instatweet">What’s InstaTweet?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#okay-but-why">Okay… But Why? 😟</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index.html#other-use-case-the-instaclient">Other Use Case: The <code class="xref py py-class docutils literal notranslate"><span class="pre">InstaClient</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#documentation">Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_readme/getting-started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_readme/getting-started.html#instatweet-profiles">InstaTweet Profiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_readme/getting-started.html#profile-settings">Profile Settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_readme/getting-started.html#mandatory-settings">Mandatory Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_readme/getting-started.html#mandatory-settings-with-default-values">Mandatory Settings with Default Values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_readme/getting-started.html#entirely-optional-settings">Entirely Optional Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="_readme/getting-started.html#creating-a-profile">Creating a Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_readme/getting-started.html#populating-the-user-map">Populating the User Map</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_readme/getting-started.html#the-user-map">The User Map</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_readme/getting-started.html#adding-users">Adding Users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_readme/getting-started.html#adding-hashtags">Adding Hashtags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_readme/getting-started.html#user-map-access-methods">User Map Access Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="_readme/getting-started.html#saving-a-profile">Saving a Profile</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_readme/getting-started.html#example-save-a-profile">Example: Save a Profile</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="_readme/getting-started.html#running-a-profile">Running a Profile</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_readme/schedule_instatweet.html">Schedule InstaTweet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">InstaTweet Package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="instatweet_class.html">The <code class="docutils literal notranslate"><span class="pre">InstaTweet</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="instatweet_class.html#InstaTweet.instatweet.InstaTweet"><code class="docutils literal notranslate"><span class="pre">InstaTweet</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="instatweet_class.html#InstaTweet.instatweet.InstaTweet.__init__"><code class="docutils literal notranslate"><span class="pre">InstaTweet.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instatweet_class.html#InstaTweet.instatweet.InstaTweet.load"><code class="docutils literal notranslate"><span class="pre">InstaTweet.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instatweet_class.html#InstaTweet.instatweet.InstaTweet.get_proxies"><code class="docutils literal notranslate"><span class="pre">InstaTweet.get_proxies()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instatweet_class.html#InstaTweet.instatweet.InstaTweet.get_insta_client"><code class="docutils literal notranslate"><span class="pre">InstaTweet.get_insta_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instatweet_class.html#InstaTweet.instatweet.InstaTweet.get_tweet_client"><code class="docutils literal notranslate"><span class="pre">InstaTweet.get_tweet_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instatweet_class.html#InstaTweet.instatweet.InstaTweet.start"><code class="docutils literal notranslate"><span class="pre">InstaTweet.start()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instatweet_class.html#InstaTweet.instatweet.InstaTweet.get_new_posts"><code class="docutils literal notranslate"><span class="pre">InstaTweet.get_new_posts()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="profile.html">The <code class="docutils literal notranslate"><span class="pre">Profile</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile"><code class="docutils literal notranslate"><span class="pre">Profile</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.USER_MAPPING"><code class="docutils literal notranslate"><span class="pre">Profile.USER_MAPPING</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.LOCAL_DIR"><code class="docutils literal notranslate"><span class="pre">Profile.LOCAL_DIR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.__init__"><code class="docutils literal notranslate"><span class="pre">Profile.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.user_map"><code class="docutils literal notranslate"><span class="pre">Profile.user_map</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.load"><code class="docutils literal notranslate"><span class="pre">Profile.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.from_json"><code class="docutils literal notranslate"><span class="pre">Profile.from_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.from_dict"><code class="docutils literal notranslate"><span class="pre">Profile.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.profile_exists"><code class="docutils literal notranslate"><span class="pre">Profile.profile_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.get_local_path"><code class="docutils literal notranslate"><span class="pre">Profile.get_local_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.add_users"><code class="docutils literal notranslate"><span class="pre">Profile.add_users()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.add_hashtags"><code class="docutils literal notranslate"><span class="pre">Profile.add_hashtags()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.save"><code class="docutils literal notranslate"><span class="pre">Profile.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.validate"><code class="docutils literal notranslate"><span class="pre">Profile.validate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.to_pickle"><code class="docutils literal notranslate"><span class="pre">Profile.to_pickle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.to_json"><code class="docutils literal notranslate"><span class="pre">Profile.to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.to_dict"><code class="docutils literal notranslate"><span class="pre">Profile.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.view_config"><code class="docutils literal notranslate"><span class="pre">Profile.view_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.config"><code class="docutils literal notranslate"><span class="pre">Profile.config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.exists"><code class="docutils literal notranslate"><span class="pre">Profile.exists</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.is_default"><code class="docutils literal notranslate"><span class="pre">Profile.is_default</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.profile_path"><code class="docutils literal notranslate"><span class="pre">Profile.profile_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.get_user"><code class="docutils literal notranslate"><span class="pre">Profile.get_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.get_scraped_from"><code class="docutils literal notranslate"><span class="pre">Profile.get_scraped_from()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.get_tweets_for"><code class="docutils literal notranslate"><span class="pre">Profile.get_tweets_for()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.get_hashtags_for"><code class="docutils literal notranslate"><span class="pre">Profile.get_hashtags_for()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.local"><code class="docutils literal notranslate"><span class="pre">Profile.local</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.name"><code class="docutils literal notranslate"><span class="pre">Profile.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.session_id"><code class="docutils literal notranslate"><span class="pre">Profile.session_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.twitter_keys"><code class="docutils literal notranslate"><span class="pre">Profile.twitter_keys</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="db.html">The <code class="docutils literal notranslate"><span class="pre">db</span></code> module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="db.html#InstaTweet.db.DATABASE_URL"><code class="docutils literal notranslate"><span class="pre">DATABASE_URL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="db.html#InstaTweet.db.Profiles"><code class="docutils literal notranslate"><span class="pre">Profiles</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="db.html#InstaTweet.db.Profiles.name"><code class="docutils literal notranslate"><span class="pre">Profiles.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="db.html#InstaTweet.db.Profiles.config"><code class="docutils literal notranslate"><span class="pre">Profiles.config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="db.html#InstaTweet.db.DBConnection"><code class="docutils literal notranslate"><span class="pre">DBConnection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="db.html#InstaTweet.db.DBConnection.SESSION"><code class="docutils literal notranslate"><span class="pre">DBConnection.SESSION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="db.html#InstaTweet.db.DBConnection.ENGINE"><code class="docutils literal notranslate"><span class="pre">DBConnection.ENGINE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="db.html#InstaTweet.db.DBConnection.connect"><code class="docutils literal notranslate"><span class="pre">DBConnection.connect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="db.html#InstaTweet.db.DBConnection.query_profile"><code class="docutils literal notranslate"><span class="pre">DBConnection.query_profile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="db.html#InstaTweet.db.DBConnection.load_profile"><code class="docutils literal notranslate"><span class="pre">DBConnection.load_profile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="db.html#InstaTweet.db.DBConnection.save_profile"><code class="docutils literal notranslate"><span class="pre">DBConnection.save_profile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="db.html#InstaTweet.db.DBConnection.delete_profile"><code class="docutils literal notranslate"><span class="pre">DBConnection.delete_profile()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tweetclient.html">The <code class="docutils literal notranslate"><span class="pre">TweetClient</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tweetclient.html#InstaTweet.tweetclient.TweetClient"><code class="docutils literal notranslate"><span class="pre">TweetClient</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tweetclient.html#InstaTweet.tweetclient.TweetClient.MAX_HASHTAGS"><code class="docutils literal notranslate"><span class="pre">TweetClient.MAX_HASHTAGS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tweetclient.html#InstaTweet.tweetclient.TweetClient.DEFAULT_KEYS"><code class="docutils literal notranslate"><span class="pre">TweetClient.DEFAULT_KEYS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tweetclient.html#InstaTweet.tweetclient.TweetClient.__init__"><code class="docutils literal notranslate"><span class="pre">TweetClient.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tweetclient.html#InstaTweet.tweetclient.TweetClient.get_api"><code class="docutils literal notranslate"><span class="pre">TweetClient.get_api()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tweetclient.html#InstaTweet.tweetclient.TweetClient.get_oauth"><code class="docutils literal notranslate"><span class="pre">TweetClient.get_oauth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tweetclient.html#InstaTweet.tweetclient.TweetClient.send_tweet"><code class="docutils literal notranslate"><span class="pre">TweetClient.send_tweet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tweetclient.html#InstaTweet.tweetclient.TweetClient.upload_media"><code class="docutils literal notranslate"><span class="pre">TweetClient.upload_media()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tweetclient.html#InstaTweet.tweetclient.TweetClient.build_tweet"><code class="docutils literal notranslate"><span class="pre">TweetClient.build_tweet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="tweetclient.html#InstaTweet.tweetclient.TweetClient.pick_hashtags"><code class="docutils literal notranslate"><span class="pre">TweetClient.pick_hashtags()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="instaclient.html">The <code class="docutils literal notranslate"><span class="pre">InstaClient</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.USER_AGENT"><code class="docutils literal notranslate"><span class="pre">USER_AGENT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.DOWNLOAD_DIR"><code class="docutils literal notranslate"><span class="pre">InstaClient.DOWNLOAD_DIR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient"><code class="docutils literal notranslate"><span class="pre">InstaClient</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.__init__"><code class="docutils literal notranslate"><span class="pre">InstaClient.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.request"><code class="docutils literal notranslate"><span class="pre">InstaClient.request()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.get_user"><code class="docutils literal notranslate"><span class="pre">InstaClient.get_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.download_post"><code class="docutils literal notranslate"><span class="pre">InstaClient.download_post()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.headers"><code class="docutils literal notranslate"><span class="pre">InstaClient.headers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.cookies"><code class="docutils literal notranslate"><span class="pre">InstaClient.cookies</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="instauser.html">The <code class="docutils literal notranslate"><span class="pre">InstaUser</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser"><code class="docutils literal notranslate"><span class="pre">InstaUser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.__init__"><code class="docutils literal notranslate"><span class="pre">InstaUser.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.id"><code class="docutils literal notranslate"><span class="pre">InstaUser.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.posts"><code class="docutils literal notranslate"><span class="pre">InstaUser.posts</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.media_data"><code class="docutils literal notranslate"><span class="pre">InstaUser.media_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.user_data"><code class="docutils literal notranslate"><span class="pre">InstaUser.user_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.get_more_posts"><code class="docutils literal notranslate"><span class="pre">InstaUser.get_more_posts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.has_more_posts"><code class="docutils literal notranslate"><span class="pre">InstaUser.has_more_posts</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.end_cursor"><code class="docutils literal notranslate"><span class="pre">InstaUser.end_cursor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.page_info"><code class="docutils literal notranslate"><span class="pre">InstaUser.page_info</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">The <code class="docutils literal notranslate"><span class="pre">InstaPost</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#InstaTweet.instapost.InstaPost"><code class="docutils literal notranslate"><span class="pre">InstaPost</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.__init__"><code class="docutils literal notranslate"><span class="pre">InstaPost.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.json"><code class="docutils literal notranslate"><span class="pre">InstaPost.json</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.id"><code class="docutils literal notranslate"><span class="pre">InstaPost.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.filepath"><code class="docutils literal notranslate"><span class="pre">InstaPost.filepath</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.tweet_data"><code class="docutils literal notranslate"><span class="pre">InstaPost.tweet_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.children"><code class="docutils literal notranslate"><span class="pre">InstaPost.children</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.permalink"><code class="docutils literal notranslate"><span class="pre">InstaPost.permalink</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.shortcode"><code class="docutils literal notranslate"><span class="pre">InstaPost.shortcode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.caption"><code class="docutils literal notranslate"><span class="pre">InstaPost.caption</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.media_url"><code class="docutils literal notranslate"><span class="pre">InstaPost.media_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.thumbnail_url"><code class="docutils literal notranslate"><span class="pre">InstaPost.thumbnail_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.is_downloaded"><code class="docutils literal notranslate"><span class="pre">InstaPost.is_downloaded</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.is_carousel"><code class="docutils literal notranslate"><span class="pre">InstaPost.is_carousel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.filename"><code class="docutils literal notranslate"><span class="pre">InstaPost.filename</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.filetype"><code class="docutils literal notranslate"><span class="pre">InstaPost.filetype</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.owner"><code class="docutils literal notranslate"><span class="pre">InstaPost.owner</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.timestamp"><code class="docutils literal notranslate"><span class="pre">InstaPost.timestamp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#InstaTweet.instapost.InstaPost.add_tweet_data"><code class="docutils literal notranslate"><span class="pre">InstaPost.add_tweet_data()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">The <code class="docutils literal notranslate"><span class="pre">utils</span></code> module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#InstaTweet.utils.get_agents"><code class="docutils literal notranslate"><span class="pre">get_agents()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#InstaTweet.utils.get_agent"><code class="docutils literal notranslate"><span class="pre">get_agent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#InstaTweet.utils.get_proxies"><code class="docutils literal notranslate"><span class="pre">get_proxies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#InstaTweet.utils.get_root"><code class="docutils literal notranslate"><span class="pre">get_root()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#InstaTweet.utils.get_filepath"><code class="docutils literal notranslate"><span class="pre">get_filepath()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Snippets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="snippets.html">InstaTweet Snippets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_snippets/about-the-user-map.html">About the User Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_snippets/persist-the-database-connection.html">Persisting The DBConnection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_snippets/run-profile.html">Running a Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_snippets/save-profile.html">Saving a Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_snippets/schedule-instatweet.html">Schedule InstaTweet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_snippets/use-instaclient.html">Other Use Case: The <code class="xref py py-class docutils literal notranslate"><span class="pre">InstaClient</span></code></a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extras</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contents.html">Table of Contents</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="contents.html">InstaTweet</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="contents.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">InstaTweet Package</a></li>
+      <li class="breadcrumb-item active">The <code class="docutils literal notranslate"><span class="pre">InstaPost</span></code> class</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/TDKorn/insta-tweet/blob/instapost.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
+        <a href="instauser.html" class="btn btn-neutral float-left" title="The InstaUser class" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="utils.html" class="btn btn-neutral float-right" title="The utils module" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+  </div>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="module-InstaTweet.instapost">
+<span id="the-instapost-class"></span><h1>The <code class="docutils literal notranslate"><span class="pre">InstaPost</span></code> class<a class="headerlink" href="#module-InstaTweet.instapost" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">InstaTweet.instapost.</span></span><span class="sig-name descname"><span class="pre">InstaPost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">post_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/InstaTweet/instapost.html#InstaPost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="reference external" href="https://github.com/TDKorn/insta-tweet/blob/master/InstaTweet/instapost.py#L8-L122"><span class="linkcode-link"><span class="pre">View</span> <span class="pre">on</span> <span class="pre">GitHub</span></span></a><a class="headerlink" href="#InstaTweet.instapost.InstaPost" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Minimalistic API response wrapper for an Instagram post</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">post_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/InstaTweet/instapost.html#InstaPost.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="reference external" href="https://github.com/TDKorn/insta-tweet/blob/master/InstaTweet/instapost.py#L12-L27"><span class="linkcode-link"><span class="pre">View</span> <span class="pre">on</span> <span class="pre">GitHub</span></span></a><a class="headerlink" href="#InstaTweet.instapost.InstaPost.__init__" title="Permalink to this definition"></a></dt>
+<dd><p>Initialize an <a class="reference internal" href="#InstaTweet.instapost.InstaPost" title="InstaTweet.instapost.InstaPost"><code class="xref py py-class docutils literal notranslate"><span class="pre">InstaPost</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>post_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – the JSON response data of a single Instagram post, found within the <a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.user_data" title="InstaTweet.instauser.InstaUser.user_data"><code class="xref py py-attr docutils literal notranslate"><span class="pre">user_data</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.json">
+<span class="sig-name descname"><span class="pre">json</span></span><a class="headerlink" href="#InstaTweet.instapost.InstaPost.json" title="Permalink to this definition"></a></dt>
+<dd><p>Source data from API response</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#InstaTweet.instapost.InstaPost.id" title="Permalink to this definition"></a></dt>
+<dd><p>The post id</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.filepath">
+<span class="sig-name descname"><span class="pre">filepath</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#InstaTweet.instapost.InstaPost.filepath" title="Permalink to this definition"></a></dt>
+<dd><p>Path of downloaded media, set by <a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.download_post" title="InstaTweet.instaclient.InstaClient.download_post"><code class="xref py py-meth docutils literal notranslate"><span class="pre">download_post()</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.tweet_data">
+<span class="sig-name descname"><span class="pre">tweet_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></em><a class="headerlink" href="#InstaTweet.instapost.InstaPost.tweet_data" title="Permalink to this definition"></a></dt>
+<dd><p>Limited data from a successful tweet based off this post, set by <a class="reference internal" href="tweetclient.html#InstaTweet.tweetclient.TweetClient.send_tweet" title="InstaTweet.tweetclient.TweetClient.send_tweet"><code class="xref py py-meth docutils literal notranslate"><span class="pre">send_tweet()</span></code></a></p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.children">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">children</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#InstaTweet.instapost.InstaPost" title="InstaTweet.instapost.InstaPost"><span class="pre">InstaPost</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#InstaTweet.instapost.InstaPost.children" title="Permalink to this definition"></a></dt>
+<dd><p>If the post is a carousel, returns a list of child <a class="reference internal" href="#InstaTweet.instapost.InstaPost" title="InstaTweet.instapost.InstaPost"><code class="xref py py-class docutils literal notranslate"><span class="pre">InstaPost</span></code></a>’s</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.permalink">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">permalink</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#InstaTweet.instapost.InstaPost.permalink" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.shortcode">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shortcode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#InstaTweet.instapost.InstaPost.shortcode" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.caption">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">caption</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#InstaTweet.instapost.InstaPost.caption" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.media_url">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#InstaTweet.instapost.InstaPost.media_url" title="Permalink to this definition"></a></dt>
+<dd><p>The direct URL to the actual post content</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the <code class="xref py py-attr docutils literal notranslate"><span class="pre">video_url</span></code> if the post is a video, otherwise the <a class="reference internal" href="#InstaTweet.instapost.InstaPost.thumbnail_url" title="InstaTweet.instapost.InstaPost.thumbnail_url"><code class="xref py py-attr docutils literal notranslate"><span class="pre">thumbnail_url</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.thumbnail_url">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">thumbnail_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#InstaTweet.instapost.InstaPost.thumbnail_url" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.is_downloaded">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_downloaded</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><a class="headerlink" href="#InstaTweet.instapost.InstaPost.is_downloaded" title="Permalink to this definition"></a></dt>
+<dd><p>Checks the <a class="reference internal" href="#InstaTweet.instapost.InstaPost.filepath" title="InstaTweet.instapost.InstaPost.filepath"><code class="xref py py-attr docutils literal notranslate"><span class="pre">filepath</span></code></a> to see if the post has been downloaded yet</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.is_carousel">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_carousel</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><a class="headerlink" href="#InstaTweet.instapost.InstaPost.is_carousel" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.filename">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filename</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#InstaTweet.instapost.InstaPost.filename" title="Permalink to this definition"></a></dt>
+<dd><p>Concatenates <a class="reference internal" href="#InstaTweet.instapost.InstaPost.id" title="InstaTweet.instapost.InstaPost.id"><code class="xref py py-attr docutils literal notranslate"><span class="pre">id</span></code></a> + <a class="reference internal" href="#InstaTweet.instapost.InstaPost.filetype" title="InstaTweet.instapost.InstaPost.filetype"><code class="xref py py-attr docutils literal notranslate"><span class="pre">filetype</span></code></a> to create the default filename, for use when saving the post</p>
+<p><strong>For Example</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">post</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
+<span class="s2">&quot;2868062811604347946.mp4&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.filetype">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#InstaTweet.instapost.InstaPost.filetype" title="Permalink to this definition"></a></dt>
+<dd><p>Filetype of the post, based on the value of <code class="xref py py-attr docutils literal notranslate"><span class="pre">is_video</span></code></p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.owner">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">owner</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a></em><a class="headerlink" href="#InstaTweet.instapost.InstaPost.owner" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.timestamp">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.11)"><span class="pre">datetime</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#InstaTweet.instapost.InstaPost.timestamp" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.add_tweet_data">
+<span class="sig-name descname"><span class="pre">add_tweet_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tweet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/InstaTweet/instapost.html#InstaPost.add_tweet_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="reference external" href="https://github.com/TDKorn/insta-tweet/blob/master/InstaTweet/instapost.py#L110-L122"><span class="linkcode-link"><span class="pre">View</span> <span class="pre">on</span> <span class="pre">GitHub</span></span></a><a class="headerlink" href="#InstaTweet.instapost.InstaPost.add_tweet_data" title="Permalink to this definition"></a></dt>
+<dd><p>Used by <a class="reference internal" href="tweetclient.html#InstaTweet.tweetclient.TweetClient" title="InstaTweet.tweetclient.TweetClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">TweetClient</span></code></a> to add minimal tweet data after the post has been tweeted</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tweet</strong> (<a class="reference external" href="https://docs.tweepy.org/en/stable/v1_models.html#tweepy.models.Status" title="(in tweepy v4.14.0)"><em>Status</em></a>) – a <a class="reference external" href="https://docs.tweepy.org/en/stable/v1_models.html#tweepy.models.Status" title="(in tweepy v4.14.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Status</span></code></a> object from a successfully sent tweet</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="instauser.html" class="btn btn-neutral float-left" title="The InstaUser class" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="utils.html" class="btn btn-neutral float-right" title="The utils module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Adam Korn.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

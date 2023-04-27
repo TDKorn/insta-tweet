@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InstaTweet.profile &mdash; InstaTweet 2.1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/github_style.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+    <a href="../../index.html" class="icon icon-home"> InstaTweet
+    </a>
+              <div class="version">
+                2.1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">InstaTweet README</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">✨🐥 InstaTweet 🐤✨</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#automatically-repost-content-from-instagram-to-twitter">Automatically Repost Content From Instagram to Twitter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#what-s-instatweet">What’s InstaTweet?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#okay-but-why">Okay… But Why? 😟</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../index.html#other-use-case-the-instaclient">Other Use Case: The <code class="xref py py-class docutils literal notranslate"><span class="pre">InstaClient</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../index.html#documentation">Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../_readme/getting-started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../_readme/getting-started.html#instatweet-profiles">InstaTweet Profiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../_readme/getting-started.html#profile-settings">Profile Settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../_readme/getting-started.html#mandatory-settings">Mandatory Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../_readme/getting-started.html#mandatory-settings-with-default-values">Mandatory Settings with Default Values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../_readme/getting-started.html#entirely-optional-settings">Entirely Optional Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../_readme/getting-started.html#creating-a-profile">Creating a Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../_readme/getting-started.html#populating-the-user-map">Populating the User Map</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../_readme/getting-started.html#the-user-map">The User Map</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../_readme/getting-started.html#adding-users">Adding Users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../_readme/getting-started.html#adding-hashtags">Adding Hashtags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../_readme/getting-started.html#user-map-access-methods">User Map Access Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../_readme/getting-started.html#saving-a-profile">Saving a Profile</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../_readme/getting-started.html#example-save-a-profile">Example: Save a Profile</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../_readme/getting-started.html#running-a-profile">Running a Profile</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../_readme/schedule_instatweet.html">Schedule InstaTweet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">InstaTweet Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../instatweet_class.html">The <code class="docutils literal notranslate"><span class="pre">InstaTweet</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../instatweet_class.html#InstaTweet.instatweet.InstaTweet"><code class="docutils literal notranslate"><span class="pre">InstaTweet</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../instatweet_class.html#InstaTweet.instatweet.InstaTweet.__init__"><code class="docutils literal notranslate"><span class="pre">InstaTweet.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instatweet_class.html#InstaTweet.instatweet.InstaTweet.load"><code class="docutils literal notranslate"><span class="pre">InstaTweet.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instatweet_class.html#InstaTweet.instatweet.InstaTweet.get_proxies"><code class="docutils literal notranslate"><span class="pre">InstaTweet.get_proxies()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instatweet_class.html#InstaTweet.instatweet.InstaTweet.get_insta_client"><code class="docutils literal notranslate"><span class="pre">InstaTweet.get_insta_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instatweet_class.html#InstaTweet.instatweet.InstaTweet.get_tweet_client"><code class="docutils literal notranslate"><span class="pre">InstaTweet.get_tweet_client()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instatweet_class.html#InstaTweet.instatweet.InstaTweet.start"><code class="docutils literal notranslate"><span class="pre">InstaTweet.start()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instatweet_class.html#InstaTweet.instatweet.InstaTweet.get_new_posts"><code class="docutils literal notranslate"><span class="pre">InstaTweet.get_new_posts()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../profile.html">The <code class="docutils literal notranslate"><span class="pre">Profile</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile"><code class="docutils literal notranslate"><span class="pre">Profile</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.USER_MAPPING"><code class="docutils literal notranslate"><span class="pre">Profile.USER_MAPPING</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.LOCAL_DIR"><code class="docutils literal notranslate"><span class="pre">Profile.LOCAL_DIR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.__init__"><code class="docutils literal notranslate"><span class="pre">Profile.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.user_map"><code class="docutils literal notranslate"><span class="pre">Profile.user_map</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.load"><code class="docutils literal notranslate"><span class="pre">Profile.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.from_json"><code class="docutils literal notranslate"><span class="pre">Profile.from_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.from_dict"><code class="docutils literal notranslate"><span class="pre">Profile.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.profile_exists"><code class="docutils literal notranslate"><span class="pre">Profile.profile_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.get_local_path"><code class="docutils literal notranslate"><span class="pre">Profile.get_local_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.add_users"><code class="docutils literal notranslate"><span class="pre">Profile.add_users()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.add_hashtags"><code class="docutils literal notranslate"><span class="pre">Profile.add_hashtags()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.save"><code class="docutils literal notranslate"><span class="pre">Profile.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.validate"><code class="docutils literal notranslate"><span class="pre">Profile.validate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.to_pickle"><code class="docutils literal notranslate"><span class="pre">Profile.to_pickle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.to_json"><code class="docutils literal notranslate"><span class="pre">Profile.to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.to_dict"><code class="docutils literal notranslate"><span class="pre">Profile.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.view_config"><code class="docutils literal notranslate"><span class="pre">Profile.view_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.config"><code class="docutils literal notranslate"><span class="pre">Profile.config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.exists"><code class="docutils literal notranslate"><span class="pre">Profile.exists</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.is_default"><code class="docutils literal notranslate"><span class="pre">Profile.is_default</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.profile_path"><code class="docutils literal notranslate"><span class="pre">Profile.profile_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.get_user"><code class="docutils literal notranslate"><span class="pre">Profile.get_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.get_scraped_from"><code class="docutils literal notranslate"><span class="pre">Profile.get_scraped_from()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.get_tweets_for"><code class="docutils literal notranslate"><span class="pre">Profile.get_tweets_for()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.get_hashtags_for"><code class="docutils literal notranslate"><span class="pre">Profile.get_hashtags_for()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.local"><code class="docutils literal notranslate"><span class="pre">Profile.local</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.name"><code class="docutils literal notranslate"><span class="pre">Profile.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.session_id"><code class="docutils literal notranslate"><span class="pre">Profile.session_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../profile.html#InstaTweet.profile.Profile.twitter_keys"><code class="docutils literal notranslate"><span class="pre">Profile.twitter_keys</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../db.html">The <code class="docutils literal notranslate"><span class="pre">db</span></code> module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../db.html#InstaTweet.db.DATABASE_URL"><code class="docutils literal notranslate"><span class="pre">DATABASE_URL</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../db.html#InstaTweet.db.Profiles"><code class="docutils literal notranslate"><span class="pre">Profiles</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../db.html#InstaTweet.db.Profiles.name"><code class="docutils literal notranslate"><span class="pre">Profiles.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../db.html#InstaTweet.db.Profiles.config"><code class="docutils literal notranslate"><span class="pre">Profiles.config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../db.html#InstaTweet.db.DBConnection"><code class="docutils literal notranslate"><span class="pre">DBConnection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../db.html#InstaTweet.db.DBConnection.SESSION"><code class="docutils literal notranslate"><span class="pre">DBConnection.SESSION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../db.html#InstaTweet.db.DBConnection.ENGINE"><code class="docutils literal notranslate"><span class="pre">DBConnection.ENGINE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../db.html#InstaTweet.db.DBConnection.connect"><code class="docutils literal notranslate"><span class="pre">DBConnection.connect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../db.html#InstaTweet.db.DBConnection.query_profile"><code class="docutils literal notranslate"><span class="pre">DBConnection.query_profile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../db.html#InstaTweet.db.DBConnection.load_profile"><code class="docutils literal notranslate"><span class="pre">DBConnection.load_profile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../db.html#InstaTweet.db.DBConnection.save_profile"><code class="docutils literal notranslate"><span class="pre">DBConnection.save_profile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../db.html#InstaTweet.db.DBConnection.delete_profile"><code class="docutils literal notranslate"><span class="pre">DBConnection.delete_profile()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tweetclient.html">The <code class="docutils literal notranslate"><span class="pre">TweetClient</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tweetclient.html#InstaTweet.tweetclient.TweetClient"><code class="docutils literal notranslate"><span class="pre">TweetClient</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../tweetclient.html#InstaTweet.tweetclient.TweetClient.MAX_HASHTAGS"><code class="docutils literal notranslate"><span class="pre">TweetClient.MAX_HASHTAGS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tweetclient.html#InstaTweet.tweetclient.TweetClient.DEFAULT_KEYS"><code class="docutils literal notranslate"><span class="pre">TweetClient.DEFAULT_KEYS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tweetclient.html#InstaTweet.tweetclient.TweetClient.__init__"><code class="docutils literal notranslate"><span class="pre">TweetClient.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tweetclient.html#InstaTweet.tweetclient.TweetClient.get_api"><code class="docutils literal notranslate"><span class="pre">TweetClient.get_api()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tweetclient.html#InstaTweet.tweetclient.TweetClient.get_oauth"><code class="docutils literal notranslate"><span class="pre">TweetClient.get_oauth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tweetclient.html#InstaTweet.tweetclient.TweetClient.send_tweet"><code class="docutils literal notranslate"><span class="pre">TweetClient.send_tweet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tweetclient.html#InstaTweet.tweetclient.TweetClient.upload_media"><code class="docutils literal notranslate"><span class="pre">TweetClient.upload_media()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tweetclient.html#InstaTweet.tweetclient.TweetClient.build_tweet"><code class="docutils literal notranslate"><span class="pre">TweetClient.build_tweet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../tweetclient.html#InstaTweet.tweetclient.TweetClient.pick_hashtags"><code class="docutils literal notranslate"><span class="pre">TweetClient.pick_hashtags()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../instaclient.html">The <code class="docutils literal notranslate"><span class="pre">InstaClient</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../instaclient.html#InstaTweet.instaclient.USER_AGENT"><code class="docutils literal notranslate"><span class="pre">USER_AGENT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../instaclient.html#InstaTweet.instaclient.InstaClient.DOWNLOAD_DIR"><code class="docutils literal notranslate"><span class="pre">InstaClient.DOWNLOAD_DIR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../instaclient.html#InstaTweet.instaclient.InstaClient"><code class="docutils literal notranslate"><span class="pre">InstaClient</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../instaclient.html#InstaTweet.instaclient.InstaClient.__init__"><code class="docutils literal notranslate"><span class="pre">InstaClient.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instaclient.html#InstaTweet.instaclient.InstaClient.request"><code class="docutils literal notranslate"><span class="pre">InstaClient.request()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instaclient.html#InstaTweet.instaclient.InstaClient.get_user"><code class="docutils literal notranslate"><span class="pre">InstaClient.get_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instaclient.html#InstaTweet.instaclient.InstaClient.download_post"><code class="docutils literal notranslate"><span class="pre">InstaClient.download_post()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instaclient.html#InstaTweet.instaclient.InstaClient.headers"><code class="docutils literal notranslate"><span class="pre">InstaClient.headers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instaclient.html#InstaTweet.instaclient.InstaClient.cookies"><code class="docutils literal notranslate"><span class="pre">InstaClient.cookies</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../instauser.html">The <code class="docutils literal notranslate"><span class="pre">InstaUser</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../instauser.html#InstaTweet.instauser.InstaUser"><code class="docutils literal notranslate"><span class="pre">InstaUser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../instauser.html#InstaTweet.instauser.InstaUser.__init__"><code class="docutils literal notranslate"><span class="pre">InstaUser.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instauser.html#InstaTweet.instauser.InstaUser.id"><code class="docutils literal notranslate"><span class="pre">InstaUser.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instauser.html#InstaTweet.instauser.InstaUser.posts"><code class="docutils literal notranslate"><span class="pre">InstaUser.posts</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instauser.html#InstaTweet.instauser.InstaUser.media_data"><code class="docutils literal notranslate"><span class="pre">InstaUser.media_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instauser.html#InstaTweet.instauser.InstaUser.user_data"><code class="docutils literal notranslate"><span class="pre">InstaUser.user_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instauser.html#InstaTweet.instauser.InstaUser.get_more_posts"><code class="docutils literal notranslate"><span class="pre">InstaUser.get_more_posts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instauser.html#InstaTweet.instauser.InstaUser.has_more_posts"><code class="docutils literal notranslate"><span class="pre">InstaUser.has_more_posts</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instauser.html#InstaTweet.instauser.InstaUser.end_cursor"><code class="docutils literal notranslate"><span class="pre">InstaUser.end_cursor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instauser.html#InstaTweet.instauser.InstaUser.page_info"><code class="docutils literal notranslate"><span class="pre">InstaUser.page_info</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../instapost.html">The <code class="docutils literal notranslate"><span class="pre">InstaPost</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost"><code class="docutils literal notranslate"><span class="pre">InstaPost</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.__init__"><code class="docutils literal notranslate"><span class="pre">InstaPost.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.json"><code class="docutils literal notranslate"><span class="pre">InstaPost.json</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.id"><code class="docutils literal notranslate"><span class="pre">InstaPost.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.filepath"><code class="docutils literal notranslate"><span class="pre">InstaPost.filepath</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.tweet_data"><code class="docutils literal notranslate"><span class="pre">InstaPost.tweet_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.children"><code class="docutils literal notranslate"><span class="pre">InstaPost.children</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.permalink"><code class="docutils literal notranslate"><span class="pre">InstaPost.permalink</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.shortcode"><code class="docutils literal notranslate"><span class="pre">InstaPost.shortcode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.caption"><code class="docutils literal notranslate"><span class="pre">InstaPost.caption</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.media_url"><code class="docutils literal notranslate"><span class="pre">InstaPost.media_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.thumbnail_url"><code class="docutils literal notranslate"><span class="pre">InstaPost.thumbnail_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.is_downloaded"><code class="docutils literal notranslate"><span class="pre">InstaPost.is_downloaded</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.is_carousel"><code class="docutils literal notranslate"><span class="pre">InstaPost.is_carousel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.filename"><code class="docutils literal notranslate"><span class="pre">InstaPost.filename</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.filetype"><code class="docutils literal notranslate"><span class="pre">InstaPost.filetype</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.owner"><code class="docutils literal notranslate"><span class="pre">InstaPost.owner</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.timestamp"><code class="docutils literal notranslate"><span class="pre">InstaPost.timestamp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instapost.html#InstaTweet.instapost.InstaPost.add_tweet_data"><code class="docutils literal notranslate"><span class="pre">InstaPost.add_tweet_data()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../utils.html">The <code class="docutils literal notranslate"><span class="pre">utils</span></code> module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../utils.html#InstaTweet.utils.get_agents"><code class="docutils literal notranslate"><span class="pre">get_agents()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils.html#InstaTweet.utils.get_agent"><code class="docutils literal notranslate"><span class="pre">get_agent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils.html#InstaTweet.utils.get_proxies"><code class="docutils literal notranslate"><span class="pre">get_proxies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils.html#InstaTweet.utils.get_root"><code class="docutils literal notranslate"><span class="pre">get_root()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils.html#InstaTweet.utils.get_filepath"><code class="docutils literal notranslate"><span class="pre">get_filepath()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Snippets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../snippets.html">InstaTweet Snippets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../_snippets/about-the-user-map.html">About the User Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../_snippets/persist-the-database-connection.html">Persisting The DBConnection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../_snippets/run-profile.html">Running a Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../_snippets/save-profile.html">Saving a Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../_snippets/schedule-instatweet.html">Schedule InstaTweet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../_snippets/use-instaclient.html">Other Use Case: The <code class="xref py py-class docutils literal notranslate"><span class="pre">InstaClient</span></code></a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extras</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../contents.html">Table of Contents</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../contents.html">InstaTweet</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../contents.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">InstaTweet.profile</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for InstaTweet.profile</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">TweetClient</span><span class="p">,</span> <span class="n">DBConnection</span><span class="p">,</span> <span class="n">USER_AGENT</span>
+
+
+<div class="viewcode-block" id="Profile"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile">[docs]</a><span class="k">class</span> <span class="nc">Profile</span><span class="p">:</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The :class:`Profile` is a configuration class used extensively throughout the package</span>
+
+<span class="sd">    It consists of a :attr:`~user_map` and an associated collection of API/web scraping :ref:`settings &lt;settings&gt;`</span>
+
+<span class="sd">    ...</span>
+
+<span class="sd">    .. admonition:: About the User Map</span>
+<span class="sd">        :class: instatweet</span>
+
+<span class="sd">        The :attr:`~user_map` is a dict containing info about the users added to a :class:`Profile`</span>
+
+<span class="sd">        * It&#39;s used to help detect new posts and compose tweets on a per-user basis</span>
+<span class="sd">        * Entries are created when you :meth:`add_users`, which map the user to a :attr:`~USER_MAPPING`</span>
+<span class="sd">        * The :attr:`~USER_MAPPING` maintains lists of hashtags, scraped posts, and sent tweets</span>
+<span class="sd">        * The mapping is updated when you :meth:`add_hashtags` and successfully :meth:`~.send_tweet`</span>
+
+<span class="sd">        You can access entries in the :attr:`~user_map` as follows:</span>
+
+<span class="sd">        * :meth:`~get_user` allows you to retrieve a full entry by username</span>
+<span class="sd">        * :meth:`~get_hashtags_for`, :meth:`get_scraped_from`, :meth:`get_tweets_for` provide access</span>
+<span class="sd">          to lists</span>
+
+<span class="sd">    ...</span>
+
+<span class="sd">    **[Optional]**</span>
+
+<span class="sd">    A unique, identifying :attr:`~name` can be assigned to the Profile, which</span>
+<span class="sd">    may then be used to :meth:`~save` and, in turn, :meth:`~load` its settings</span>
+
+<span class="sd">    * This makes it extremely easy to switch between Profiles and create templates</span>
+
+<span class="sd">    Saving isn&#39;t a requirement to :meth:`~.start` InstaTweet, but...</span>
+
+<span class="sd">    * To :meth:`~.get_new_posts`, InstaTweet makes comparisons</span>
+<span class="sd">      with the ``scraped`` list in the :attr:`~.user_map`</span>
+<span class="sd">    * Saving this list ensures you don&#39;t :meth:`~.send_tweet`</span>
+<span class="sd">      for a post more than once</span>
+
+<span class="sd">    ...</span>
+
+<span class="sd">    .. admonition:: Important</span>
+<span class="sd">       :class: important-af</span>
+
+<span class="sd">       If you do :meth:`~save` your profile, the save location is determined by the value of :attr:`Profile.local`</span>
+
+<span class="sd">       * Local saves are made to the :attr:`~LOCAL_DIR`, as pickle files</span>
+<span class="sd">       * Remote saves are made to a database (via the :mod:`~.db` module) as pickle bytes</span>
+
+<span class="sd">       **You MUST configure the** :attr:`~InstaTweet.db.DATABASE_URL` **environment variable to save/load remotely**</span>
+
+<span class="sd">       * InstaTweet uses ``SQLAlchemy`` to create a :class:`~.DBConnection` -- any db it supports is compatible</span>
+<span class="sd">       * See the :mod:`~.db` module for more information</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">USER_MAPPING</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;hashtags&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;scraped&#39;</span><span class="p">:</span> <span class="p">[],</span> <span class="s1">&#39;tweets&#39;</span><span class="p">:</span> <span class="p">[]}</span>  <span class="c1">#: Template for an entry in the ``user_map``</span>
+    <span class="n">LOCAL_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="kp">joinpath</span><span class="p">(</span><span class="s2">&quot;profiles&quot;</span><span class="p">)</span> <span class="c1">#: Directory where local profiles are saved</span>
+
+<div class="viewcode-block" id="Profile.__init__"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="n">local</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new :class:`Profile`</span>
+
+<span class="sd">        .. note:: :class:`Profile` creation is mandatory to use the ``InstaTweet`` package</span>
+
+<span class="sd">           * Required as a parameter to initialize an :class:`~.InstaTweet` object</span>
+<span class="sd">           * Naming and saving it is ideal, but not necessary to :meth:`~.start` InstaTweet</span>
+
+<span class="sd">        :param name: unique profile name</span>
+<span class="sd">        :param local: indicates if profile is being saved locally or on a remote database</span>
+<span class="sd">        :param kwargs: see below</span>
+
+<span class="sd">        :Keyword Arguments:</span>
+<span class="sd">            * *session_id* (``str``)</span>
+<span class="sd">                Instagram ``sessionid`` cookie, obtained by logging in through browser</span>
+<span class="sd">            * *twitter_keys* (``dict``)</span>
+<span class="sd">                Twitter API Keys with v1.1 endpoint access</span>
+<span class="sd">                (see :attr:`~.TweetClient.DEFAULT_KEYS` for a template)</span>
+<span class="sd">            * *user_agent* (``str``) -- Optional</span>
+<span class="sd">                The user agent to use for requests; uses a currently working hardcoded agent if not provided</span>
+<span class="sd">            * *proxy_key* (``str``) -- Optional</span>
+<span class="sd">                Environment variable to retrieve proxies from</span>
+<span class="sd">            * .. autoattribute:: user_map</span>
+<span class="sd">                 :annotation:</span>
+<span class="sd">                 :noindex:</span>
+
+<span class="sd">        .. admonition:: **Profile Creation Tips**</span>
+<span class="sd">           :class: instatweet</span>
+
+<span class="sd">           * All attributes can be passed as arguments at initialization or set directly afterwards</span>
+<span class="sd">           * Property setters validate data types for the :ref:`mandatory-settings`</span>
+<span class="sd">           * The :class:`~Profile` as a whole is validated by :meth:`~validate`</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">local</span> <span class="o">=</span> <span class="n">local</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>    <span class="c1"># Will raise Exception if name is already used</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">session_id</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;session_id&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">twitter_keys</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;twitter_keys&#39;</span><span class="p">,</span> <span class="n">TweetClient</span><span class="o">.</span><span class="n">DEFAULT_KEYS</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_agent</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;user_agent&#39;</span><span class="p">,</span> <span class="n">USER_AGENT</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proxy_key</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;proxy_key&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_map</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;user_map&#39;</span><span class="p">,</span> <span class="p">{})</span>  <span class="c1">#: ``dict``: Mapping of added Instagram users and their :attr:`~USER_MAPPING`</span></div>
+
+<div class="viewcode-block" id="Profile.load"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.load">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">local</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Profile</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads an existing profile from a locally saved pickle file or remotely stored pickle bytes</span>
+
+<span class="sd">        :param name: the name of the :class:`Profile` to load</span>
+<span class="sd">        :param local: whether the profile is saved locally (default, ``True``) or remotely on a database</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">cls</span><span class="o">.</span><span class="kp">profile_exists</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">local</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;No </span><span class="si">{</span><span class="s2">&quot;local&quot;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">local</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s2">&quot;database&quot;</span><span class="si">}</span><span class="s1"> profile found with the name &quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">local</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="kp">get_local_path</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">DBConnection</span><span class="p">()</span> <span class="k">as</span> <span class="n">db</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">db</span><span class="o">.</span><span class="kp">load_profile</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Profile.from_json"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.from_json">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">json_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Profile</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a profile from a JSON formatted string of config settings&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json_str</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Profile.from_dict"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Profile</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a profile from a dictionary of config settings&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Profile.profile_exists"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.profile_exists">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">profile_exists</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">local</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks locally/remotely to see if a :class:`~Profile` with the specified name has an existing save file</span>
+
+<span class="sd">        Whenever the :attr:`~name` is changed, its property setter calls this method to ensure</span>
+<span class="sd">        you don&#39;t accidentally overwrite a save that already :attr:`~exists`</span>
+
+<span class="sd">        :param name: the name of the :class:`Profile` to check for</span>
+<span class="sd">        :param local: the location (local/remote) to check for an existing save</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">local</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="kp">exists</span><span class="p">(</span><span class="n">Profile</span><span class="o">.</span><span class="kp">get_local_path</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">DBConnection</span><span class="p">()</span> <span class="k">as</span> <span class="n">db</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="kp">query_profile</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="kp">first</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="Profile.get_local_path"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.get_local_path">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_local_path</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns filepath of where a local profile would be saved&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="kp">join</span><span class="p">(</span><span class="n">Profile</span><span class="o">.</span><span class="n">LOCAL_DIR</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.pickle&#39;</span></div>
+
+<div class="viewcode-block" id="Profile.add_users"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.add_users">[docs]</a>    <span class="k">def</span> <span class="nf">add_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">users</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="kp">send_tweet</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add Instagram user(s) to the :attr:`~.user_map` for subsequent monitoring</span>
+
+<span class="sd">        .. note:: By default, newly added users won&#39;t have their posts tweeted the first time they&#39;re scraped</span>
+
+<span class="sd">           * The IDs of the ~12 most recent posts are stored in the ``scraped`` list</span>
+<span class="sd">           * Any new posts from that point forward will be tweeted</span>
+
+<span class="sd">           You can override this by setting ``send_tweet=True``</span>
+
+<span class="sd">           * This causes their ~12 most recent posts to be scraped AND tweeted</span>
+
+<span class="sd">        :param users: Instagram username(s) to automatically scrape and tweet content from</span>
+<span class="sd">        :param send_tweet: choose if tweets should be sent on the first scrape, or only for new posts going forward</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">users</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid type provided. `users` must be an Iterable&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">users</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">users</span> <span class="o">=</span> <span class="p">[</span><span class="n">users</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">:</span>
+            <span class="n">mapping</span> <span class="o">=</span> <span class="kp">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">Profile</span><span class="o">.</span><span class="n">USER_MAPPING</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">user_map</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">mapping</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="kp">send_tweet</span><span class="p">:</span>  <span class="c1"># Non-empty scraped list will trigger Tweets to send</span>
+                <span class="bp">self</span><span class="o">.</span><span class="kp">get_scraped_from</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Added Instagram user @</span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s1"> to the user map&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="kp">exists</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="kp">_save_profile</span><span class="p">(</span><span class="n">alert</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Profile.add_hashtags"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.add_hashtags">[docs]</a>    <span class="k">def</span> <span class="nf">add_hashtags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">hashtags</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add hashtag(s) to a user in the :attr:`~.user_map`, which will be randomly chosen from when composing Tweets</span>
+
+<span class="sd">        :param user: the user in the user map to add hashtags to</span>
+<span class="sd">        :param hashtags: hashtags to choose from and include in any Tweets where content comes from this user</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hashtags</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Hashtags must be provided as a string or iterable of strings&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hashtags</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">hashtags</span> <span class="o">=</span> <span class="p">[</span><span class="n">hashtags</span><span class="p">]</span>
+
+        <span class="n">tags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="kp">get_hashtags_for</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>  <span class="c1"># Retrieve the current hashtag list</span>
+        <span class="n">tags</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">hashtags</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">tags</span><span class="p">))</span>  <span class="c1"># Add new ones (case-sensitive)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="kp">exists</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="kp">_save_profile</span><span class="p">(</span><span class="n">alert</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Added hashtags for @</span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Profile.save"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">alert</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pickles and saves the :class:`Profile` using the specified or currently set name.</span>
+
+<span class="sd">        :param name: name to save the :class:`Profile` under; replaces the current :attr:`~.name`</span>
+<span class="sd">        :param alert: set to ``True`` to print a message upon successful save</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_default</span><span class="p">:</span>  <span class="c1"># Profile name wasn&#39;t specified and wasn&#39;t previously set</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s1">&#39;Profile name is required to save the profile&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="kp">_save_profile</span><span class="p">(</span><span class="n">alert</span><span class="o">=</span><span class="n">alert</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_save_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alert</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Internal function to save the profile, based on the value of :attr:`~.local`&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">local</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">alert</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Saved Local Profile </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">DBConnection</span><span class="p">()</span> <span class="k">as</span> <span class="n">db</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">db</span><span class="o">.</span><span class="kp">save_profile</span><span class="p">(</span><span class="n">profile</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">alert</span><span class="o">=</span><span class="n">alert</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Profile.validate"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks to see if the Profile is fully configured for InstaTweeting</span>
+
+<span class="sd">        :raises ValueError: if the :attr:`~.session_id`, :attr:`~.twitter_keys`, or :attr:`~.user_map` are invalid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_id</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Instagram sessionid cookie is required to scrape posts&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">bad_keys</span> <span class="o">:=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="kp">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">twitter_keys</span><span class="o">.</span><span class="kp">items</span><span class="p">()</span> <span class="k">if</span> <span class="kp">value</span> <span class="o">==</span> <span class="s1">&#39;string&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Values not set for the following Twitter keys: </span><span class="si">{</span><span class="n">bad_keys</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_map</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;You must add at least one Instagram user to auto-tweet from&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Profile.to_pickle"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.to_pickle">[docs]</a>    <span class="k">def</span> <span class="nf">to_pickle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serializes profile to a pickled byte string&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Profile.to_json"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serializes profile to a JSON formatted string&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="kp">to_dict</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="Profile.to_dict"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Serializes profile to a dict&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span></div>
+
+<div class="viewcode-block" id="Profile.view_config"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.view_config">[docs]</a>    <span class="k">def</span> <span class="nf">view_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prints the :attr:`~.config` dict to make it legible&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="kp">items</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1"> : </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a dictionary containing important configuration settings&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s1">&#39;local&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">local</span><span class="p">,</span>
+            <span class="s1">&#39;session_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
+            <span class="s1">&#39;twitter_keys&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">twitter_keys</span><span class="p">,</span>
+            <span class="s1">&#39;user_agent&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_agent</span><span class="p">,</span>
+            <span class="s1">&#39;proxy_key&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">proxy_key</span><span class="p">,</span>
+            <span class="s1">&#39;user_map&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_map</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns True if a local save file or database record exists for the currently set profile name&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="kp">profile_exists</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">local</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_default</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if profile :attr:`~.name` is set or not&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;default&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">profile_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;If :attr:`~.local` is ``True``, returns the file path for where this profile would be/is saved&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">local</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_default</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Profile</span><span class="o">.</span><span class="kp">get_local_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+
+<div class="viewcode-block" id="Profile.get_user"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.get_user">[docs]</a>    <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the specified user&#39;s dict entry in the :attr:`user_map`&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_map</span><span class="p">[</span><span class="n">user</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Profile.get_scraped_from"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.get_scraped_from">[docs]</a>    <span class="k">def</span> <span class="nf">get_scraped_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of posts that have been scraped from the specified user&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_map</span><span class="p">[</span><span class="n">user</span><span class="p">][</span><span class="s1">&#39;scraped&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Profile.get_tweets_for"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.get_tweets_for">[docs]</a>    <span class="k">def</span> <span class="nf">get_tweets_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of tweets that use the specified user&#39;s scraped content&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_map</span><span class="p">[</span><span class="n">user</span><span class="p">][</span><span class="s1">&#39;tweets&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Profile.get_hashtags_for"><a class="viewcode-back" href="../../profile.html#InstaTweet.profile.Profile.get_hashtags_for">[docs]</a>    <span class="k">def</span> <span class="nf">get_hashtags_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the hashtag list for the specified user&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_map</span><span class="p">[</span><span class="n">user</span><span class="p">][</span><span class="s1">&#39;hashtags&#39;</span><span class="p">]</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">local</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Indicates if saves should be made locally (``True``) or on a remote database (``False``)</span>
+
+<span class="sd">         :rtype: bool</span>
+<span class="sd">         &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local</span>
+
+    <span class="nd">@local</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">local</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">local</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="kp">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LOCAL_DIR</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="kp">mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LOCAL_DIR</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_local</span> <span class="o">=</span> <span class="n">local</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A name for the Profile</span>
+
+<span class="sd">        The :attr:`~Profile.name` is used differently depending on the value of :attr:`~.local`</span>
+
+<span class="sd">        * ``local==True``: the name determines the :attr:`~.profile_path` (path where it would save to)</span>
+<span class="sd">        * ``local==False``: the name is used as the primary key in the :class:`~.Profiles` database table</span>
+
+<span class="sd">        ...</span>
+
+<span class="sd">        .. admonition:: Profile Names Must Be Unique</span>
+<span class="sd">            :class: instatweet</span>
+
+<span class="sd">            When you set or change the :attr:`~.name`, a property setter will make sure no</span>
+<span class="sd">            :meth:`~profile_exists` with that name before actually updating it</span>
+
+<span class="sd">            * This ensures that you don&#39;t accidentally overwrite a different Profile&#39;s save data</span>
+
+<span class="sd">        ...</span>
+
+<span class="sd">        :raises FileExistsError: if :attr:`~local` ``==True`` and a save is found in the :attr:`~LOCAL_DIR`</span>
+<span class="sd">        :raises ResourceWarning: if :attr:`~local` ``==False`` and a database row is found by :meth:`~.query_profile`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the profile name, if a profile with that name doesn&#39;t already exist locally/remotely&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">profile_name</span> <span class="o">!=</span> <span class="s1">&#39;default&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="kp">profile_exists</span><span class="p">(</span><span class="n">profile_name</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">local</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">local</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span>
+                    <span class="s1">&#39;Local save file already exists for profile named &quot;</span><span class="si">{}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">profile_name</span><span class="p">)</span> <span class="o">+</span>
+                    <span class="s1">&#39;Please choose another name, load the profile, or delete the file.&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ResourceWarning</span><span class="p">(</span>
+                    <span class="s1">&#39;Database record already exists for profile named &quot;</span><span class="si">{}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">profile_name</span><span class="p">)</span> <span class="o">+</span>
+                    <span class="s1">&#39;Please choose another name or use InstaTweet.db to load/delete the profile&#39;</span>
+                <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">profile_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">session_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Instagram ``sessionid`` cookie, obtained by logging in through a browser</span>
+
+<span class="sd">            :Tip: If you log into your account with a browser you don&#39;t use, the session cookie will last longer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session_id</span>
+
+    <span class="nd">@session_id</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">session_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">session_id</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Session ID cookie must be of type </span><span class="si">{</span><span class="nb">str</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_session_id</span> <span class="o">=</span> <span class="n">session_id</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="kp">exists</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="kp">_save_profile</span><span class="p">(</span><span class="n">alert</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">twitter_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Twitter developer API keys with v1.1 endpoint access. See :attr:`~.DEFAULT_KEYS`&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_twitter_keys</span>
+
+    <span class="nd">@twitter_keys</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">twitter_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_keys</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">api_keys</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Twitter Keys must be of type </span><span class="si">{</span><span class="nb">dict</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">missing_keys</span> <span class="o">:=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">TweetClient</span><span class="o">.</span><span class="n">DEFAULT_KEYS</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">api_keys</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Missing Twitter Keys: </span><span class="si">{</span><span class="n">missing_keys</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">TweetClient</span><span class="o">.</span><span class="n">DEFAULT_KEYS</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">api_keys</span><span class="p">[</span><span class="n">key</span><span class="p">]):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s1">&#39;Missing Value for Twitter Key: </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_twitter_keys</span> <span class="o">=</span> <span class="n">api_keys</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="kp">exists</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="kp">_save_profile</span><span class="p">(</span><span class="n">alert</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Adam Korn.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
