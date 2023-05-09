@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional, List, Dict
 from . import utils, TweetClient, InstaClient, InstaPost, Profile
 
 
@@ -11,9 +11,9 @@ class InstaTweet:
         .. admonition:: **InstaTweet** (`verb`):
            :class: instatweet
 
-           To load a :class:`~.Profile` 🠖 scrape :attr:`~.posts` from its Instagram users
+           To load a :class:`~.Profile` 🠖 scrape :attr:`~.posts` from its Instagram pages
            🠖 :meth:`~.download_post` & :meth:`~.send_tweet` for any new content
-           🠖 update the :attr:`~.user_map`
+           🠖 update the :attr:`~.page_map`
            🠖 :meth:`~.save` the profile if it :attr:`~.exists`
 
             .. admonition:: **Example Sentence**
@@ -44,11 +44,10 @@ class InstaTweet:
 
         :param profile_name: name of the Profile to load
         :param local: whether the profile is saved locally (default) or remotely on a database
-
         """
         return cls(profile=Profile.load(name=profile_name, local=local))
 
-    def get_proxies(self) -> Optional[dict]:
+    def get_proxies(self) -> Optional[Dict]:
         """Retrieve proxies using the loaded Profile's :attr:`~Profile.proxy_key`"""
         return utils.get_proxies(
             env_key=self.profile.proxy_key
@@ -69,35 +68,40 @@ class InstaTweet:
             proxies=self.proxies
         )
 
-    def start(self) -> None:
-        """InstaTweets all users that have been added to the loaded :class:`~.Profile`
+    def start(self, max_posts: int = 12) -> None:
+        """InstaTweets all pages that have been added to the loaded :class:`~.Profile`
 
-        Each user's IG page will be scraped and compared to the ``scraped`` list in their :attr:`~.USER_MAPPING`.
-        Posts that weren't previously scraped will be downloaded and tweeted
+        The most recent posts from each page will be scraped, then compared to the ``scraped``
+        list in the :attr:`~.PAGE_MAPPING` to determine which are new.
+
+        Up to ``max_posts`` new posts from each page will then be downloaded and tweeted
 
         .. note:: If ``InstaTweet`` fails to :meth:`~.download_post` or :meth:`~.send_tweet`,
-           the :attr:`~.USER_MAPPING` won't be updated
+           the :attr:`~.PAGE_MAPPING` won't be updated
 
            * This ensures that failed repost attempts are retried in the next call to :meth:`~start`
 
            If a save file for the Profile already :attr:`~.exists`, successful reposts
            will trigger a call to :meth:`~.save`
+
+        :param max_posts: the maximum number of new posts to download and tweet per page
         """
         profile = self.profile
         profile.validate()
 
         print(f'Starting InstaTweet for Profile: {profile.name}')
 
-        for user in profile.user_map:
-            new_posts = self.get_new_posts(user)
-            if not new_posts:
-                print(f'No posts to tweet for @{user}')
+        for page in profile.page_map:
+            page_name = page if page.startswith("#") else "@" + page
+
+            if not (new_posts := self.get_new_posts(page)):
+                print(f'No posts to tweet for {page_name}')
                 continue
 
-            print(f'There are {len(new_posts)} posts to tweet for @{user}')
-            hashtags = profile.get_hashtags_for(user)
+            print(f'There are {len(new_posts)} posts to tweet for {page_name}')
+            hashtags = profile.get_hashtags_for(page)
 
-            for post in new_posts:
+            for post in new_posts[:max_posts]:
                 self.insta.download_post(post)
                 if not post.is_downloaded:
                     continue
@@ -106,38 +110,39 @@ class InstaTweet:
                 if not tweeted:
                     continue
 
-                profile.get_scraped_from(user).append(post.id)
-                profile.get_tweets_for(user).append(post.tweet_data)
+                profile.get_scraped_from(page).append(post.id)
+                profile.get_tweets_for(page).append(post.tweet_data)
 
                 if profile.exists:
                     profile.save(alert=False)
 
-            print(f'Finished insta-tweeting for @{user}')
+            print(f'Finished insta-tweeting for {page_name}')
 
-        print(f'All users have been insta-tweeted')
+        print(f'All pages have been insta-tweeted')
 
-    def get_new_posts(self, username) -> Optional[List[InstaPost]]:
-        """Scrapes recent posts from an Instagram user and returns all posts that haven't been tweeted yet
+    def get_new_posts(self, insta_page: str) -> Optional[List[InstaPost]]:
+        """Scrapes recent posts from an Instagram page and returns all posts that haven't been tweeted yet
 
-        **NOTE:**  If a user's ``scraped`` list is empty, no posts will be returned.
+        **NOTE:**  If a page's ``scraped`` list is empty, no posts will be returned.
 
-        Instead, the user is "initialized" as follows:
-          * Their ``scraped`` list will be populated with the ID's from the most recent posts
-          * These IDs are then used in future calls to the method to determine which posts to tweet
+        Instead, the page is "initialized" as follows:
 
-        :param username: the IG username to scrape posts from
-        :return: a list of posts that haven't been tweeted yet, or nothing at all (if user is only initialized)
+        * The ``scraped`` list will be populated with the ID's from the most recent posts
+        * These IDs are then used in future method calls to determine which posts to tweet
+
+        :param insta_page: the Instagram page to scrape posts from
+        :return: a list of posts that haven't been tweeted yet, or nothing at all (if page is only initialized)
 
         """
-        print(f'Checking posts from @{username}')
-        scraped_posts = self.profile.get_scraped_from(username)
-        user = self.insta.get_user(username)
+        print(f'Checking posts from {insta_page}')
+        scraped_posts = self.profile.get_scraped_from(insta_page)
+        page = self.insta.scrape(insta_page)
 
         if scraped_posts:
-            new_posts = [post for post in user.posts if post.id not in scraped_posts]
+            new_posts = [post for post in page.posts if post.id not in scraped_posts]
             return sorted(new_posts, key=lambda post: post.timestamp)
         else:
-            scraped_posts.extend(post.id for post in user.posts)
-            print(f'Initialized User: @{username}')
+            scraped_posts.extend(post.id for post in page.posts)
+            print(f'Initialized {page}')
             return None
 

@@ -1,11 +1,10 @@
 from __future__ import annotations
-
 import os
 import copy
 import json
 import pickle
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Dict
 from . import TweetClient, DBConnection, USER_AGENT
 
 
@@ -13,69 +12,43 @@ class Profile:
 
     """The :class:`Profile` is a configuration class used extensively throughout the package
 
-    It consists of a :attr:`~user_map` and an associated collection of API/web scraping :ref:`settings <settings>`
+    It consists of a :attr:`~page_map` and an associated collection of API/web scraping :ref:`settings <settings>`
 
     ...
 
-    .. admonition:: About the User Map
+    .. admonition:: About the Page Map
         :class: instatweet
 
-        The :attr:`~user_map` is a dict containing info about the users added to a :class:`Profile`
+        **The** :attr:`~.page_map` **is a dict containing info about the pages added to a** :class:`~.Profile`
 
-        * It's used to help detect new posts and compose tweets on a per-user basis
-        * Entries are created when you :meth:`add_users`, which map the user to a :attr:`~USER_MAPPING`
-        * The :attr:`~USER_MAPPING` maintains lists of hashtags, scraped posts, and sent tweets
-        * The mapping is updated when you :meth:`add_hashtags` and successfully :meth:`~.send_tweet`
-
-        You can access entries in the :attr:`~user_map` as follows:
-
-        * :meth:`~get_user` allows you to retrieve a full entry by username
-        * :meth:`~get_hashtags_for`, :meth:`get_scraped_from`, :meth:`get_tweets_for` provide access
-          to lists
+        * It's used to help detect new posts and compose tweets on a per-page basis
+        * Entries are created when you :meth:`~.add_pages`, which map the page to a :attr:`~.PAGE_MAPPING`
+        * The :attr:`~.PAGE_MAPPING` maintains lists of hashtags, scraped posts, and sent tweets
+        * The mapping is updated when you :meth:`~.add_hashtags` and successfully :meth:`~.send_tweet`
 
     ...
 
     **[Optional]**
 
-    A unique, identifying :attr:`~name` can be assigned to the Profile, which
-    may then be used to :meth:`~save` and, in turn, :meth:`~load` its settings
+    A unique, identifying :attr:`~name` can optionally be assigned to the Profile,
+    which may then be used to :meth:`~save` and :meth:`~load` its settings
 
-    * This makes it extremely easy to switch between Profiles and create templates
+    The save location is determined by the value of :attr:`Profile.local` as follows:
 
-    Saving isn't a requirement to :meth:`~.start` InstaTweet, but...
+    * If ``True``, saves are made locally to the :attr:`~LOCAL_DIR` as .pickle files
+    * If ``False``, saves are made remotely to a database as pickle bytes
 
-    * To :meth:`~.get_new_posts`, InstaTweet makes comparisons
-      with the ``scraped`` list in the :attr:`~.user_map`
-    * Saving this list ensures you don't :meth:`~.send_tweet`
-      for a post more than once
+    See :ref:`save-profile` for more information
 
     ...
-
-    .. admonition:: Important
-       :class: important-af
-
-       If you do :meth:`~save` your profile, the save location is determined by the value of :attr:`Profile.local`
-
-       * Local saves are made to the :attr:`~LOCAL_DIR`, as pickle files
-       * Remote saves are made to a database (via the :mod:`~.db` module) as pickle bytes
-
-       **You MUST configure the** :attr:`~InstaTweet.db.DATABASE_URL` **environment variable to save/load remotely**
-
-       * InstaTweet uses ``SQLAlchemy`` to create a :class:`~.DBConnection` -- any db it supports is compatible
-       * See the :mod:`~.db` module for more information
-
     """
-
-    USER_MAPPING = {'hashtags': [], 'scraped': [], 'tweets': []}  #: Template for an entry in the ``user_map``
-    LOCAL_DIR = Path(__file__).parent.parent.joinpath("profiles") #: Directory where local profiles are saved
+    #: Template for an entry in the :attr:`~page_map`
+    PAGE_MAPPING: Dict = {'hashtags': [], 'scraped': [], 'tweets': []}
+    #: Directory where local profiles are saved
+    LOCAL_DIR: str = Path(__file__).parent.parent.joinpath("profiles")
 
     def __init__(self, name: str = 'default', local: bool = True, **kwargs):
         """Create a new :class:`Profile`
-
-        .. note:: :class:`Profile` creation is mandatory to use the ``InstaTweet`` package
-
-           * Required as a parameter to initialize an :class:`~.InstaTweet` object
-           * Naming and saving it is ideal, but not necessary to :meth:`~.start` InstaTweet
 
         :param name: unique profile name
         :param local: indicates if profile is being saved locally or on a remote database
@@ -88,30 +61,23 @@ class Profile:
                 Twitter API Keys with v1.1 endpoint access
                 (see :attr:`~.TweetClient.DEFAULT_KEYS` for a template)
             * *user_agent* (``str``) -- Optional
-                The user agent to use for requests; uses a currently working hardcoded agent if not provided
+                The user agent to use for requests
             * *proxy_key* (``str``) -- Optional
                 Environment variable to retrieve proxies from
-            * .. autoattribute:: user_map
-                 :annotation:
-                 :noindex:
-
-        .. admonition:: **Profile Creation Tips**
-           :class: instatweet
-
-           * All attributes can be passed as arguments at initialization or set directly afterwards
-           * Property setters validate data types for the :ref:`mandatory-settings`
-           * The :class:`~Profile` as a whole is validated by :meth:`~validate`
-
-
         """
         self.local = local
         self.name = name    # Will raise Exception if name is already used
 
-        self.session_id = kwargs.get('session_id', '')
-        self.twitter_keys = kwargs.get('twitter_keys', TweetClient.DEFAULT_KEYS)
-        self.user_agent = kwargs.get('user_agent', USER_AGENT)
-        self.proxy_key = kwargs.get('proxy_key', None)
-        self.user_map = kwargs.get('user_map', {})  #: ``dict``: Mapping of added Instagram users and their :attr:`~USER_MAPPING`
+        #: Instagram ``sessionid`` cookie, obtained by logging in through browser
+        self.session_id: str = kwargs.get('session_id', '')
+        #: Twitter API Keys with v1.1 endpoint access (see :attr:`~.DEFAULT_KEYS` for a template)
+        self.twitter_keys: Dict = kwargs.get('twitter_keys', TweetClient.DEFAULT_KEYS)
+        #: The user agent to use for requests
+        self.user_agent: str = kwargs.get('user_agent', USER_AGENT)
+        #: Environment variable to retrieve proxies from
+        self.proxy_key: str = kwargs.get('proxy_key', None)
+        #: Mapping of added Instagram pages and their :attr:`~PAGE_MAPPING`
+        self.page_map: Dict[str, Dict] = kwargs.get('page_map', {})
 
     @classmethod
     def load(cls, name: str, local: bool = True) -> Profile:
@@ -119,7 +85,6 @@ class Profile:
 
         :param name: the name of the :class:`Profile` to load
         :param local: whether the profile is saved locally (default, ``True``) or remotely on a database
-
         """
         if not cls.profile_exists(name, local):
             raise LookupError(
@@ -138,7 +103,7 @@ class Profile:
         return cls.from_dict(json.loads(json_str))
 
     @classmethod
-    def from_dict(cls, d: dict) -> Profile:
+    def from_dict(cls, d: Dict) -> Profile:
         """Creates a profile from a dictionary of config settings"""
         return cls(**d)
 
@@ -164,55 +129,58 @@ class Profile:
         """Returns filepath of where a local profile would be saved"""
         return os.path.join(Profile.LOCAL_DIR, name) + '.pickle'
 
-    def add_users(self, users: Iterable, send_tweet: bool = False):
-        """Add Instagram user(s) to the :attr:`~.user_map` for subsequent monitoring
+    def add_pages(self, pages: Iterable, send_tweet: bool = False) -> None:
+        """Add Instagram page(s) to the :attr:`~.page_map` for subsequent monitoring
 
-        .. note:: By default, newly added users won't have their posts tweeted the first time they're scraped
+        * An Instagram profile can be added as ``"@username"`` or ``"username"``
+        * A hashtag must be added as ``"#hashtag"``
 
-           * The IDs of the ~12 most recent posts are stored in the ``scraped`` list
+
+        .. note:: By default, newly added pages won't have their posts tweeted the first time they're scraped
+
+           * The IDs of the most recent posts are stored in the ``scraped`` list
            * Any new posts from that point forward will be tweeted
 
-           You can override this by setting ``send_tweet=True``
+           You can scrape AND tweet posts on the first run by setting ``send_tweet=True``
 
-           * This causes their ~12 most recent posts to be scraped AND tweeted
 
-        :param users: Instagram username(s) to automatically scrape and tweet content from
+        :param pages: Instagram pages to automatically scrape and tweet content from
         :param send_tweet: choose if tweets should be sent on the first scrape, or only for new posts going forward
         """
-        if not isinstance(users, Iterable):
-            raise TypeError(f'Invalid type provided. `users` must be an Iterable')
-        if isinstance(users, str):
-            users = [users]
+        if not isinstance(pages, Iterable):
+            raise TypeError(f'Invalid type provided. `pages` must be an Iterable')
+        if isinstance(pages, str):
+            pages = [pages]
 
-        for user in users:
-            mapping = copy.deepcopy(Profile.USER_MAPPING)
-            self.user_map.setdefault(user, mapping)
+        for page in pages:
+            mapping = copy.deepcopy(Profile.PAGE_MAPPING)
+            self.page_map.setdefault(page.lstrip("@"), mapping)
 
             if send_tweet:  # Non-empty scraped list will trigger Tweets to send
-                self.get_scraped_from(user).append(-1)
+                self.get_scraped_from(page).append(-1)
 
-            print(f'Added Instagram user @{user} to the user map')
+            print(f'Added Instagram page {page} to the page map')
 
         if self.exists:
             self._save_profile(alert=False)
 
-    def add_hashtags(self, user: str, hashtags: Iterable):
-        """Add hashtag(s) to a user in the :attr:`~.user_map`, which will be randomly chosen from when composing Tweets
+    def add_hashtags(self, page: str, hashtags: Iterable):
+        """Add hashtag(s) to a page in the :attr:`~.page_map`, which will be randomly chosen from when composing Tweets
 
-        :param user: the user in the user map to add hashtags to
-        :param hashtags: hashtags to choose from and include in any Tweets where content comes from this user
+        :param page: the page in the page map to add hashtags to
+        :param hashtags: hashtags to choose from and include in any Tweets where content comes from this page
         """
         if not isinstance(hashtags, Iterable):
             raise TypeError("Hashtags must be provided as a string or iterable of strings")
         if isinstance(hashtags, str):
             hashtags = [hashtags]
 
-        tags = self.get_hashtags_for(user)  # Retrieve the current hashtag list
+        tags = self.get_hashtags_for(page)  # Retrieve the current hashtag list
         tags.extend(set(hashtags) - set(tags))  # Add new ones (case-sensitive)
 
         if self.exists:
             self._save_profile(alert=False)
-        print(f'Added hashtags for @{user}')
+        print(f'Added hashtags for {page}')
 
     def save(self, name: str = None, alert: bool = True) -> bool:
         """Pickles and saves the :class:`Profile` using the specified or currently set name.
@@ -242,7 +210,7 @@ class Profile:
     def validate(self) -> None:
         """Checks to see if the Profile is fully configured for InstaTweeting
 
-        :raises ValueError: if the :attr:`~.session_id`, :attr:`~.twitter_keys`, or :attr:`~.user_map` are invalid
+        :raises ValueError: if the :attr:`~.session_id`, :attr:`~.twitter_keys`, or :attr:`~.page_map` are invalid
         """
         if not self.session_id:
             raise ValueError('Instagram sessionid cookie is required to scrape posts')
@@ -250,8 +218,8 @@ class Profile:
         if bad_keys := [key for key, value in self.twitter_keys.items() if value == 'string']:
             raise ValueError(f'Values not set for the following Twitter keys: {bad_keys}')
 
-        if not self.user_map:
-            raise ValueError('You must add at least one Instagram user to auto-tweet from')
+        if not self.page_map:
+            raise ValueError('You must add at least one Instagram page to auto-tweet from')
 
     def to_pickle(self) -> bytes:
         """Serializes profile to a pickled byte string"""
@@ -280,7 +248,7 @@ class Profile:
             'twitter_keys': self.twitter_keys,
             'user_agent': self.user_agent,
             'proxy_key': self.proxy_key,
-            'user_map': self.user_map,
+            'page_map': self.page_map,
         }
 
     @property
@@ -300,28 +268,26 @@ class Profile:
             return Profile.get_local_path(self.name)
         return ''
 
-    def get_user(self, user: str) -> dict:
-        """Returns the specified user's dict entry in the :attr:`user_map`"""
-        return self.user_map[user]
+    def get_page(self, page: str) -> dict:
+        """Returns the specified page's dict entry in the :attr:`page_map`"""
+        return self.page_map[page.lstrip('@')]
 
-    def get_scraped_from(self, user: str) -> list:
-        """Returns a list of posts that have been scraped from the specified user"""
-        return self.user_map[user]['scraped']
+    def get_scraped_from(self, page: str) -> list:
+        """Returns a list of posts that have been scraped from the specified page"""
+        return self.get_page(page)['scraped']
 
-    def get_tweets_for(self, user: str) -> list:
-        """Returns a list of tweets that use the specified user's scraped content"""
-        return self.user_map[user]['tweets']
+    def get_tweets_for(self, page: str) -> list:
+        """Returns a list of tweets that use the specified page's scraped content"""
+        return self.get_page(page)['tweets']
 
-    def get_hashtags_for(self, user: str) -> list:
-        """Returns the hashtag list for the specified user"""
-        return self.user_map[user]['hashtags']
+    def get_hashtags_for(self, page: str) -> list:
+        """Returns the hashtag list for the specified page"""
+        return self.get_page(page)['hashtags']
 
     @property
     def local(self) -> bool:
         """Indicates if saves should be made locally (``True``) or on a remote database (``False``)
-
-         :rtype: bool
-         """
+        """
         return self._local
 
     @local.setter
@@ -359,7 +325,7 @@ class Profile:
         return self._name
 
     @name.setter
-    def name(self, profile_name):
+    def name(self, profile_name: str):
         """Sets the profile name, if a profile with that name doesn't already exist locally/remotely"""
         if profile_name != 'default' and self.profile_exists(profile_name, local=self.local):
             if self.local:
@@ -392,7 +358,7 @@ class Profile:
             self._save_profile(alert=False)
 
     @property
-    def twitter_keys(self) -> dict:
+    def twitter_keys(self) -> Dict:
         """Twitter developer API keys with v1.1 endpoint access. See :attr:`~.DEFAULT_KEYS`"""
         return self._twitter_keys
 

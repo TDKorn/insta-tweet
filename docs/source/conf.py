@@ -218,7 +218,7 @@ def replace_autodoc_refs_with_linkcode(info: dict, link: str, rst_src: str):
     =================================  By https://github.com/TDKorn  =====================================
 
 
-    For example, :meth:`~.InstaClient.get_user` would be rendered in HTML as an outlined "get_user()" link
+    For example, :meth:`~.InstaClient.get_page` would be rendered in HTML as an outlined "get_page()" link
     that contains an internal reference to the corresponding documentation entry (assuming it exists)
 
     We love it, it's great. Fr. But it's ugly and useless on GitHub and PyPi. Literally so gross.
@@ -229,7 +229,7 @@ def replace_autodoc_refs_with_linkcode(info: dict, link: str, rst_src: str):
     .. note:: links are of the format https://github.com/user/repo/blob/branch/package/file.py#L30-L35
 
         For example,
-        `get_user() <https://github.com/TDKorn/insta-tweet/blob/docs/InstaTweet/instaclient.py#L42-L64>`_
+        `get_page() <https://github.com/TDKorn/insta-tweet/blob/docs/InstaTweet/instaclient.py#L42-L64>`_
 
 
     :param info: the info dict from linkcode_resolve

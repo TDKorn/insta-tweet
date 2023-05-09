@@ -131,7 +131,7 @@ class TweetClient:
            :class: instatweet
 
            - The :attr:`~.InstaPost.caption` is used as a starting point
-           - If you :meth:`~.add_hashtags` for the user, it will randomly :meth:`~pick_hashtags` to include
+           - If you :meth:`~.add_hashtags` for the page, it will randomly :meth:`~pick_hashtags` to include
            - Lastly, the post's :attr:`~.InstaPost.permalink` is added to the end
 
         **Example**::

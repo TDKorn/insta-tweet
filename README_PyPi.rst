@@ -2,16 +2,16 @@
    :title: InstaTweet - Automatically Repost Content From Instagram to Twitter
    :description: A Python package to automatically repost content from Instagram to Twitter
 
-.. |.InstaTweet| replace:: ``InstaTweet``
-.. _.InstaTweet: https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L5-L142
-.. |.add_users| replace:: ``add_users()``
-.. _.add_users: https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/profile.py#L167-L197
-.. |.Profile| replace:: ``Profile``
-.. _.Profile: https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/profile.py#L12-L416
-.. |.start| replace:: ``start()``
-.. _.start: https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L72-L117
-.. |.InstaClient| replace:: ``InstaClient``
-.. _.InstaClient: https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instaclient.py#L14-L108
+.. |.InstaTweet| replace:: InstaTweet
+.. _.InstaTweet: https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L5-L147
+.. |.add_pages| replace:: add_pages()
+.. _.add_pages: https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/profile.py#L132-L165
+.. |.Profile| replace:: Profile
+.. _.Profile: https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/profile.py#L11-L382
+.. |.start| replace:: start()
+.. _.start: https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instatweet.py#L71-L121
+.. |.InstaClient| replace:: InstaClient
+.. _.InstaClient: https://github.com/tdkorn/insta-tweet/blob/master/InstaTweet/instaclient.py#L16-L159
 .. |mandatory-settings| replace:: mandatory settings
 .. _mandatory-settings: https://instatweet.readthedocs.io/en/latest/_readme/getting-started.html#mandatory-settings
 
@@ -76,7 +76,7 @@ What's InstaTweet?
 
 
 
-Simply create a |.Profile|_, configure the |mandatory-settings|_, and |.add_users|_ to repost from
+Simply create a |.Profile|_, configure the |mandatory-settings|_, and |.add_pages|_ to repost from
 
 
 .. code-block:: python
@@ -90,8 +90,8 @@ Simply create a |.Profile|_, configure the |mandatory-settings|_, and |.add_user
     >>> profile.twitter_keys = twitter_api_keys
     >>> profile.session_id = '6011991A'
 
-    # Add at least one Instagram account to repost from
-    >>> profile.add_users('the.dailykitten')
+    # Add at least one Instagram page (user/hashtag) to repost from
+    >>> profile.add_pages(['the.dailykitten', '#thedailykitten'])
 
     # Save the Profile [optional]
     >>> profile.save()
@@ -117,7 +117,8 @@ Once configured, the |.Profile|_ can be used to initialize and |.start|_ InstaTw
 
 |
 
-.. image:: https://user-images.githubusercontent.com/96394652/232274766-71e87fb2-f402-466d-9624-f775d8e985ac.png
+.. image:: https://user-images.githubusercontent.com/96394652/236979506-83d12d6f-114d-43ce-b4db-b062f8d0ed3a.png
+   :width: 700px
 
 |
 
@@ -127,9 +128,11 @@ As ``InstaTweet`` runs, its progress will be logged to console:
 
     Starting InstaTweet for Profile: myProfile
     Checking posts from @the.dailykitten
-    
-    Finished insta-tweeting for @the.dailykitten
-    All users have been insta-tweeted
+    ...
+    Checking posts from #thedailykitten
+    ...
+    Finished insta-tweeting for #thedailykitten
+    All pages have been insta-tweeted
 
 ...
 
@@ -166,16 +169,22 @@ The package's custom |.InstaClient|_ can also be used as a standalone Instagram 
    from InstaTweet import InstaClient
 
    >>> ig = InstaClient(session_id="kjfdn309wredsfl")
+
+   # Scrape Instagram user or hashtag
    >>> user = ig.get_user('dailykittenig')
-   >>> print(user)
+   >>> hashtag = ig.get_hashtag('#dailykitten')
+   >>> print(user, hashtag, sep='\n')
 
-   <InstaTweet.instauser.InstaUser object at 0x000002B9A1101330>
+   Instagram User: @dailykittenig
+   Instagram Hashtag: #dailykitten
 
-   >>> print(user.posts)
-   >>> ig.download_post(user.posts[0])
+   # Download most recent post
+   >>> post = user.posts[0]
+   >>> print(post)
+   >>> ig.download_post(post)
 
-   [<InstaTweet.instapost.InstaPost object at 0x000002B9A250F5E0>, ...]
-   Downloaded post https://www.instagram.com/p/Clht4NRrqRO by dailykittenig to C:\\path\\to\\insta-tweet\\downloads\\2981866202934977614.mp4
+   Post 2981866202934977614 by @dailykittenig on 2022-11-29 01:44:37
+   Downloaded post https://www.instagram.com/p/Clht4NRrqRO by dailykittenig to C:\path\to\insta-tweet\downloads\2981866202934977614.mp4
 
 ...
 

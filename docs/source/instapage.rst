@@ -1,7 +1,7 @@
-The ``InstaUser`` class
+The ``InstaPage`` module
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. automodule:: InstaTweet.instauser
+.. automodule:: InstaTweet.instapage
    :members:
    :undoc-members:
    :show-inheritance:

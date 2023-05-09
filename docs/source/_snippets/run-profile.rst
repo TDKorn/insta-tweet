@@ -34,6 +34,8 @@ As ``InstaTweet`` runs, its progress will be logged to console:
     Starting InstaTweet for Profile: myProfile
     Checking posts from @the.dailykitten
     ...
-    Finished insta-tweeting for @the.dailykitten
-    All users have been insta-tweeted
+    Checking posts from #thedailykitten
+    ...
+    Finished insta-tweeting for #thedailykitten
+    All pages have been insta-tweeted
 
