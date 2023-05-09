@@ -5,7 +5,7 @@
 
 .. include:: _readme/about-instatweet.rst
    :start-line: 2
-   :end-line: 144
+   :end-line: 151
 
 
 .. only:: html

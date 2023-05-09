@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>InstaTweet.instaclient &mdash; InstaTweet 2.1.3 documentation</title>
+  <title>InstaTweet.instapage &mdash; InstaTweet 2.1.3 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/github_style.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
-    <link rel="canonical" href="https://instatweet.readthedocs.io/en/latest/_modules/InstaTweet/instaclient.html" />
+    <link rel="canonical" href="https://instatweet.readthedocs.io/en/latest/_modules/InstaTweet/instapage.html" />
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -287,7 +287,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../contents.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">InstaTweet.instaclient</li>
+      <li class="breadcrumb-item active">InstaTweet.instapage</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -296,166 +296,197 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for InstaTweet.instaclient</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">Response</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">json.decoder</span> <span class="kn">import</span> <span class="n">JSONDecodeError</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">InstaPage</span><span class="p">,</span> <span class="n">InstaUser</span><span class="p">,</span> <span class="n">InstaPost</span><span class="p">,</span> <span class="n">Hashtag</span>
+  <h1>Source code for InstaTweet.instapage</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="kp">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cached_property</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">InstaPost</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">InstaClient</span>
 
 
-<span class="n">USER_AGENT</span> <span class="o">=</span> <span class="s2">&quot;Mozilla/5.0 (Linux; Android 9; GM1903 Build/PKQ1.190110.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/75.0.3770.143 Mobile Safari/537.36 Instagram 103.1.0.15.119 Android (28/9; 420dpi; 1080x2260; OnePlus; GM1903; OnePlus7; qcom; sv_SE; 164094539)&quot;</span>
-<span class="sd">&quot;&quot;&quot;Hardcoded user agent proven to work with the :meth:`~.InstaClient.get_user` endpoint</span>
-<span class="sd"> </span>
-<span class="sd"> :Version Added: ``v2.0.0b13``</span>
-<span class="sd"> &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="InstaPage"><a class="viewcode-back" href="../../instapage.html#InstaTweet.instapage.InstaPage">[docs]</a><span class="k">class</span> <span class="nc">InstaPage</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract wrapper class for wrapping API responses from Instagram pages&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="InstaClient"><a class="viewcode-back" href="../../instaclient.html#InstaTweet.instaclient.InstaClient">[docs]</a><span class="k">class</span> <span class="nc">InstaClient</span><span class="p">:</span>
+<div class="viewcode-block" id="InstaPage.__init__"><a class="viewcode-back" href="../../instapage.html#InstaTweet.instapage.InstaPage.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InstaClient</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize an :class:`InstaPage`</span>
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Minimalistic class for scraping/downloading Instagram user/media data&quot;&quot;&quot;</span>
+<span class="sd">        Used to wrap responses from endpoints that contain Instagram post data,</span>
+<span class="sd">        like Instagram user profiles and Instagram hashtag searches</span>
 
-    <span class="n">DOWNLOAD_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;downloads&#39;</span><span class="p">)</span>  <span class="c1">#: [*Optional*] -- Directory to temporarily download media to</span>
-
-<div class="viewcode-block" id="InstaClient.__init__"><a class="viewcode-back" href="../../instaclient.html#InstaTweet.instaclient.InstaClient.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">user_agent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">USER_AGENT</span><span class="p">,</span> <span class="n">proxies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize an :class:`~InstaClient` with an Instagram sessionid cookie (at minimum)</span>
-
-<span class="sd">        .. note:: As of v2.0.0b13, the endpoint used by :meth:`~get_user` seems to require a specific :attr:`~USER_AGENT`</span>
-<span class="sd">           You can override the hardcoded one if you&#39;d like, but you&#39;ll likely get a ``&quot;useragent mismatch&quot;`` response</span>
-
-<span class="sd">        :param session_id: valid Instagram sessionid cookie from a browser</span>
-<span class="sd">        :param user_agent: user agent to use in requests made by the class</span>
-<span class="sd">        :param proxies: proxies to use in requests made by the class</span>
+<span class="sd">        :param data: the API response JSON to use as source data</span>
+<span class="sd">        :param client: the :class:`~.InstaClient` to use; required for :meth:`~.get_more_posts`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">session_id</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;session_id must be a string&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_posts</span> <span class="o">=</span> <span class="p">[]</span></div>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">session_id</span> <span class="o">=</span> <span class="n">session_id</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">user_agent</span> <span class="o">=</span> <span class="n">user_agent</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">proxies</span> <span class="o">=</span> <span class="n">proxies</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">pass</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="kp">exists</span><span class="p">(</span><span class="n">InstaClient</span><span class="o">.</span><span class="n">DOWNLOAD_DIR</span><span class="p">):</span>
-            <span class="n">os</span><span class="o">.</span><span class="kp">mkdir</span><span class="p">(</span><span class="n">InstaClient</span><span class="o">.</span><span class="n">DOWNLOAD_DIR</span><span class="p">)</span></div>
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Name of the Instagram page&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
 
-<div class="viewcode-block" id="InstaClient.request"><a class="viewcode-back" href="../../instaclient.html#InstaTweet.instaclient.InstaClient.request">[docs]</a>    <span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sends a request using the :attr:`cookies`, :attr:`headers`, and :attr:`proxies`</span>
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">page_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Data about the Instagram page itself&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
 
-<span class="sd">        :param url: the Instagram URL to send the request to</span>
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">media_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Data about posts on the Instagram page&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;ID of the Instagram page&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">page_data</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">posts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">InstaPost</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Posts that have been scraped from the Instagram page</span>
+
+<span class="sd">        To retrieve the next page of posts, call :meth:`get_more_posts`</span>
+
+<span class="sd">        :returns: the page&#39;s posts as :class:`~.InstaPost` objects</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">requests</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span>
-            <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
-            <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cookies</span><span class="p">,</span>
-            <span class="n">proxies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">proxies</span>
-        <span class="p">)</span></div>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_posts</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">edges</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="n">media_data</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;edges&#39;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_posts</span> <span class="o">=</span> <span class="p">[</span><span class="n">InstaPost</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="s1">&#39;node&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">)</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_posts</span>
 
-<div class="viewcode-block" id="InstaClient.scrape"><a class="viewcode-back" href="../../instaclient.html#InstaTweet.instaclient.InstaClient.scrape">[docs]</a>    <span class="k">def</span> <span class="nf">scrape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InstaPage</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Scrapes an Instagram page and wraps the response data</span>
+<div class="viewcode-block" id="InstaPage.get_more_posts"><a class="viewcode-back" href="../../instapage.html#InstaTweet.instapage.InstaPage.get_more_posts">[docs]</a>    <span class="k">def</span> <span class="nf">get_more_posts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Requests the next page of posts from the :class:`InstaPage`</span>
 
-<span class="sd">        :param page: an Instagram hashtag (prefixed with ``#``) or username</span>
-<span class="sd">        :returns: an :class:`~.InstaUser` or :class:`~.Hashtag`</span>
+<span class="sd">        If the page :attr:`~.has_more_posts`, they&#39;ll be added to the :attr:`~.posts` list</span>
+
+<span class="sd">        :returns: ``True`` if the request was successful, otherwise ``False``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">page</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">page</span><span class="o">.</span><span class="kp">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="kp">get_hashtag</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="kp">get_user</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;`page` must be of type </span><span class="si">{</span><span class="nb">str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Must provide an InstaClient to scrape with&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="InstaClient.get_hashtag"><a class="viewcode-back" href="../../instaclient.html#InstaTweet.instaclient.InstaClient.get_hashtag">[docs]</a>    <span class="k">def</span> <span class="nf">get_hashtag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">max_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Hashtag</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Scrapes an Instagram hashtag and wraps the response with :class:`~.Hashtag`</span>
-
-<span class="sd">        :param tag: the hashtag to scrape (with or without a ``#``)</span>
-<span class="sd">        :param max_id: the end cursor</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">)</span>
-        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;https://www.instagram.com/explore/tags/</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s1">/?__a=1&amp;max_id=</span><span class="si">{</span><span class="n">max_id</span><span class="si">}</span><span class="s1">&amp;__d=dis&#39;</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="kp">request</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="kp">_wrap</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">Hashtag</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="InstaClient.get_user"><a class="viewcode-back" href="../../instaclient.html#InstaTweet.instaclient.InstaClient.get_user">[docs]</a>    <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InstaUser</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Scrapes an Instagram user&#39;s profile and wraps the response with :class:`~.InstaUser`</span>
-
-<span class="sd">        :param username: the username of the IG user to scrape</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">u</span> <span class="o">=</span> <span class="n">username</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">)</span>
-        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://i.instagram.com/api/v1/users/web_profile_info/?username=</span><span class="si">{</span><span class="n">u</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="kp">request</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="kp">_wrap</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">InstaUser</span><span class="p">)</span></div>
-
-    <span class="k">def</span> <span class="nf">_wrap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">response</span><span class="p">:</span> <span class="n">Response</span><span class="p">,</span> <span class="n">Wrapper</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">InstaPage</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">InstaPage</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validates and wraps the API response from an Instagram page</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">page</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;user @</span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="n">Wrapper</span> <span class="ow">is</span> <span class="n">InstaUser</span> <span class="k">else</span> <span class="sa">f</span><span class="s1">&#39;hashtag #</span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">Wrapper</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="kp">json</span><span class="p">(),</span> <span class="bp">self</span><span class="p">)</span>
-            <span class="k">except</span> <span class="n">JSONDecodeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unable to scrape Instagram </span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">error</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="kp">json</span><span class="p">()</span>
-            <span class="k">except</span> <span class="n">JSONDecodeError</span><span class="p">:</span>
-                <span class="n">error</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">reason</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-                <span class="s1">&#39;Failed to scrape Instagram </span><span class="si">{page}</span><span class="se">\n</span><span class="s1">Response: [</span><span class="si">{code}</span><span class="s1">] -- </span><span class="si">{e}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="n">error</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
-
-<div class="viewcode-block" id="InstaClient.get_username"><a class="viewcode-back" href="../../instaclient.html#InstaTweet.instaclient.InstaClient.get_username">[docs]</a>    <span class="k">def</span> <span class="nf">get_username</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the Instagram username for the user with the provided ``user_id``</span>
-
-<span class="sd">        .. tip:: Use this with :meth:`get_user` to scrape by ``user_id``::</span>
-
-<span class="sd">           &gt;&gt; user_id = 51276430399</span>
-<span class="sd">           &gt;&gt; username = insta.get_username(user_id)</span>
-<span class="sd">           &gt;&gt; user = insta.get_user(username)</span>
-<span class="sd">           &gt;&gt; print(user.posts[0])</span>
-
-<span class="sd">           Post 2981866202934977614 by @dailykittenig on 2022-11-29 01:44:37</span>
-
-<span class="sd">        :param user_id: the id of the Instagram user to retrieve the username of</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">endpoint</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://i.instagram.com/api/v1/users/</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">/info&quot;</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="kp">request</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="kp">json</span><span class="p">()</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to retrieve info for Instagram user with id </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="InstaClient.download_post"><a class="viewcode-back" href="../../instaclient.html#InstaTweet.instaclient.InstaClient.download_post">[docs]</a>    <span class="k">def</span> <span class="nf">download_post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">post</span><span class="p">:</span> <span class="n">InstaPost</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads the media from an Instagram post</span>
-
-<span class="sd">        :param post: the :class:`~.InstaPost` of the post to download</span>
-<span class="sd">        :param filepath: the path to save the downloaded media; if ``None``, saves to the :attr:`~DOWNLOAD_DIR`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">post</span><span class="o">.</span><span class="n">is_carousel</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">post</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="kp">download_post</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">post</span><span class="o">.</span><span class="n">is_downloaded</span>
-
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="kp">request</span><span class="p">(</span><span class="n">post</span><span class="o">.</span><span class="n">media_url</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Failed to download post </span><span class="si">{</span><span class="n">post</span><span class="o">.</span><span class="n">permalink</span><span class="si">}</span><span class="s1"> by </span><span class="si">{</span><span class="n">post</span><span class="o">.</span><span class="kp">owner</span><span class="p">[</span><span class="s2">&quot;username&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_more_posts</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All posts have already been scraped&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
 
-        <span class="n">filepath</span> <span class="o">=</span> <span class="n">filepath</span> <span class="k">if</span> <span class="n">filepath</span> <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="kp">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DOWNLOAD_DIR</span><span class="p">,</span> <span class="n">post</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">next_page</span> <span class="o">:=</span> <span class="bp">self</span><span class="o">.</span><span class="kp">_get_next_page</span><span class="p">()):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unable to retrieve the next page of posts&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Downloaded post </span><span class="si">{</span><span class="n">post</span><span class="o">.</span><span class="n">permalink</span><span class="si">}</span><span class="s1"> by </span><span class="si">{</span><span class="n">post</span><span class="o">.</span><span class="kp">owner</span><span class="p">[</span><span class="s2">&quot;username&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1"> to </span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">post</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="n">filepath</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">media_page_info</span><span class="o">.</span><span class="kp">update</span><span class="p">(</span><span class="n">next_page</span><span class="o">.</span><span class="n">media_page_info</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_posts</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">next_page</span><span class="o">.</span><span class="n">posts</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span></div>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">headers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Headers to use in :meth:`~.request`&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;User-Agent&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_agent</span><span class="p">,</span> <span class="p">}</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_get_next_page</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InstaPage</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Makes the request for the next page of posts; wraps the response if successful&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">cookies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cookies to use in :meth:`~.request`&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;sessionid&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span> <span class="p">}</span></div>
+    <span class="k">def</span> <span class="nf">has_more_posts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns ``True`` if more posts can be scraped using :meth:`~.get_more_posts`&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">media_page_info</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;has_next_page&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">end_cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cursor used in request by :meth:`~.get_more_posts`&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">media_page_info</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;end_cursor&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">media_page_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">media_data</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;page_info&#39;</span><span class="p">,</span> <span class="p">{})</span></div>
+
+
+<div class="viewcode-block" id="InstaUser"><a class="viewcode-back" href="../../instapage.html#InstaTweet.instapage.InstaUser">[docs]</a><span class="k">class</span> <span class="nc">InstaUser</span><span class="p">(</span><span class="n">InstaPage</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;API response wrapper for an Instagram user&#39;s profile&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="InstaUser.__init__"><a class="viewcode-back" href="../../instapage.html#InstaTweet.instapage.InstaUser.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InstaClient</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize an :class:`InstaUser`</span>
+
+<span class="sd">        :param data: the API response from :meth:`~.get_user`</span>
+<span class="sd">        :param client: the :class:`~.InstaClient` to use</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">client</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Instagram User: @</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">page_data</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">page_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="p">{})</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">media_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">page_data</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;edge_owner_to_timeline_media&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;edges&#39;</span><span class="p">:</span> <span class="p">[]})</span>
+
+    <span class="k">def</span> <span class="nf">_get_next_page</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InstaPage</span><span class="p">]:</span>
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="s1">&#39;https://www.instagram.com/graphql/query/?query_hash=8c2a529969ee035a5063f2fc8602a0fd&#39;</span> <span class="o">+</span> \
+                   <span class="sa">f</span><span class="s1">&#39;&amp;variables=%7B%22id%22%3A%22</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s1">%22%2C%22first%22%3A12%2C%22&#39;</span> <span class="o">+</span> \
+                   <span class="sa">f</span><span class="s1">&#39;after%22%3A%22</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">end_cursor</span><span class="si">}</span><span class="s1">%3D%3D%22%7D&#39;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="kp">request</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">InstaUser</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="kp">json</span><span class="p">())</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Failed to get more posts&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span></div>
+
+
+<div class="viewcode-block" id="Hashtag"><a class="viewcode-back" href="../../instapage.html#InstaTweet.instapage.Hashtag">[docs]</a><span class="k">class</span> <span class="nc">Hashtag</span><span class="p">(</span><span class="n">InstaPage</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;API response wrapper for an Instagram hashtag&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Hashtag.__init__"><a class="viewcode-back" href="../../instapage.html#InstaTweet.instapage.Hashtag.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InstaClient</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize a :class:`Hashtag`</span>
+
+<span class="sd">        :param data: the API response from :meth:`~.get_hashtag`</span>
+<span class="sd">        :param client: the :class:`~.InstaClient` to use</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">data</span> <span class="o">:=</span> <span class="n">data</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;graphql&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;hashtag&#39;</span><span class="p">))</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hashtag response data is missing&quot;</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">client</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_top_posts</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Instagram Hashtag: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;#&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">page_data</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">page_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">media_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">page_data</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s1">&#39;edge_hashtag_to_media&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;edges&#39;</span><span class="p">:</span> <span class="p">[]})</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">top_posts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">InstaPost</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">InstaPost</span><span class="p">(</span><span class="n">edge</span><span class="p">[</span><span class="s1">&#39;node&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">)</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_media_data</span><span class="p">[</span><span class="s1">&#39;edges&#39;</span><span class="p">]]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">top_media_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">page_data</span><span class="o">.</span><span class="kp">get</span><span class="p">(</span><span class="s2">&quot;edge_hashtag_to_top_posts&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;edges&quot;</span><span class="p">:</span> <span class="p">[]})</span>
+
+    <span class="k">def</span> <span class="nf">_get_next_page</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InstaPage</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="kp">get_hashtag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">max_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">end_cursor</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

@@ -12,7 +12,7 @@ Below, you'll find the documentation for each class/module in the  ``InstaTweet`
    db
    tweetclient
    instaclient
-   instauser
+   instapage
    instapost
    utils
 

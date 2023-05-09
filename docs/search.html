@@ -67,11 +67,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="_readme/getting-started.html#creating-a-profile">Creating a Profile</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_readme/getting-started.html#populating-the-user-map">Populating the User Map</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="_readme/getting-started.html#the-user-map">The User Map</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_readme/getting-started.html#adding-users">Adding Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_readme/getting-started.html#populating-the-page-map">Populating the Page Map</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_readme/getting-started.html#the-page-map">The Page Map</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_readme/getting-started.html#adding-pages">Adding Pages</a></li>
 <li class="toctree-l3"><a class="reference internal" href="_readme/getting-started.html#adding-hashtags">Adding Hashtags</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_readme/getting-started.html#user-map-access-methods">User Map Access Methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_readme/getting-started.html#page-map-access-methods">Page Map Access Methods</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="_readme/getting-started.html#saving-a-profile">Saving a Profile</a><ul>
@@ -101,16 +101,18 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="profile.html">The <code class="docutils literal notranslate"><span class="pre">Profile</span></code> class</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile"><code class="docutils literal notranslate"><span class="pre">Profile</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.USER_MAPPING"><code class="docutils literal notranslate"><span class="pre">Profile.USER_MAPPING</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.PAGE_MAPPING"><code class="docutils literal notranslate"><span class="pre">Profile.PAGE_MAPPING</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.LOCAL_DIR"><code class="docutils literal notranslate"><span class="pre">Profile.LOCAL_DIR</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.__init__"><code class="docutils literal notranslate"><span class="pre">Profile.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.user_map"><code class="docutils literal notranslate"><span class="pre">Profile.user_map</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.user_agent"><code class="docutils literal notranslate"><span class="pre">Profile.user_agent</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.proxy_key"><code class="docutils literal notranslate"><span class="pre">Profile.proxy_key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.page_map"><code class="docutils literal notranslate"><span class="pre">Profile.page_map</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.load"><code class="docutils literal notranslate"><span class="pre">Profile.load()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.from_json"><code class="docutils literal notranslate"><span class="pre">Profile.from_json()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.from_dict"><code class="docutils literal notranslate"><span class="pre">Profile.from_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.profile_exists"><code class="docutils literal notranslate"><span class="pre">Profile.profile_exists()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.get_local_path"><code class="docutils literal notranslate"><span class="pre">Profile.get_local_path()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.add_users"><code class="docutils literal notranslate"><span class="pre">Profile.add_users()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.add_pages"><code class="docutils literal notranslate"><span class="pre">Profile.add_pages()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.add_hashtags"><code class="docutils literal notranslate"><span class="pre">Profile.add_hashtags()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.save"><code class="docutils literal notranslate"><span class="pre">Profile.save()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.validate"><code class="docutils literal notranslate"><span class="pre">Profile.validate()</span></code></a></li>
@@ -122,7 +124,7 @@
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.exists"><code class="docutils literal notranslate"><span class="pre">Profile.exists</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.is_default"><code class="docutils literal notranslate"><span class="pre">Profile.is_default</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.profile_path"><code class="docutils literal notranslate"><span class="pre">Profile.profile_path</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.get_user"><code class="docutils literal notranslate"><span class="pre">Profile.get_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.get_page"><code class="docutils literal notranslate"><span class="pre">Profile.get_page()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.get_scraped_from"><code class="docutils literal notranslate"><span class="pre">Profile.get_scraped_from()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.get_tweets_for"><code class="docutils literal notranslate"><span class="pre">Profile.get_tweets_for()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="profile.html#InstaTweet.profile.Profile.get_hashtags_for"><code class="docutils literal notranslate"><span class="pre">Profile.get_hashtags_for()</span></code></a></li>
@@ -174,7 +176,10 @@
 <li class="toctree-l3"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient"><code class="docutils literal notranslate"><span class="pre">InstaClient</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.__init__"><code class="docutils literal notranslate"><span class="pre">InstaClient.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.request"><code class="docutils literal notranslate"><span class="pre">InstaClient.request()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.scrape"><code class="docutils literal notranslate"><span class="pre">InstaClient.scrape()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.get_hashtag"><code class="docutils literal notranslate"><span class="pre">InstaClient.get_hashtag()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.get_user"><code class="docutils literal notranslate"><span class="pre">InstaClient.get_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.get_username"><code class="docutils literal notranslate"><span class="pre">InstaClient.get_username()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.download_post"><code class="docutils literal notranslate"><span class="pre">InstaClient.download_post()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.headers"><code class="docutils literal notranslate"><span class="pre">InstaClient.headers</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.cookies"><code class="docutils literal notranslate"><span class="pre">InstaClient.cookies</span></code></a></li>
@@ -182,17 +187,34 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="instauser.html">The <code class="docutils literal notranslate"><span class="pre">InstaUser</span></code> class</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser"><code class="docutils literal notranslate"><span class="pre">InstaUser</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.__init__"><code class="docutils literal notranslate"><span class="pre">InstaUser.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.id"><code class="docutils literal notranslate"><span class="pre">InstaUser.id</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.posts"><code class="docutils literal notranslate"><span class="pre">InstaUser.posts</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.media_data"><code class="docutils literal notranslate"><span class="pre">InstaUser.media_data</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.user_data"><code class="docutils literal notranslate"><span class="pre">InstaUser.user_data</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.get_more_posts"><code class="docutils literal notranslate"><span class="pre">InstaUser.get_more_posts()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.has_more_posts"><code class="docutils literal notranslate"><span class="pre">InstaUser.has_more_posts</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.end_cursor"><code class="docutils literal notranslate"><span class="pre">InstaUser.end_cursor</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="instauser.html#InstaTweet.instauser.InstaUser.page_info"><code class="docutils literal notranslate"><span class="pre">InstaUser.page_info</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="instapage.html">The <code class="docutils literal notranslate"><span class="pre">InstaPage</span></code> module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaPage"><code class="docutils literal notranslate"><span class="pre">InstaPage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaPage.__init__"><code class="docutils literal notranslate"><span class="pre">InstaPage.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaPage.name"><code class="docutils literal notranslate"><span class="pre">InstaPage.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaPage.page_data"><code class="docutils literal notranslate"><span class="pre">InstaPage.page_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaPage.media_data"><code class="docutils literal notranslate"><span class="pre">InstaPage.media_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaPage.id"><code class="docutils literal notranslate"><span class="pre">InstaPage.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaPage.posts"><code class="docutils literal notranslate"><span class="pre">InstaPage.posts</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaPage.get_more_posts"><code class="docutils literal notranslate"><span class="pre">InstaPage.get_more_posts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaPage.has_more_posts"><code class="docutils literal notranslate"><span class="pre">InstaPage.has_more_posts</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaPage.end_cursor"><code class="docutils literal notranslate"><span class="pre">InstaPage.end_cursor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaPage.media_page_info"><code class="docutils literal notranslate"><span class="pre">InstaPage.media_page_info</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaUser"><code class="docutils literal notranslate"><span class="pre">InstaUser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaUser.__init__"><code class="docutils literal notranslate"><span class="pre">InstaUser.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaUser.name"><code class="docutils literal notranslate"><span class="pre">InstaUser.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaUser.page_data"><code class="docutils literal notranslate"><span class="pre">InstaUser.page_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.InstaUser.media_data"><code class="docutils literal notranslate"><span class="pre">InstaUser.media_data</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="instapage.html#InstaTweet.instapage.Hashtag"><code class="docutils literal notranslate"><span class="pre">Hashtag</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.Hashtag.__init__"><code class="docutils literal notranslate"><span class="pre">Hashtag.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.Hashtag.name"><code class="docutils literal notranslate"><span class="pre">Hashtag.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.Hashtag.page_data"><code class="docutils literal notranslate"><span class="pre">Hashtag.page_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.Hashtag.media_data"><code class="docutils literal notranslate"><span class="pre">Hashtag.media_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.Hashtag.top_posts"><code class="docutils literal notranslate"><span class="pre">Hashtag.top_posts</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapage.html#InstaTweet.instapage.Hashtag.top_media_data"><code class="docutils literal notranslate"><span class="pre">Hashtag.top_media_data</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -208,6 +230,7 @@
 <li class="toctree-l4"><a class="reference internal" href="instapost.html#InstaTweet.instapost.InstaPost.permalink"><code class="docutils literal notranslate"><span class="pre">InstaPost.permalink</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="instapost.html#InstaTweet.instapost.InstaPost.shortcode"><code class="docutils literal notranslate"><span class="pre">InstaPost.shortcode</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="instapost.html#InstaTweet.instapost.InstaPost.caption"><code class="docutils literal notranslate"><span class="pre">InstaPost.caption</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instapost.html#InstaTweet.instapost.InstaPost.likes"><code class="docutils literal notranslate"><span class="pre">InstaPost.likes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="instapost.html#InstaTweet.instapost.InstaPost.media_url"><code class="docutils literal notranslate"><span class="pre">InstaPost.media_url</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="instapost.html#InstaTweet.instapost.InstaPost.thumbnail_url"><code class="docutils literal notranslate"><span class="pre">InstaPost.thumbnail_url</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="instapost.html#InstaTweet.instapost.InstaPost.is_downloaded"><code class="docutils literal notranslate"><span class="pre">InstaPost.is_downloaded</span></code></a></li>
@@ -235,10 +258,13 @@
 <p class="caption" role="heading"><span class="caption-text">Snippets</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="snippets.html">InstaTweet Snippets</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="_snippets/about-the-user-map.html">About the User Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_snippets/about-the-page-map.html">About the Page Map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="_snippets/persist-the-database-connection.html">Persisting The DBConnection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="_snippets/run-profile.html">Running a Profile</a></li>
-<li class="toctree-l2"><a class="reference internal" href="_snippets/save-profile.html">Saving a Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_snippets/save-profile.html">Saving a Profile</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_snippets/save-profile.html#example-save-a-profile">Example: Save a Profile</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="_snippets/schedule-instatweet.html">Schedule InstaTweet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="_snippets/use-instaclient.html">Other Use Case: The <code class="xref py py-class docutils literal notranslate"><span class="pre">InstaClient</span></code></a></li>
 </ul>

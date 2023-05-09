@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Saving a Profile &mdash; InstaTweet 2.1.3 documentation</title>
+  <title>About the Page Map &mdash; InstaTweet 2.1.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/github_style.css" type="text/css" />
       <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-    <link rel="canonical" href="https://instatweet.readthedocs.io/en/latest/_snippets/save-profile.html" />
+    <link rel="canonical" href="https://instatweet.readthedocs.io/en/latest/_snippets/about-the-page-map.html" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -22,8 +22,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Schedule InstaTweet" href="schedule-instatweet.html" />
-    <link rel="prev" title="Running a Profile" href="run-profile.html" /> 
+    <link rel="next" title="Persisting The DBConnection" href="persist-the-database-connection.html" />
+    <link rel="prev" title="InstaTweet Snippets" href="../snippets.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -257,11 +257,11 @@
 <p class="caption" role="heading"><span class="caption-text">Snippets</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../snippets.html">InstaTweet Snippets</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="about-the-page-map.html">About the Page Map</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">About the Page Map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="persist-the-database-connection.html">Persisting The DBConnection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="run-profile.html">Running a Profile</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Saving a Profile</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#example-save-a-profile">Example: Save a Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="save-profile.html">Saving a Profile</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="save-profile.html#example-save-a-profile">Example: Save a Profile</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="schedule-instatweet.html">Schedule InstaTweet</a></li>
@@ -289,94 +289,36 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../contents.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../snippets.html">InstaTweet Snippets</a></li>
-      <li class="breadcrumb-item active">Saving a Profile</li>
+      <li class="breadcrumb-item active">About the Page Map</li>
       <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/TDKorn/insta-tweet/blob/_snippets/save-profile.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/TDKorn/insta-tweet/blob/_snippets/about-the-page-map.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul><div class="rst-breadcrumbs-buttons" role="navigation" aria-label="Sequential page navigation">
-        <a href="run-profile.html" class="btn btn-neutral float-left" title="Running a Profile" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="schedule-instatweet.html" class="btn btn-neutral float-right" title="Schedule InstaTweet" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../snippets.html" class="btn btn-neutral float-left" title="InstaTweet Snippets" accesskey="p"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="persist-the-database-connection.html" class="btn btn-neutral float-right" title="Persisting The DBConnection" accesskey="n">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
   </div>
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="saving-a-profile">
-<span id="save-profile"></span><h1>Saving a Profile<a class="headerlink" href="#saving-a-profile" title="Permalink to this heading"></a></h1>
+  <div class="section" id="about-the-page-map">
+<h1>About the Page Map<a class="headerlink" href="#about-the-page-map" title="Permalink to this heading"></a></h1>
 <div class="instatweet admonition">
-<p class="admonition-title">Saving a Profile</p>
-<p>When you <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.save" title="InstaTweet.profile.Profile.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save()</span></code></a> your <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile" title="InstaTweet.profile.Profile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Profile</span></code></a>, the current or specified <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.name" title="InstaTweet.profile.Profile.name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code></a>
-will be used to create or update a save file in the location specified by <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.local" title="InstaTweet.profile.Profile.local"><code class="xref py py-attr docutils literal notranslate"><span class="pre">local</span></code></a></p>
-<div class="docs admonition">
-<p class="admonition-title">From the Docs…</p>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">Profile.</span></span><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/InstaTweet/profile.html#Profile.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="reference external" href="https://github.com/TDKorn/insta-tweet/blob/master/InstaTweet/profile.py#L185-L196"><span class="linkcode-link"><span class="pre">View</span> <span class="pre">on</span> <span class="pre">GitHub</span></span></a></dt>
-<dd><p>Pickles and saves the <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile" title="InstaTweet.profile.Profile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Profile</span></code></a> using the specified or currently set name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – name to save the <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile" title="InstaTweet.profile.Profile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Profile</span></code></a> under; replaces the current <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.name" title="InstaTweet.profile.Profile.name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code></a></p></li>
-<li><p><strong>alert</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – set to <code class="docutils literal notranslate"><span class="pre">True</span></code> to print a message upon successful save</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py data">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">InstaTweet.profile.Profile.</span></span><span class="sig-name descname"><span class="pre">local</span></span><em class="property"><span class="w"> </span><span class="pre">=True</span></em></dt>
-<dd><p>Indicates if saves should be made locally (<code class="docutils literal notranslate"><span class="pre">True</span></code>) or on a remote database (<code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
-</dd></dl>
-
-</div>
+<p class="admonition-title">About the Page Map</p>
+<p><strong>The</strong> <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.page_map" title="InstaTweet.profile.Profile.page_map"><code class="xref py py-attr docutils literal notranslate"><span class="pre">page_map</span></code></a> <strong>is a dict containing info about the pages added to a</strong> <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile" title="InstaTweet.profile.Profile"><code class="xref py py-class docutils literal notranslate"><span class="pre">Profile</span></code></a></p>
 <ul class="simple">
-<li><p>Local saves are made to the <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.LOCAL_DIR" title="InstaTweet.profile.Profile.LOCAL_DIR"><code class="xref py py-attr docutils literal notranslate"><span class="pre">LOCAL_DIR</span></code></a>, as pickle files</p></li>
-<li><p>Remote saves are made to a database (via the <a class="reference internal" href="../db.html#module-InstaTweet.db" title="InstaTweet.db"><code class="xref py py-mod docutils literal notranslate"><span class="pre">db</span></code></a> module) as pickle bytes</p></li>
+<li><p>It’s used to help detect new posts and compose tweets on a per-page basis</p></li>
+<li><p>Entries are created when you <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.add_pages" title="InstaTweet.profile.Profile.add_pages"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_pages()</span></code></a>, which map the page to a <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.PAGE_MAPPING" title="InstaTweet.profile.Profile.PAGE_MAPPING"><code class="xref py py-attr docutils literal notranslate"><span class="pre">PAGE_MAPPING</span></code></a></p></li>
+<li><p>The <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.PAGE_MAPPING" title="InstaTweet.profile.Profile.PAGE_MAPPING"><code class="xref py py-attr docutils literal notranslate"><span class="pre">PAGE_MAPPING</span></code></a> maintains lists of hashtags, scraped posts, and sent tweets</p></li>
+<li><p>The mapping is updated when you <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.add_hashtags" title="InstaTweet.profile.Profile.add_hashtags"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_hashtags()</span></code></a> and successfully <a class="reference internal" href="../tweetclient.html#InstaTweet.tweetclient.TweetClient.send_tweet" title="InstaTweet.tweetclient.TweetClient.send_tweet"><code class="xref py py-meth docutils literal notranslate"><span class="pre">send_tweet()</span></code></a></p></li>
 </ul>
-</div>
-<div class="important-af admonition">
-<p class="admonition-title">Important!!</p>
-<p><strong>You MUST configure the</strong> <a class="reference internal" href="../db.html#InstaTweet.db.DATABASE_URL" title="InstaTweet.db.DATABASE_URL"><code class="xref py py-attr docutils literal notranslate"><span class="pre">DATABASE_URL</span></code></a> <strong>environment variable to save/load remotely</strong></p>
-<p>InstaTweet uses <code class="docutils literal notranslate"><span class="pre">SQLAlchemy</span></code> to create a <a class="reference internal" href="../db.html#InstaTweet.db.DBConnection" title="InstaTweet.db.DBConnection"><code class="xref py py-class docutils literal notranslate"><span class="pre">DBConnection</span></code></a></p>
+<p><strong>You can access entries in the</strong> <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.page_map" title="InstaTweet.profile.Profile.page_map"><code class="xref py py-attr docutils literal notranslate"><span class="pre">page_map</span></code></a> <strong>as follows:</strong></p>
 <ul class="simple">
-<li><p>Any <code class="docutils literal notranslate"><span class="pre">SQLAlchemy</span></code>-supported database is therefore also supported by <code class="docutils literal notranslate"><span class="pre">InstaTweet</span></code></p></li>
-<li><p>See the <a class="reference internal" href="../db.html#module-InstaTweet.db" title="InstaTweet.db"><code class="xref py py-mod docutils literal notranslate"><span class="pre">db</span></code></a> module for more information</p></li>
+<li><p><a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.get_page" title="InstaTweet.profile.Profile.get_page"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_page()</span></code></a> allows you to retrieve a full entry by page name</p></li>
+<li><p><a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.get_hashtags_for" title="InstaTweet.profile.Profile.get_hashtags_for"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_hashtags_for()</span></code></a>, <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.get_scraped_from" title="InstaTweet.profile.Profile.get_scraped_from"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_scraped_from()</span></code></a>, <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.get_tweets_for" title="InstaTweet.profile.Profile.get_tweets_for"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_tweets_for()</span></code></a> provide access
+to lists</p></li>
 </ul>
-</div>
-<div class="section" id="example-save-a-profile">
-<h2>Example: Save a Profile<a class="headerlink" href="#example-save-a-profile" title="Permalink to this heading"></a></h2>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You can specify a new <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.name" title="InstaTweet.profile.Profile.name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code></a>
-for the profile in the call to <a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.save" title="InstaTweet.profile.Profile.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save()</span></code></a></p>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">InstaTweet</span> <span class="kn">import</span> <span class="n">Profile</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Profile</span><span class="p">(</span><span class="s1">&#39;myProfile&#39;</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="kp">save</span><span class="p">()</span>
-
-<span class="n">Saved</span> <span class="n">Local</span> <span class="n">Profile</span> <span class="n">myProfile</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="kp">save</span><span class="p">(</span><span class="s1">&#39;aProfile&#39;</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-
-<span class="n">Saved</span> <span class="n">Local</span> <span class="n">Profile</span> <span class="n">aProfile</span>
-<span class="n">aProfile</span>
-</pre></div>
-</div>
-<p>Profile names must be unique - you cannot save or create a profile if a
-<a class="reference internal" href="../profile.html#InstaTweet.profile.Profile.profile_exists" title="InstaTweet.profile.Profile.profile_exists"><code class="xref py py-meth docutils literal notranslate"><span class="pre">profile_exists()</span></code></a> with that name already</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">Profile</span><span class="p">(</span><span class="s1">&#39;myProfile&#39;</span><span class="p">)</span>
-
-<span class="go">FileExistsError: Local save file already exists for profile named &quot;myProfile&quot;</span>
-<span class="go">Please choose another name, load the profile, or delete the file.</span>
-</pre></div>
-</div>
 </div>
 </div>
 
@@ -384,8 +326,8 @@ for the profile in the call to <a class="reference internal" href="../profile.ht
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="run-profile.html" class="btn btn-neutral float-left" title="Running a Profile" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="schedule-instatweet.html" class="btn btn-neutral float-right" title="Schedule InstaTweet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../snippets.html" class="btn btn-neutral float-left" title="InstaTweet Snippets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="persist-the-database-connection.html" class="btn btn-neutral float-right" title="Persisting The DBConnection" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

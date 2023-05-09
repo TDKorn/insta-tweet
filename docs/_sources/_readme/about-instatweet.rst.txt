@@ -57,7 +57,7 @@ What's InstaTweet?
 
 Simply create a :class:`~.Profile`,
 configure the :ref:`mandatory-settings`,
-and :meth:`~.add_users` to repost from
+and :meth:`~.add_pages` to repost from
 
 .. code-block:: python
 
@@ -70,8 +70,8 @@ and :meth:`~.add_users` to repost from
     >>> profile.twitter_keys = twitter_api_keys
     >>> profile.session_id = '6011991A'
 
-    # Add at least one Instagram account to repost from
-    >>> profile.add_users('the.dailykitten')
+    # Add at least one Instagram page (user/hashtag) to repost from
+    >>> profile.add_pages(['the.dailykitten', '#thedailykitten'])
 
      # Save the Profile [optional]
     >>> profile.save()
@@ -110,8 +110,10 @@ As ``InstaTweet`` runs, its progress will be logged to console:
     Starting InstaTweet for Profile: myProfile
     Checking posts from @the.dailykitten
     ...
-    Finished insta-tweeting for @the.dailykitten
-    All users have been insta-tweeted
+    Checking posts from #thedailykitten
+    ...
+    Finished insta-tweeting for #thedailykitten
+    All pages have been insta-tweeted
 
 
 Okay... But Why? 😟
@@ -123,9 +125,9 @@ Okay... But Why? 😟
    **InstaTweet has two main use cases:**
 
    * To automatically share your own Instagram posts to Twitter
-   * To automatically tweet new content from other Instagram users
+   * To automatically tweet new content from other Instagram users/hashtags
 
-   Regardless of your intention, InstaTweet will detect new posts from the users you specify,
+   Regardless of your intention, InstaTweet will detect new posts from the pages you specify,
    download them, and repost them to Twitter.
 
 ...
