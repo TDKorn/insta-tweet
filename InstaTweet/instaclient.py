@@ -1,4 +1,5 @@
 import os
+import re
 import requests
 from requests import Response
 from typing import Type, Union, Optional, Dict
@@ -82,6 +83,26 @@ class InstaClient:
         endpoint = f"https://i.instagram.com/api/v1/users/web_profile_info/?username={username}"
         response = self.request(endpoint)
         return self._wrap(username, response, InstaUser)
+
+    def get_post(self, shortcode: str) -> Optional[InstaPost]:
+        """Scrapes an Instagram post by shortcode or URL
+
+        :param shortcode: the shortcode or URL of the post
+        """
+        if shortcode.startswith('http'):
+            match = re.match(
+                pattern=r"(?:https?://)?w{0,3}\.?instagram\.com/\w+/([\w-]+)/?",
+                string=shortcode
+            )
+            if match:
+                shortcode = match.group(1)
+            else:
+                return print(f"{shortcode} is not a valid Instagram shortcode or URL")
+
+        endpoint = f'https://www.instagram.com/graphql/query?query_hash=2b0673e0dc4580674a88d426fe00ea90' \
+                   f'&variables=%7B%22shortcode%22%3A%22{shortcode}%22%7D'
+        response = self.request(endpoint)
+        return self._wrap(shortcode, response, InstaPost)
 
     def _wrap(self, page: str, response: Response, Wrapper: Type[InstaPage]) -> InstaPage:
         """Validates and wraps the API response from an Instagram page

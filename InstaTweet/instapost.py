@@ -15,6 +15,9 @@ class InstaPost:
 
         :param data: the JSON response data of a single Instagram post, found within the :attr:`~.InstaUser.user_data`
         """
+        if 'data' in data:  # If scraped from ``get_post()``
+            data = data['data'].get('shortcode_media', {})
+
         #: Source data from API response
         self.json = data
         self.client = client
