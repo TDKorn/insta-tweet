@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The InstaPost class &mdash; InstaTweet 2.1.3 documentation</title>
+  <title>The InstaPost class &mdash; InstaTweet 2.2.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/github_style.css" type="text/css" />
@@ -34,7 +34,7 @@
     <a href="index.html" class="icon icon-home"> InstaTweet
     </a>
               <div class="version">
-                2.1.3
+                2.2.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -178,6 +178,7 @@
 <li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.scrape"><code class="docutils literal notranslate"><span class="pre">InstaClient.scrape()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.get_hashtag"><code class="docutils literal notranslate"><span class="pre">InstaClient.get_hashtag()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.get_user"><code class="docutils literal notranslate"><span class="pre">InstaClient.get_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.get_post"><code class="docutils literal notranslate"><span class="pre">InstaClient.get_post()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.get_username"><code class="docutils literal notranslate"><span class="pre">InstaClient.get_username()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.download_post"><code class="docutils literal notranslate"><span class="pre">InstaClient.download_post()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="instaclient.html#InstaTweet.instaclient.InstaClient.headers"><code class="docutils literal notranslate"><span class="pre">InstaClient.headers</span></code></a></li>
@@ -306,14 +307,14 @@
 <span id="the-instapost-class"></span><h1>The <code class="docutils literal notranslate"><span class="pre">InstaPost</span></code> class<a class="headerlink" href="#module-InstaTweet.instapost" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">InstaTweet.instapost.</span></span><span class="sig-name descname"><span class="pre">InstaPost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/InstaTweet/instapost.html#InstaPost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="reference external" href="https://github.com/TDKorn/insta-tweet/blob/master/InstaTweet/instapost.py#L9-L131"><span class="linkcode-link"><span class="pre">View</span> <span class="pre">on</span> <span class="pre">GitHub</span></span></a><a class="headerlink" href="#InstaTweet.instapost.InstaPost" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">InstaTweet.instapost.</span></span><span class="sig-name descname"><span class="pre">InstaPost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/InstaTweet/instapost.html#InstaPost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="reference external" href="https://github.com/TDKorn/insta-tweet/blob/master/InstaTweet/instapost.py#L9-L134"><span class="linkcode-link"><span class="pre">View</span> <span class="pre">on</span> <span class="pre">GitHub</span></span></a><a class="headerlink" href="#InstaTweet.instapost.InstaPost" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Minimalistic API response wrapper for an Instagram post</p>
 <dl class="field-list simple">
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/InstaTweet/instapost.html#InstaPost.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="reference external" href="https://github.com/TDKorn/insta-tweet/blob/master/InstaTweet/instapost.py#L13-L29"><span class="linkcode-link"><span class="pre">View</span> <span class="pre">on</span> <span class="pre">GitHub</span></span></a><a class="headerlink" href="#InstaTweet.instapost.InstaPost.__init__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/InstaTweet/instapost.html#InstaPost.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="reference external" href="https://github.com/TDKorn/insta-tweet/blob/master/InstaTweet/instapost.py#L13-L32"><span class="linkcode-link"><span class="pre">View</span> <span class="pre">on</span> <span class="pre">GitHub</span></span></a><a class="headerlink" href="#InstaTweet.instapost.InstaPost.__init__" title="Permalink to this definition"></a></dt>
 <dd><p>Initialize an <a class="reference internal" href="#InstaTweet.instapost.InstaPost" title="InstaTweet.instapost.InstaPost"><code class="xref py py-class docutils literal notranslate"><span class="pre">InstaPost</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -428,7 +429,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="InstaTweet.instapost.InstaPost.add_tweet_data">
-<span class="sig-name descname"><span class="pre">add_tweet_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tweet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/InstaTweet/instapost.html#InstaPost.add_tweet_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="reference external" href="https://github.com/TDKorn/insta-tweet/blob/master/InstaTweet/instapost.py#L119-L131"><span class="linkcode-link"><span class="pre">View</span> <span class="pre">on</span> <span class="pre">GitHub</span></span></a><a class="headerlink" href="#InstaTweet.instapost.InstaPost.add_tweet_data" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">add_tweet_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tweet</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/InstaTweet/instapost.html#InstaPost.add_tweet_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="reference external" href="https://github.com/TDKorn/insta-tweet/blob/master/InstaTweet/instapost.py#L122-L134"><span class="linkcode-link"><span class="pre">View</span> <span class="pre">on</span> <span class="pre">GitHub</span></span></a><a class="headerlink" href="#InstaTweet.instapost.InstaPost.add_tweet_data" title="Permalink to this definition"></a></dt>
 <dd><p>Used by <a class="reference internal" href="tweetclient.html#InstaTweet.tweetclient.TweetClient" title="InstaTweet.tweetclient.TweetClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">TweetClient</span></code></a> to add minimal tweet data after the post has been tweeted</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
