@@ -3,15 +3,15 @@
    :description: A Python package to automatically repost content from Instagram to Twitter
 
 .. |.InstaTweet| replace:: InstaTweet
-.. _.InstaTweet: https://github.com/tdkorn/insta-tweet/blob/v2.2.0/InstaTweet/instatweet.py#L5-L147
+.. _.InstaTweet: https://github.com/tdkorn/insta-tweet/blob/v2.2.1/InstaTweet/instatweet.py#L5-L147
 .. |.add_pages| replace:: add_pages()
-.. _.add_pages: https://github.com/tdkorn/insta-tweet/blob/v2.2.0/InstaTweet/profile.py#L132-L165
+.. _.add_pages: https://github.com/tdkorn/insta-tweet/blob/v2.2.1/InstaTweet/profile.py#L132-L165
 .. |.Profile| replace:: Profile
-.. _.Profile: https://github.com/tdkorn/insta-tweet/blob/v2.2.0/InstaTweet/profile.py#L11-L382
+.. _.Profile: https://github.com/tdkorn/insta-tweet/blob/v2.2.1/InstaTweet/profile.py#L11-L382
 .. |.start| replace:: start()
-.. _.start: https://github.com/tdkorn/insta-tweet/blob/v2.2.0/InstaTweet/instatweet.py#L71-L121
+.. _.start: https://github.com/tdkorn/insta-tweet/blob/v2.2.1/InstaTweet/instatweet.py#L71-L121
 .. |.InstaClient| replace:: InstaClient
-.. _.InstaClient: https://github.com/tdkorn/insta-tweet/blob/v2.2.0/InstaTweet/instaclient.py#L16-L159
+.. _.InstaClient: https://github.com/tdkorn/insta-tweet/blob/v2.2.1/InstaTweet/instaclient.py#L17-L180
 .. |mandatory-settings| replace:: mandatory settings
 .. _mandatory-settings: https://instatweet.readthedocs.io/en/latest/_readme/getting-started.html#mandatory-settings
 
